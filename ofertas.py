@@ -79,7 +79,12 @@ def login(cfg):
     print("1) Abre esta URL, inicia sesión y autoriza la app:\n\n   " + url + "\n")
     webbrowser.open(url)
     print("2) Te redirigirá a tu redirect_uri con ?code=TG-... en la barra de direcciones.")
-    pegado = input("   Pega aquí la URL completa (o solo el code): ").strip()
+    archivo = BASE / "codigo.txt"
+    if archivo.exists() and archivo.read_text().strip():
+        pegado = archivo.read_text().strip()  # sin terminal: la URL se pega en codigo.txt
+        archivo.unlink()
+    else:
+        pegado = input("   Pega aquí la URL completa (o solo el code): ").strip()
     code = urllib.parse.parse_qs(urllib.parse.urlparse(pegado).query).get("code", [pegado])[0]
     tok = http("POST", f"{API}/oauth/token", datos={
         "grant_type": "authorization_code",
