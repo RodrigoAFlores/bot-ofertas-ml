@@ -1,0 +1,21 @@
+{
+  "client_id": "TU_CLIENT_ID",
+  "client_secret": "TU_CLIENT_SECRET",
+  "redirect_uri": "https://www.google.com/",
+
+  "busquedas": [
+    {"q": "audifonos sony", "descuento_minimo": 20},
+    {"q": "freidora de aire", "precio_max": 80000},
+    {"q": "iphone 15"},
+    {"q": "zapatillas nike"}
+  ],
+
+  "descuento_minimo": 25,
+  "muestra_minima": 10,
+  "comparar_con_busqueda": true,
+  "paginas_por_busqueda": 2,
+  "max_ofertas": 15,
+  "no_repetir_dias": 7,
+  "sufijo_link": "",
+  "abrir_al_terminar": true
+}

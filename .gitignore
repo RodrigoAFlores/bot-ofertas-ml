@@ -1,0 +1,7 @@
+config.json
+tokens.json
+*.secret
+.env
+mensajes/
+__pycache__/
+.DS_Store
