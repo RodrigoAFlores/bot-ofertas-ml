@@ -1,0 +1,11 @@
+{
+  "etiqueta": "flro3183825",
+  "ventana_visible": false,
+  "descuento_minimo": 20,
+  "max_ofertas": 20,
+  "paginas_por_consulta": 3,
+  "consultas": [
+    { "nombre": "Recomendados", "orden": "relevance", "filtros": [] },
+    { "nombre": "Más vendidos", "orden": "relevance", "filtros": [{ "id": "best_seller", "value": true }] }
+  ]
+}

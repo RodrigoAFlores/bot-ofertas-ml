@@ -1,0 +1,12 @@
+{
+  "name": "bot-ofertas-ml",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "login": "node recolector.mjs login",
+    "recolectar": "node recolector.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.65.0"
+  }
+}

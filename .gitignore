@@ -6,3 +6,4 @@ mensajes/
 __pycache__/
 .DS_Store
 codigo.txt
+node_modules/
