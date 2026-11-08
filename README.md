@@ -23,3 +23,5 @@ y `.txt`. Pega cada mensaje en el grupo.
 | `busquedas` | lista de `{q, categoria?, precio_max?, descuento_minimo?}` |
 | `comparar_con_busqueda` | `false` = solo productos de catálogo (más preciso, menos ofertas) |
 | `sufijo_link` | texto que se agrega a cada link (p. ej. parámetros de afiliado) |
+
+> Plan y decisiones del proyecto: [docs/plan.md](docs/plan.md)
