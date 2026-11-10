@@ -13,5 +13,6 @@
 ## Siguiente
 1. HECHO: página publicada en https://rodrigoaflores.github.io/bot-ofertas-ml/ (comprobado: carga con 20 ofertas).
 1b. Página privada para subir historias desde el celular con el link listo para copiar.
-2. App de Meta + Instagram Empresa → publicar posts e historias desde GitHub Actions (falta `gh auth refresh -s workflow`).
+2. HECHO: app de Meta conectada a @ofertas_punto_cl, token en GitHub Secrets, publicar.py probado con el post #1.
+2b. Falta el flujo de GitHub Actions que publique solo cada día (requiere `gh auth refresh -s workflow`) y regenerar el token, que quedó expuesto en el chat.
 3. Automatizar la recolección diaria sin la ventana del bot (por ejemplo, tarea programada de Claude con Claude in Chrome).
