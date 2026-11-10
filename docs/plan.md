@@ -10,6 +10,8 @@
 - El repositorio es público: github.com/RodrigoAFlores/bot-ofertas-ml. Las claves nunca se suben.
 - Más adelante: videos con IA hechos con código (reels).
 
+- (2026-11-09) Las imágenes no llevan código de búsqueda, ni "link en mi bio", ni la frase "link de afiliado". En las historias queda un espacio libre bajo el precio para el sticker de link, que lleva el link de afiliado.
+
 ## Por qué este camino
 - La API de búsqueda de ML responde 403, tanto con token de app como de usuario. ML la cerró.
 - La web pública de ML pide verificación anti-bot a los scripts, y no la vamos a saltar.

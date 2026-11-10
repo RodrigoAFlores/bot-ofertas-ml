@@ -41,8 +41,7 @@ function tarjeta(o, formato) {
   .precios { display: flex; align-items: baseline; gap: 28px; margin-top: 22px; }
   .ahora { font-size: 116px; font-weight: 900; color: #ffd400; letter-spacing: -2px; }
   .antes { font-size: 50px; opacity: .7; text-decoration: line-through; }
-  .pie { margin-top: 30px; background: rgba(255,255,255,.1); border-radius: 32px; padding: 30px 36px; font-size: 38px; line-height: 1.4; }
-  .pie b { color: #ffd400; }
+  .libre { height: 260px; }  /* espacio libre para el sticker de link en la historia */
   .nota { margin-top: 18px; font-size: 26px; opacity: .6; }
   </style></head><body>
     <div class="arriba"><div class="num">OFERTA #${o.n}</div><div class="tag">Mercado Libre Chile</div></div>
@@ -52,8 +51,8 @@ function tarjeta(o, formato) {
     </div>
     <h1>${esc(o.titulo)}</h1>
     <div class="precios"><div class="ahora">${clp(o.precio)}</div>${o.precio_anterior ? `<div class="antes">${clp(o.precio_anterior)}</div>` : ""}</div>
-    <div class="pie">🔗 Link en mi bio → <b>Oferta #${o.n}</b>${o.codigo_busqueda ? `<br>🔍 O busca en Mercado Libre: <b>${esc(o.codigo_busqueda)}</b>` : ""}</div>
-    <div class="nota">Precio visto el ${esc(o._fecha)}. Puede cambiar. Link de afiliado.</div>
+    ${historia ? `<div class="libre"></div>` : ""}
+    <div class="nota">Precio visto el ${esc(o._fecha)}. Puede cambiar.</div>
   </body></html>`;
 }
 
