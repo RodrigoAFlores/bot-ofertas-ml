@@ -51,8 +51,8 @@ function tarjeta(o, formato) {
     </div>
     <h1>${esc(o.titulo)}</h1>
     <div class="precios"><div class="ahora">${clp(o.precio)}</div>${o.precio_anterior ? `<div class="antes">${clp(o.precio_anterior)}</div>` : ""}</div>
-    ${historia ? `<div class="libre"></div>` : ""}
     <div class="nota">Precio visto el ${esc(o._fecha)}. Puede cambiar.</div>
+    ${historia ? `<div class="libre"></div>` : ""}
   </body></html>`;
 }
 
@@ -62,10 +62,7 @@ function texto(o) {
     "",
     `💰 Ahora ${clp(o.precio)}` + (o.precio_anterior ? ` (antes ${clp(o.precio_anterior)}) · ${o.descuento_pct}% OFF` : ""),
     "",
-    `🔗 Link en mi bio → Oferta #${o.n}`,
-    o.codigo_busqueda ? `🔍 O busca en Mercado Libre: ${o.codigo_busqueda}` : null,
-    "",
-    `Precio visto el ${o._fecha}. Puede cambiar. Link de afiliado.`,
+    `Precio visto el ${o._fecha}. Puede cambiar.`,
     "#ofertas #descuentos #mercadolibre #chile #ofertaschile",
   ].filter((l) => l !== null).join("\n");
 }
@@ -97,7 +94,7 @@ footer{text-align:center;opacity:.6;font-size:12px;margin:24px auto 8px;max-widt
 </style></head><body>
 <header><h1>🔥 Ofertas de hoy</h1><p>Actualizado el ${esc(fecha)} · Busca el número que viste en Instagram</p></header>
 <main class="grid">${items || "<p>Hoy no hay ofertas publicadas.</p>"}</main>
-<footer>Los precios pueden cambiar sin aviso. Los links son de afiliado: si compras, puedo recibir una comisión sin costo extra para ti.</footer>
+<footer>Los precios pueden cambiar sin aviso.</footer>
 </body></html>`;
 }
 
