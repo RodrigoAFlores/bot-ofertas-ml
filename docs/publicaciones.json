@@ -1,131 +1,195 @@
 {
-  "generado": "2026-11-10T01:54:43.417Z",
+  "generado": "2026-11-10T23:43:11.944Z",
   "base_url": "https://rodrigoaflores.github.io/bot-ofertas-ml",
   "posts": [
     {
       "n": 1,
       "titulo": "Colchón Emma Confort Premium 2 Plazas Color Blanco",
-      "imagen": "img/2026-11-09-post-01.jpg",
+      "precio": 197990,
+      "descuento_pct": 67,
+      "imagen": "img/2026-11-10-post-01.jpg",
       "link": "https://meli.la/2gUo77P",
-      "texto": "🔥 Colchón Emma Confort Premium 2 Plazas Color Blanco\n\n💰 Ahora $197.990 (antes $593.719) · 67% OFF\n\nPrecio visto el 9 de noviembre. Puede cambiar.\n#ofertas #descuentos #mercadolibre #chile #ofertaschile"
+      "texto": "🔥 Colchón Emma Confort Premium 2 Plazas Color Blanco\n\n💰 Ahora $197.990 (antes $593.719) · 67% OFF\n\nPrecio visto el 10 de noviembre. Puede cambiar.\n#ofertas #descuentos #mercadolibre #chile #ofertaschile"
     },
     {
       "n": 2,
       "titulo": "Polera Hombre Algodon 100% Premium Manga Corta Estampar",
-      "imagen": "img/2026-11-09-post-02.jpg",
+      "precio": 5190,
+      "descuento_pct": 36,
+      "imagen": "img/2026-11-10-post-02.jpg",
       "link": "https://meli.la/13xSfxR",
-      "texto": "🔥 Polera Hombre Algodon 100% Premium Manga Corta Estampar\n\n💰 Ahora $5.190 (antes $8.150) · 36% OFF\n\nPrecio visto el 9 de noviembre. Puede cambiar.\n#ofertas #descuentos #mercadolibre #chile #ofertaschile"
+      "texto": "🔥 Polera Hombre Algodon 100% Premium Manga Corta Estampar\n\n💰 Ahora $5.190 (antes $8.150) · 36% OFF\n\nPrecio visto el 10 de noviembre. Puede cambiar.\n#ofertas #descuentos #mercadolibre #chile #ofertaschile"
     },
     {
       "n": 3,
       "titulo": "15pcs Bolsas Almacenamiento Al Vacío Ropa Y Bomba Eléctrica",
-      "imagen": "img/2026-11-09-post-03.jpg",
+      "precio": 14467,
+      "descuento_pct": 63,
+      "imagen": "img/2026-11-10-post-03.jpg",
       "link": "https://meli.la/2x1Vkh7",
-      "texto": "🔥 15pcs Bolsas Almacenamiento Al Vacío Ropa Y Bomba Eléctrica\n\n💰 Ahora $16.031 (antes $39.100) · 59% OFF\n\nPrecio visto el 9 de noviembre. Puede cambiar.\n#ofertas #descuentos #mercadolibre #chile #ofertaschile"
+      "texto": "🔥 15pcs Bolsas Almacenamiento Al Vacío Ropa Y Bomba Eléctrica\n\n💰 Ahora $14.467 (antes $39.100) · 63% OFF\n\nPrecio visto el 10 de noviembre. Puede cambiar.\n#ofertas #descuentos #mercadolibre #chile #ofertaschile"
     }
   ],
   "historias": [
     {
+      "n": 1,
+      "titulo": "Colchón Emma Confort Premium 2 Plazas Color Blanco",
+      "precio": 197990,
+      "descuento_pct": 67,
+      "imagen": "img/2026-11-10-historia-01.jpg",
+      "link": "https://meli.la/2gUo77P"
+    },
+    {
+      "n": 2,
+      "titulo": "Polera Hombre Algodon 100% Premium Manga Corta Estampar",
+      "precio": 5190,
+      "descuento_pct": 36,
+      "imagen": "img/2026-11-10-historia-02.jpg",
+      "link": "https://meli.la/13xSfxR"
+    },
+    {
+      "n": 3,
+      "titulo": "15pcs Bolsas Almacenamiento Al Vacío Ropa Y Bomba Eléctrica",
+      "precio": 14467,
+      "descuento_pct": 63,
+      "imagen": "img/2026-11-10-historia-03.jpg",
+      "link": "https://meli.la/2x1Vkh7"
+    },
+    {
       "n": 4,
-      "titulo": "Loción Desmaquillante Bifásica Remueve Maquillaje Apa L'bel",
-      "imagen": "img/2026-11-09-historia-04.jpg",
-      "link": "https://meli.la/28pSRKU"
+      "titulo": "Mercado Pago Máquina Pago Point Smart 2 - Boleta Electrónica",
+      "precio": 39900,
+      "descuento_pct": 60,
+      "imagen": "img/2026-11-10-historia-04.jpg",
+      "link": "https://meli.la/1owHJzD"
     },
     {
       "n": 5,
       "titulo": "Taladro Percutor Destornillador Inalámbrico 21v y 2 Baterías Color Rojo Frecuencia 50Hz Lernen TIK2BR",
-      "imagen": "img/2026-11-09-historia-05.jpg",
+      "precio": 35990,
+      "descuento_pct": 52,
+      "imagen": "img/2026-11-10-historia-05.jpg",
       "link": "https://meli.la/25HE3hM"
     },
     {
       "n": 6,
-      "titulo": "Polera Hombre 100% Algodon Manga Corta Classic",
-      "imagen": "img/2026-11-09-historia-06.jpg",
-      "link": "https://meli.la/1vk2haQ"
+      "titulo": "Loción Desmaquillante Bifásica Remueve Maquillaje Apa L'bel",
+      "precio": 5759,
+      "descuento_pct": 68,
+      "imagen": "img/2026-11-10-historia-06.jpg",
+      "link": "https://meli.la/28pSRKU"
     },
     {
       "n": 7,
-      "titulo": "Mercado Pago Máquina Pago Point Smart 2 - Boleta Electrónica",
-      "imagen": "img/2026-11-09-historia-07.jpg",
-      "link": "https://meli.la/1owHJzD"
+      "titulo": "Luz Barra Led 20cm Con Sensor Movimiento Muebles Baño Cocina",
+      "precio": 3675,
+      "descuento_pct": 54,
+      "imagen": "img/2026-11-10-historia-07.jpg",
+      "link": "https://meli.la/1uDQ4f7"
     },
     {
       "n": 8,
-      "titulo": "Trotadora Tm40 Lite Ten Series",
-      "imagen": "img/2026-11-09-historia-08.jpg",
-      "link": "https://meli.la/1Ugi176"
+      "titulo": "Polera Hombre 100% Algodon Manga Corta Classic",
+      "precio": 4190,
+      "descuento_pct": 33,
+      "imagen": "img/2026-11-10-historia-08.jpg",
+      "link": "https://meli.la/1vk2haQ"
     },
     {
       "n": 9,
-      "titulo": "Base De Cama Abel Zinus 2 Plazas 150x190x36cm Color Negro",
-      "imagen": "img/2026-11-09-historia-09.jpg",
-      "link": "https://meli.la/2FhXAap"
+      "titulo": "Trotadora Tm40 Lite Ten Series",
+      "precio": 119990,
+      "descuento_pct": 60,
+      "imagen": "img/2026-11-10-historia-09.jpg",
+      "link": "https://meli.la/1Ugi176"
     },
     {
       "n": 10,
-      "titulo": "Lijadora Roto Orbital 350 W - Con Lijas De Repuesto Color Naranja Frecuencia 50 Lernen",
-      "imagen": "img/2026-11-09-historia-10.jpg",
-      "link": "https://meli.la/2W5J4HZ"
+      "titulo": "Base De Cama Abel Zinus 2 Plazas 150x190x36cm Color Negro",
+      "precio": 79990,
+      "descuento_pct": 60,
+      "imagen": "img/2026-11-10-historia-10.jpg",
+      "link": "https://meli.la/2FhXAap"
     },
     {
       "n": 11,
-      "titulo": "Bicicleta Spinning Sb Ten Series Turquesa",
-      "imagen": "img/2026-11-09-historia-11.jpg",
-      "link": "https://meli.la/2HBZBjv"
+      "titulo": "Lijadora Roto Orbital 350 W - Con Lijas De Repuesto Color Naranja Frecuencia 50 Lernen",
+      "precio": 25990,
+      "descuento_pct": 48,
+      "imagen": "img/2026-11-10-historia-11.jpg",
+      "link": "https://meli.la/2W5J4HZ"
     },
     {
       "n": 12,
-      "titulo": "Silla Ejecutiva Vidita Amia Ergonómica para Oficina y Gamer con Soporte Lumbar",
-      "imagen": "img/2026-11-09-historia-12.jpg",
-      "link": "https://meli.la/2mAbbE1"
-    },
-    {
-      "n": 13,
       "titulo": "Kit Fresadora Router Tupi 6-6.35mm - 50hz - 550w + 15 Fresas!",
-      "imagen": "img/2026-11-09-historia-13.jpg",
+      "precio": 33990,
+      "descuento_pct": 48,
+      "imagen": "img/2026-11-10-historia-12.jpg",
       "link": "https://meli.la/2YvRMej"
     },
     {
+      "n": 13,
+      "titulo": "Bicicleta Spinning Sb Ten Series Turquesa",
+      "precio": 82990,
+      "descuento_pct": 59,
+      "imagen": "img/2026-11-10-historia-13.jpg",
+      "link": "https://meli.la/2HBZBjv"
+    },
+    {
       "n": 14,
-      "titulo": "Perfume Antonio Banderas Blue Seduction 200 ml Eau De Toilette para Hombre - Distribuidor Autorizado",
-      "imagen": "img/2026-11-09-historia-14.jpg",
-      "link": "https://meli.la/2553gSR"
+      "titulo": "Silla Ejecutiva Vidita Amia Ergonómica para Oficina y Gamer con Soporte Lumbar",
+      "precio": 74612,
+      "descuento_pct": 43,
+      "imagen": "img/2026-11-10-historia-14.jpg",
+      "link": "https://meli.la/2mAbbE1"
     },
     {
       "n": 15,
-      "titulo": "Protector Solar Facial Eucerin Gel Crema Oil Control 50ml",
-      "imagen": "img/2026-11-09-historia-15.jpg",
-      "link": "https://meli.la/2vnsgs7"
-    },
-    {
-      "n": 16,
       "titulo": "Neumático Maxtrek Maximus M1 185/65R14 86H Alta Tracción y Confort",
-      "imagen": "img/2026-11-09-historia-16.jpg",
+      "precio": 38990,
+      "descuento_pct": 44,
+      "imagen": "img/2026-11-10-historia-15.jpg",
       "link": "https://meli.la/1fcvwzG"
     },
     {
-      "n": 17,
-      "titulo": "Foco Solar Exterior 800w Sensor Movimiento+soporte Con Mando Negro Blanco Cálido 800w",
-      "imagen": "img/2026-11-09-historia-17.jpg",
-      "link": "https://meli.la/1h6Afc9"
+      "n": 16,
+      "titulo": "Protector Solar Facial Eucerin Gel Crema Oil Control 50ml",
+      "precio": 14480,
+      "descuento_pct": 40,
+      "imagen": "img/2026-11-10-historia-16.jpg",
+      "link": "https://meli.la/2vnsgs7"
     },
     {
-      "n": 18,
+      "n": 17,
       "titulo": "Alzador Cosco Bowl para Auto, Negro, de 15 a 36 Kg",
-      "imagen": "img/2026-11-09-historia-18.jpg",
+      "precio": 12990,
+      "descuento_pct": 52,
+      "imagen": "img/2026-11-10-historia-17.jpg",
       "link": "https://meli.la/14EzfCt"
     },
     {
+      "n": 18,
+      "titulo": "Perfume Antonio Banderas Blue Seduction 200 ml Eau De Toilette para Hombre - Distribuidor Autorizado",
+      "precio": 21990,
+      "descuento_pct": 39,
+      "imagen": "img/2026-11-10-historia-18.jpg",
+      "link": "https://meli.la/2553gSR"
+    },
+    {
       "n": 19,
-      "titulo": "Juego Bateria Cocina Granito Antiadherente Olla Sarten 10pcs",
-      "imagen": "img/2026-11-09-historia-19.jpg",
-      "link": "https://meli.la/2UPtu4K"
+      "titulo": "Zapatillas adidas Casual Cloudfoam Comfy Mujer Negro Ih2974",
+      "precio": 37990,
+      "descuento_pct": 31,
+      "imagen": "img/2026-11-10-historia-19.jpg",
+      "link": "https://meli.la/2aUFWqV"
     },
     {
       "n": 20,
-      "titulo": "Zapatillas adidas Casual Cloudfoam Comfy Mujer Negro Ih2974",
-      "imagen": "img/2026-11-09-historia-20.jpg",
-      "link": "https://meli.la/2aUFWqV"
+      "titulo": "Desmalezadora Orilladora Desbrozadora A Gasolina Daewoo 52cc",
+      "precio": 139990,
+      "descuento_pct": 41,
+      "imagen": "img/2026-11-10-historia-20.jpg",
+      "link": "https://meli.la/2FKBwm9"
     }
   ]
 }
