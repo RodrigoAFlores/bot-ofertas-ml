@@ -8,7 +8,7 @@
 
 import { chromium } from "playwright-core";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,6 +17,7 @@ const BASE = dirname(fileURLToPath(import.meta.url));
 const PERFIL = join(homedir(), ".config", "bot-ofertas-ml", "chrome-perfil");
 const HUB = "https://www.mercadolibre.cl/afiliados/hub";
 const SALIDA = join(BASE, "data", "ofertas.json");
+const HISTORIAL = join(BASE, "data", "historial.json");
 const CONFIG = JSON.parse(readFileSync(join(BASE, "recolector.config.json"), "utf8"));
 
 const log = (...a) => console.log(new Date().toLocaleTimeString("es-CL"), ...a);
@@ -160,9 +161,12 @@ async function recolectar() {
       }
     }
 
+    // No repetir: una oferta ya usada solo vuelve si hoy está más barata que la última vez.
+    const historial = existsSync(HISTORIAL) ? JSON.parse(readFileSync(HISTORIAL, "utf8")) : {};
     const candidatas = [...vistos.values()]
       .filter((o) => o.descuento_pct >= CONFIG.descuento_minimo && o.comision_pct > 0)
-      .map((o) => ({ ...o, puntaje: Math.round(puntaje(o) * 10) / 10 }))
+      .filter((o) => !historial[o.id] || o.precio < historial[o.id].precio)
+      .map((o) => ({ ...o, puntaje: Math.round(puntaje(o) * 10) / 10, motivo: historial[o.id] ? "bajó" : "nueva" }))
       .sort((a, b) => b.puntaje - a.puntaje)
       .slice(0, CONFIG.max_ofertas);
     log(`${vistos.size} productos revisados → ${candidatas.length} ofertas elegidas`);
@@ -181,6 +185,9 @@ async function recolectar() {
     const salida = { generado: new Date().toISOString(), total_revisados: vistos.size, ofertas: ofertas.map((o, i) => ({ n: i + 1, ...o })) };
     mkdirSync(dirname(SALIDA), { recursive: true });
     writeFileSync(SALIDA, JSON.stringify(salida, null, 2) + "\n");
+    const hoy = new Date().toLocaleDateString("sv-SE", { timeZone: "America/Santiago" });
+    for (const o of ofertas) historial[o.id] = { precio: o.precio, fecha: hoy, titulo: o.titulo.slice(0, 60) };
+    writeFileSync(HISTORIAL, JSON.stringify(historial, null, 1) + "\n");
     log(`✅ ${ofertas.length} ofertas guardadas en data/ofertas.json`);
     return ofertas.length;
   } finally {
@@ -190,7 +197,7 @@ async function recolectar() {
 
 function subirAGitHub() {
   const git = (...a) => execFileSync("git", a, { cwd: BASE, stdio: "pipe" }).toString().trim();
-  git("add", "data/ofertas.json");
+  git("add", "data/ofertas.json", "data/historial.json");
   if (!git("status", "--porcelain", "data/ofertas.json")) return log("Sin cambios que subir.");
   git("commit", "-m", `Ofertas del ${new Date().toLocaleDateString("es-CL")}`);
   git("push", "-q");

@@ -3,7 +3,7 @@
   "ventana_visible": false,
   "descuento_minimo": 20,
   "max_ofertas": 20,
-  "paginas_por_consulta": 3,
+  "paginas_por_consulta": 8,
   "consultas": [
     {
       "nombre": "Recomendados",
