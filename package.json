@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "login": "node recolector.mjs login",
-    "recolectar": "node recolector.mjs"
+    "recolectar": "node recolector.mjs",
+    "imagenes": "node imagenes.mjs"
   },
   "dependencies": {
     "playwright-core": "^1.65.0"

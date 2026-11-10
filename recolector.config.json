@@ -5,7 +5,22 @@
   "max_ofertas": 20,
   "paginas_por_consulta": 3,
   "consultas": [
-    { "nombre": "Recomendados", "orden": "relevance", "filtros": [] },
-    { "nombre": "Más vendidos", "orden": "relevance", "filtros": [{ "id": "best_seller", "value": true }] }
-  ]
+    {
+      "nombre": "Recomendados",
+      "orden": "relevance",
+      "filtros": []
+    },
+    {
+      "nombre": "Más vendidos",
+      "orden": "relevance",
+      "filtros": [
+        {
+          "id": "best_seller",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "posts_por_dia": 3,
+  "pagina_url": "https://rodrigoaflores.github.io/bot-ofertas-ml"
 }
