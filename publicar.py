@@ -3,6 +3,7 @@
 
     python3 publicar.py post 1        → publica el post de la oferta #1
     python3 publicar.py historia 4    → publica la historia de la oferta #4
+    python3 publicar.py siguiente     → publica el próximo post pendiente (--probar solo lo muestra)
 
 El token se lee de la variable IG_TOKEN (en GitHub) o de ~/.config/bot-ofertas-ml/ig_token (en el Mac).
 Nunca se imprime. Lo publicado queda anotado en data/publicado.json para no repetirlo.
@@ -95,7 +96,30 @@ def publicar(tipo, n):
     print(f"✅ {tipo} #{n} publicado: {enlace or media}")
 
 
+def siguiente(probar=False):
+    """Publica el próximo post del plan que aún no se ha subido (lo usa la tarea de cada hora)."""
+    plan = json.loads(PLAN.read_text())
+    generado = datetime.fromisoformat(plan["generado"].replace("Z", "+00:00"))
+    edad_h = (datetime.now(timezone.utc) - generado).total_seconds() / 3600
+    if edad_h > 30:
+        print(f"Las ofertas tienen {edad_h:.0f} horas: no publico precios viejos.")
+        return
+    registro = json.loads(REGISTRO.read_text()) if REGISTRO.exists() else []
+    hechas = {r["imagen"] for r in registro}
+    pendiente = next((p for p in plan["posts"] if p["imagen"] not in hechas), None)
+    if not pendiente:
+        print("No quedan posts por publicar.")
+        return
+    if probar:
+        print(f"Prueba: el siguiente sería el post #{pendiente['n']}: {pendiente['titulo']}")
+        return
+    publicar("post", pendiente["n"])
+
+
 if __name__ == "__main__":
+    if len(sys.argv) >= 2 and sys.argv[1] == "siguiente":
+        siguiente(probar="--probar" in sys.argv)
+        sys.exit(0)
     if len(sys.argv) != 3 or sys.argv[1] not in ("post", "historia") or not sys.argv[2].isdigit():
         sys.exit(__doc__)
     publicar(sys.argv[1], int(sys.argv[2]))

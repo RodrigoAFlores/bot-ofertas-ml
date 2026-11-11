@@ -1,0 +1,32 @@
+name: Publicar en Instagram
+
+# Publica el siguiente post pendiente, una vez por hora entre las 9:00 y las 22:00 de Chile.
+# GitHub usa hora UTC: Chile en horario de verano es UTC-3 (9:00 = 12:00 UTC, 22:00 = 01:00 UTC).
+# En horario de invierno (abril a septiembre) Chile es UTC-4: ahí hay que correr todo una hora.
+on:
+  schedule:
+    - cron: "0 12-23 * * *"
+    - cron: "0 0,1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: publicar
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publicar el siguiente post
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: python3 publicar.py siguiente
+      - name: Guardar el registro de lo publicado
+        run: |
+          git config user.name "bot-ofertas"
+          git config user.email "bot-ofertas@users.noreply.github.com"
+          git add data/publicado.json
+          git diff --cached --quiet || (git commit -m "Registro de publicación" && git pull --rebase -q && git push -q)
