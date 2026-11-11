@@ -37,7 +37,9 @@ try {
 history.replaceState(null, "", location.pathname);
 
 if (!datos) {
-  $("resumen").innerHTML = '<span class="mal">No llegaron ofertas.</span><br>Abre tu <a href="https://www.mercadolibre.cl/afiliados/hub">panel de afiliados</a> y toca el marcador "Recolectar".';
+  $("resumen").innerHTML = 'No hay ofertas para enviar ahora.<br>Para recolectar, abre tu <a href="https://www.mercadolibre.cl/afiliados/hub">panel de afiliados</a> y toca el marcador "Recolectar".';
+  if (localStorage.getItem(CLAVE)) estado("✅ Tu clave de GitHub ya está guardada en este teléfono.", "ok");
+  else $("clave").hidden = false;
 } else {
   const origen = document.referrer;
   const raro = origen && !/^https:\/\/([\w-]+\.)*mercadolibre\.cl\//.test(origen);
@@ -51,7 +53,15 @@ $("guardar").addEventListener("click", () => {
   const t = $("token").value.trim();
   if (!t) return;
   localStorage.setItem(CLAVE, t); $("token").value = "";
-  $("clave").hidden = true; $("enviar").hidden = false;
+  $("clave").hidden = true; if (datos) $("enviar").hidden = false;
+  estado("Comprobando la clave…");
+  fetch("https://api.github.com/repos/" + REPO, { headers: { Authorization: "Bearer " + t, Accept: "application/vnd.github+json" } })
+    .then((r) => {
+      if (r.ok) return estado("✅ Clave guardada y aceptada por GitHub.", "ok");
+      localStorage.removeItem(CLAVE); $("clave").hidden = false; $("enviar").hidden = true;
+      estado("GitHub no aceptó esa clave. Cópiala de nuevo y pégala completa.", "mal");
+    })
+    .catch(() => estado("Clave guardada. No pude comprobarla ahora (sin conexión).", "ok"));
 });
 
 $("enviar").addEventListener("click", async () => {
