@@ -1,18 +1,20 @@
-# Handoff: bot de ofertas ML → Instagram (2026-11-09)
+# Handoff: bot de ofertas ML → Instagram (2026-11-10)
 
-## Hecho y comprobado
-- Primera recolección real: 108 productos revisados, 20 ofertas con link de afiliado en data/ofertas.json.
-- imagenes.mjs genera 3 posts, 17 historias, la página docs/index.html y docs/publicaciones.json (textos de cada post).
-- Un link meli.la probado en el navegador: abre el perfil de afiliado con el producto.
-- Todo subido a GitHub.
+## Funcionando
+- Página pública: https://rodrigoaflores.github.io/bot-ofertas-ml/ (20 ofertas del día).
+- Página de historias para el celular: /historias.html (guardar imagen + copiar link; el sticker se pone a mano).
+- Publicación automática en @ofertas_punto_cl: GitHub Actions, un post por hora de 9:00 a 22:00 de Chile, 14 por día.
+- Regla de no repetir: data/historial.json; una oferta vuelve solo si bajó de precio.
 
-## No funciona
-- Iniciar sesión en ML en la ventana automatizada del bot (recolector.mjs login): ML lo rechaza. No insistir.
-- La recolección de hoy se hizo desde el Chrome normal de Rodrigo con la extensión Claude in Chrome.
+## Sin comprobar
+- La primera ejecución automática en la nube (prevista 22:00 del 10-nov). Revisar con `gh run list` y data/publicado.json.
 
-## Siguiente
-1. HECHO: página publicada en https://rodrigoaflores.github.io/bot-ofertas-ml/ (comprobado: carga con 20 ofertas).
-1b. Página privada para subir historias desde el celular con el link listo para copiar.
-2. HECHO: app de Meta conectada a @ofertas_punto_cl, token en GitHub Secrets, publicar.py probado con el post #1.
-2b. Falta el flujo de GitHub Actions que publique solo cada día (requiere `gh auth refresh -s workflow`) y regenerar el token, que quedó expuesto en el chat.
-3. Automatizar la recolección diaria sin la ventana del bot (por ejemplo, tarea programada de Claude con Claude in Chrome).
+## Manual todavía
+- Recolección diaria: la hace Claude desde el Chrome de Rodrigo (panel de afiliados), pasando el historial al JS.
+- Sin recolección nueva, el bot deja de publicar a las 30 horas.
+
+## Pendiente
+1. Regenerar el token de Instagram (quedó pegado en el chat) y guardarlo con pbpaste en ~/.config/bot-ofertas-ml/ig_token y `gh secret set IG_TOKEN`.
+2. Automatizar la recolección diaria.
+3. Ampliar la búsqueda por categorías cuando se agoten las ofertas nuevas (~4-5 días).
+4. Poner el link de la página en la bio de Instagram (lo hace Rodrigo).
