@@ -1,0 +1,42 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Prueba del botón</title>
+<style>
+*{box-sizing:border-box} body{margin:0 auto;max-width:520px;background:#101b3b;color:#fff;font-family:-apple-system,system-ui,sans-serif;padding:18px;line-height:1.45}
+h1{font-size:22px} h2{font-size:17px;margin:22px 0 6px;color:#ffd400} ol{padding-left:20px;margin:6px 0} li{margin-bottom:6px}
+button{width:100%;background:#ffd400;color:#101b3b;border:0;border-radius:12px;padding:15px;font-size:16px;font-weight:800;font-family:inherit;margin:8px 0}
+button.ok{background:#3ddc84} textarea{width:100%;height:90px;border-radius:10px;border:0;padding:8px;font-size:11px}
+a{color:#ffd400} .nota{opacity:.75;font-size:14px}
+</style></head><body>
+<h1>Prueba del botón "Recolectar"</h1>
+<p class="nota">Esta prueba solo cuenta cuántos productos ve en tu panel de afiliados. No publica ni cambia nada.</p>
+
+<h2>Paso 1: copia el código</h2>
+<button id="copiar">Copiar código</button>
+<textarea id="codigo" readonly>javascript:(async()=>{try{const r=await fetch('/affiliate-program/api/hub/search?is_affiliate=true&device=desktop',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({search:'',sort:'relevance',filters:[],offset:0}),credentials:'include'});const j=await r.json();alert('Bot ofertas: veo '+j.polycard_client_model.polycards.length+' productos. Funciona.')}catch(e){alert('Bot ofertas: no funciono. '+e)}})()</textarea>
+
+<h2>Paso 2: guárdalo como marcador</h2>
+<p><b>En iPhone (Safari):</b></p>
+<ol>
+<li>Toca el botón Compartir y elige <b>Agregar marcador</b>. Guárdalo con el nombre <b>Recolectar</b>.</li>
+<li>Abre los marcadores (el ícono del libro), toca <b>Editar</b> y entra al marcador "Recolectar".</li>
+<li>Borra la dirección que tiene, <b>pega el código</b> y guarda.</li>
+</ol>
+<p><b>En Android (Chrome):</b></p>
+<ol>
+<li>Toca los tres puntos y la <b>estrella</b> para guardar esta página como marcador.</li>
+<li>Toca <b>Editar</b> en el aviso que aparece abajo. Cambia el nombre a <b>Recolectar</b>, borra la dirección y <b>pega el código</b>.</li>
+</ol>
+
+<h2>Paso 3: pruébalo</h2>
+<ol>
+<li>Abre <a href="https://www.mercadolibre.cl/afiliados/hub">tu panel de afiliados</a> en este mismo navegador (no en la app de Mercado Libre) e inicia sesión si te lo pide.</li>
+<li><b>iPhone:</b> abre los marcadores y toca "Recolectar".<br><b>Android:</b> toca la barra de direcciones, escribe "Recolectar" y toca el marcador que aparece en la lista.</li>
+<li>Debería salir un aviso que dice cuántos productos ve.</li>
+</ol>
+<script>
+document.getElementById("copiar").addEventListener("click", async (e) => {
+  const t = document.getElementById("codigo");
+  try { await navigator.clipboard.writeText(t.value); } catch { t.select(); document.execCommand("copy"); }
+  e.target.textContent = "¡Código copiado!"; e.target.classList.add("ok");
+});
+</script></body></html>
