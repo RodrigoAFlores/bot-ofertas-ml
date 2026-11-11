@@ -24,7 +24,9 @@ jobs:
       - name: Instalar lo necesario
         run: |
           npm ci --no-audit --no-fund
-          sudo apt-get install -y -q fonts-inter > /dev/null
+          sudo apt-get update -q > /dev/null || true
+          sudo apt-get install -y -q fonts-inter > /dev/null || echo "Sin fuente Inter, sigo igual"
+
       - name: Elegir las ofertas del día
         run: python3 procesar_entrada.py
       - name: Dibujar imágenes y páginas
