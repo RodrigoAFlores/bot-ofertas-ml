@@ -26,7 +26,7 @@ function tarjeta(o, formato) {
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>
   * { box-sizing: border-box; margin: 0; }
   body { width: 1080px; height: ${alto}px; background: #101b3b; color: #fff; display: flex; flex-direction: column;
-         font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; padding: ${historia ? "150px 70px 170px" : "60px"}; }
+         font-family: -apple-system, "Inter", "Helvetica Neue", Arial, sans-serif; padding: ${historia ? "150px 70px 170px" : "60px"}; }
   .arriba { display: flex; justify-content: space-between; align-items: center; }
   .num { font-size: 44px; font-weight: 800; background: #ffd400; color: #101b3b; padding: 12px 30px; border-radius: 999px; }
   .tag { font-size: 34px; font-weight: 600; opacity: .85; }
@@ -159,7 +159,7 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
   rmSync(img, { recursive: true, force: true });
   mkdirSync(img, { recursive: true });
 
-  const navegador = await chromium.launch({ channel: "chrome", headless: true });
+  const navegador = await chromium.launch({ channel: "chrome", headless: true, args: process.env.CI ? ["--no-sandbox"] : [] });
   const plan = { generado: entrada.generado, base_url: cfg.pagina_url, posts: [], historias: [] };
   try {
     const page = await navegador.newPage();

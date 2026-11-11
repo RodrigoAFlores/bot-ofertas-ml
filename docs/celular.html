@@ -1,38 +1,43 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Prueba del botón</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Botón Recolectar</title>
 <style>
 *{box-sizing:border-box} body{margin:0 auto;max-width:520px;background:#101b3b;color:#fff;font-family:-apple-system,system-ui,sans-serif;padding:18px;line-height:1.45}
-h1{font-size:22px} h2{font-size:17px;margin:22px 0 6px;color:#ffd400} ol{padding-left:20px;margin:6px 0} li{margin-bottom:6px}
+h1{font-size:22px} h2{font-size:17px;margin:24px 0 6px;color:#ffd400} ol{padding-left:20px;margin:6px 0} li{margin-bottom:7px}
 button{width:100%;background:#ffd400;color:#101b3b;border:0;border-radius:12px;padding:15px;font-size:16px;font-weight:800;font-family:inherit;margin:8px 0}
-button.ok{background:#3ddc84} textarea{width:100%;height:90px;border-radius:10px;border:0;padding:8px;font-size:11px}
-a{color:#ffd400} .nota{opacity:.75;font-size:14px}
+button.ok{background:#3ddc84} textarea{width:100%;height:80px;border-radius:10px;border:0;padding:8px;font-size:11px}
+a{color:#ffd400} .nota{opacity:.75;font-size:14px} img{width:100%;border-radius:12px;margin-top:8px}
 </style></head><body>
-<h1>Prueba del botón "Recolectar"</h1>
-<p class="nota">Esta prueba solo cuenta cuántos productos ve en tu panel de afiliados. No publica ni cambia nada.</p>
+<h1>Botón "Recolectar" para el celular</h1>
+<p class="nota">Se configura una sola vez. Después, cada día: abres tu panel de afiliados, tocas el marcador "Recolectar" y luego "Enviar al bot".</p>
 
-<h2>Paso 1: copia el código</h2>
-<button id="copiar">Copiar código</button>
-<textarea id="codigo" readonly>javascript:(async()=>{try{const r=await fetch('/affiliate-program/api/hub/search?is_affiliate=true&device=desktop',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({search:'',sort:'relevance',filters:[],offset:0}),credentials:'include'});const j=await r.json();alert('Bot ofertas: veo '+j.polycard_client_model.polycards.length+' productos. Funciona.')}catch(e){alert('Bot ofertas: no funciono. '+e)}})()</textarea>
-
-<h2>Paso 2: guárdalo como marcador</h2>
-<p><b>En iPhone (Safari):</b></p>
+<h2>A. Actualiza el marcador (una vez)</h2>
+<button id="copiar">Copiar código nuevo</button>
+<textarea id="codigo" readonly>javascript:fetch('https://rodrigoaflores.github.io/bot-ofertas-ml/recolectar.js?'+Date.now()).then(r=>r.text()).then(t=>(0,eval)(t)).catch(e=>alert('Bot ofertas: '+e))</textarea>
 <ol>
-<li>Toca el botón Compartir y elige <b>Agregar marcador</b>. Guárdalo con el nombre <b>Recolectar</b>.</li>
-<li>Abre los marcadores (el ícono del libro), toca <b>Editar</b> y entra al marcador "Recolectar".</li>
-<li>Borra la dirección que tiene, <b>pega el código</b> y guarda.</li>
-</ol>
-<p><b>En Android (Chrome):</b></p>
-<ol>
-<li>Toca los tres puntos y la <b>estrella</b> para guardar esta página como marcador.</li>
-<li>Toca <b>Editar</b> en el aviso que aparece abajo. Cambia el nombre a <b>Recolectar</b>, borra la dirección y <b>pega el código</b>.</li>
+<li>Toca "Copiar código nuevo".</li>
+<li>Abre los marcadores (ícono del libro), toca <b>Editar</b> y entra a <b>Recolectar</b>.</li>
+<li>Borra la dirección que tiene, pega el código y toca <b>Listo</b>.</li>
 </ol>
 
-<h2>Paso 3: pruébalo</h2>
+<h2>B. Crea tu clave de GitHub (una vez)</h2>
+<p class="nota">Es lo que deja a tu celular enviar las ofertas a tu repositorio. Sirve solo para ese repositorio.</p>
 <ol>
-<li>Abre <a href="https://www.mercadolibre.cl/afiliados/hub">tu panel de afiliados</a> en este mismo navegador (no en la app de Mercado Libre) e inicia sesión si te lo pide.</li>
-<li><b>iPhone:</b> abre los marcadores y toca "Recolectar".<br><b>Android:</b> toca la barra de direcciones, escribe "Recolectar" y toca el marcador que aparece en la lista.</li>
-<li>Debería salir un aviso que dice cuántos productos ve.</li>
+<li>Abre <a href="https://github.com/settings/personal-access-tokens/new">esta página de GitHub</a> e inicia sesión.</li>
+<li><b>Token name:</b> Bot ofertas celular.</li>
+<li><b>Expiration:</b> elige la opción más larga que te ofrezca.</li>
+<li><b>Repository access:</b> "Only select repositories" y elige <b>bot-ofertas-ml</b>.</li>
+<li><b>Permissions → Repository permissions → Contents:</b> cámbialo a <b>Read and write</b>. No toques nada más.</li>
+<li>Toca <b>Generate token</b> y luego <b>copia</b> la clave (empieza con github_pat_). Solo se muestra una vez.</li>
 </ol>
+
+<h2>C. Cada día</h2>
+<ol>
+<li>Abre <a href="https://www.mercadolibre.cl/afiliados/hub">tu panel de afiliados</a> en este navegador.</li>
+<li>Abre los marcadores y toca <b>Recolectar</b>. Arriba aparece un aviso azul con el avance; tarda cerca de un minuto.</li>
+<li>Al terminar te lleva a "Enviar ofertas al bot". La primera vez te pide <b>pegar la clave</b> del paso B.</li>
+<li>Toca <b>Enviar al bot</b>. En unos 3 minutos están listas las imágenes, las páginas y los posts del día.</li>
+</ol>
+<p><a href="historias.html">Ir a las historias de hoy</a></p>
 <script>
 document.getElementById("copiar").addEventListener("click", async (e) => {
   const t = document.getElementById("codigo");

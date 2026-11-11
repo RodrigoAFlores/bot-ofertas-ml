@@ -1,0 +1,78 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Enviar ofertas al bot</title>
+<style>
+*{box-sizing:border-box} body{margin:0 auto;max-width:520px;background:#101b3b;color:#fff;font-family:-apple-system,system-ui,sans-serif;padding:18px;line-height:1.45}
+h1{font-size:22px} .caja{background:#1b2850;border-radius:14px;padding:14px;margin:14px 0} .nota{opacity:.75;font-size:14px}
+button{width:100%;background:#ffd400;color:#101b3b;border:0;border-radius:12px;padding:15px;font-size:16px;font-weight:800;font-family:inherit;margin:8px 0}
+button:disabled{opacity:.5} input{width:100%;border-radius:10px;border:0;padding:12px;font-size:15px;margin:6px 0}
+.ok{color:#3ddc84;font-weight:700} .mal{color:#ff7a90;font-weight:700} li{margin-bottom:4px} a{color:#ffd400}
+</style></head><body>
+<h1>Enviar ofertas al bot</h1>
+<div id="resumen" class="caja">Leyendo las ofertas…</div>
+<div id="clave" class="caja" hidden>
+  <b>Primera vez: pega tu clave de GitHub</b>
+  <p class="nota">Queda guardada solo en este teléfono. Se pide una sola vez.</p>
+  <input id="token" type="password" placeholder="github_pat_…" autocomplete="off">
+  <button id="guardar">Guardar clave</button>
+</div>
+<button id="enviar" hidden>Enviar al bot</button>
+<p id="estado"></p>
+<script>
+const REPO = "RodrigoAFlores/bot-ofertas-ml", RUTA = "data/entrada.json", CLAVE = "bot_ofertas_token";
+const $ = (id) => document.getElementById(id);
+const estado = (t, clase) => { $("estado").textContent = t; $("estado").className = clase || ""; };
+const aB64 = (s) => { const b = new TextEncoder().encode(s); let x = ""; for (let i = 0; i < b.length; i++) x += String.fromCharCode(b[i]); return btoa(x); };
+const deB64url = (s) => { const x = atob(s.replace(/-/g, "+").replace(/_/g, "/")); const b = new Uint8Array(x.length); for (let i = 0; i < x.length; i++) b[i] = x.charCodeAt(i); return new TextDecoder().decode(b); };
+const clp = (n) => "$" + Math.round(n).toLocaleString("es-CL");
+
+let datos = null;
+try {
+  datos = JSON.parse(deB64url(location.hash.slice(1)));
+  const o = datos.ofertas;
+  const valido = Array.isArray(o) && o.length > 0 && o.length <= 40 && o.every((x) =>
+    typeof x.id === "string" && typeof x.titulo === "string" && Number.isFinite(x.precio) &&
+    typeof x.link === "string" && x.link.startsWith("https://meli.la/") && /^[\w-]+$/.test(x.foto_id || ""));
+  if (!valido) throw new Error("datos no válidos");
+} catch (e) { datos = null; }
+history.replaceState(null, "", location.pathname);
+
+if (!datos) {
+  $("resumen").innerHTML = '<span class="mal">No llegaron ofertas.</span><br>Abre tu <a href="https://www.mercadolibre.cl/afiliados/hub">panel de afiliados</a> y toca el marcador "Recolectar".';
+} else {
+  const origen = document.referrer;
+  const raro = origen && !/^https:\/\/([\w-]+\.)*mercadolibre\.cl\//.test(origen);
+  const primeras = datos.ofertas.slice(0, 3).map((x) => "<li>" + x.titulo.replace(/[<>&]/g, "") + " · " + clp(x.precio) + "</li>").join("");
+  $("resumen").innerHTML = "<b>" + datos.ofertas.length + " ofertas listas</b> (" + datos.total_revisados + " productos revisados)<ol>" + primeras + "</ol>" +
+    (raro ? '<p class="mal">Ojo: estos datos no vienen de tu panel de Mercado Libre. No los envíes si no tocaste tú el marcador.</p>' : "");
+  if (localStorage.getItem(CLAVE)) $("enviar").hidden = false; else $("clave").hidden = false;
+}
+
+$("guardar").addEventListener("click", () => {
+  const t = $("token").value.trim();
+  if (!t) return;
+  localStorage.setItem(CLAVE, t); $("token").value = "";
+  $("clave").hidden = true; $("enviar").hidden = false;
+});
+
+$("enviar").addEventListener("click", async () => {
+  $("enviar").disabled = true; estado("Enviando…");
+  const cabeceras = { Authorization: "Bearer " + localStorage.getItem(CLAVE), Accept: "application/vnd.github+json" };
+  const url = "https://api.github.com/repos/" + REPO + "/contents/" + RUTA;
+  try {
+    let sha;
+    const actual = await fetch(url + "?ref=main", { headers: cabeceras });
+    if (actual.status === 200) sha = (await actual.json()).sha;
+    else if (actual.status === 401 || actual.status === 403) throw new Error("clave");
+    const r = await fetch(url, { method: "PUT", headers: cabeceras, body: JSON.stringify({
+      message: "Ofertas recolectadas desde el celular", branch: "main", sha, content: aB64(JSON.stringify(datos, null, 1)) }) });
+    if (r.status === 401 || r.status === 403 || r.status === 404) throw new Error("clave");
+    if (!r.ok) throw new Error("GitHub respondió " + r.status);
+    $("enviar").hidden = true;
+    estado("✅ Enviadas. En unos 3 minutos el bot tendrá listas las imágenes, las páginas y los posts del día.", "ok");
+  } catch (e) {
+    if (e.message === "clave") { localStorage.removeItem(CLAVE); $("clave").hidden = false; $("enviar").hidden = true; estado("La clave de GitHub no sirvió. Pégala de nuevo.", "mal"); }
+    else estado("No se pudo enviar: " + e.message, "mal");
+    $("enviar").disabled = false;
+  }
+});
+</script></body></html>

@@ -1,0 +1,37 @@
+name: Procesar ofertas nuevas
+
+# Corre cuando el celular envía una recolección (data/entrada.json).
+# Elige las ofertas, dibuja las imágenes y actualiza las páginas.
+on:
+  push:
+    paths:
+      - data/entrada.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: procesar
+
+jobs:
+  procesar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar lo necesario
+        run: |
+          npm ci --no-audit --no-fund
+          sudo apt-get install -y -q fonts-inter > /dev/null
+      - name: Elegir las ofertas del día
+        run: python3 procesar_entrada.py
+      - name: Dibujar imágenes y páginas
+        run: node imagenes.mjs
+      - name: Guardar y publicar
+        run: |
+          git config user.name "bot-ofertas"
+          git config user.email "bot-ofertas@users.noreply.github.com"
+          git add data docs
+          git diff --cached --quiet || (git commit -m "Ofertas del día procesadas" && git pull --rebase -q && git push -q)
