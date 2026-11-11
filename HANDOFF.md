@@ -1,20 +1,20 @@
-# Handoff: bot de ofertas ML → Instagram (2026-11-10)
+# Handoff: bot de ofertas ML → Instagram (2026-11-10, noche)
 
-## Funcionando
-- Página pública: https://rodrigoaflores.github.io/bot-ofertas-ml/ (20 ofertas del día).
-- Página de historias para el celular: /historias.html (guardar imagen + copiar link; el sticker se pone a mano).
-- Publicación automática en @ofertas_punto_cl: GitHub Actions, un post por hora de 9:00 a 22:00 de Chile, 14 por día.
-- Regla de no repetir: data/historial.json; una oferta vuelve solo si bajó de precio.
+## Funcionando y comprobado
+- Página pública de ofertas y página de historias (GitHub Pages).
+- Recolección desde el celular: marcador "Recolectar" (docs/recolectar.js) → docs/recibir.html → data/entrada.json → workflow procesar.yml (elige, dibuja imágenes en la nube, publica páginas). Probado todo menos el envío real desde el teléfono.
+- La clave de GitHub de Rodrigo quedó guardada en su iPhone y GitHub la aceptó (falta confirmar que tenga permiso de escritura: se ve en el primer envío).
+- Regla de no repetir (data/historial.json, docs/historial.json).
 
 ## Sin comprobar
-- La primera ejecución automática en la nube (prevista 22:00 del 10-nov). Revisar con `gh run list` y data/publicado.json.
+- Publicación automática (publicar.yml, cada hora 9-22 Chile): la tarea está activa, pero GitHub NO ejecutó el horario de las 22:00 del 10-nov. Revisar el 11-nov después de las 9:00 con `gh run list --workflow publicar.yml`. Si GitHub sigue sin dispararla, buscar un reloj externo gratis que llame a workflow_dispatch.
+- Hay 14 posts del 10-nov listos y sin publicar (ofertas recolectadas el 10-nov a las 20:50; el bot los descarta a las 30 horas).
 
-## Manual todavía
-- Recolección diaria: la hace Claude desde el Chrome de Rodrigo (panel de afiliados), pasando el historial al JS.
-- Sin recolección nueva, el bot deja de publicar a las 30 horas.
+## Rutina diaria de Rodrigo
+1. En el celular: panel de afiliados → marcador Recolectar → Enviar al bot. No hacerlo antes de que se publiquen los posts del día, porque reemplaza la tanda.
+2. Subir las historias a mano desde /historias.html.
 
 ## Pendiente
-1. Regenerar el token de Instagram (quedó pegado en el chat) y guardarlo con pbpaste en ~/.config/bot-ofertas-ml/ig_token y `gh secret set IG_TOKEN`.
-2. Automatizar la recolección diaria.
-3. Ampliar la búsqueda por categorías cuando se agoten las ofertas nuevas (~4-5 días).
-4. Poner el link de la página en la bio de Instagram (lo hace Rodrigo).
+1. Regenerar el token de Instagram (quedó pegado en el chat).
+2. Poner el link de la página en la bio de Instagram (lo hace Rodrigo).
+3. Ampliar la búsqueda por categorías cuando se agoten las ofertas nuevas.
