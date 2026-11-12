@@ -1,12 +1,12 @@
 {
  "MLC2224063860": {
-  "precio": 197990,
-  "fecha": "2026-11-09",
+  "precio": 189990,
+  "fecha": "2026-11-12",
   "titulo": "Colchón Emma Confort Premium 2 Plazas Color Blanco"
  },
  "MLC1976855726": {
-  "precio": 5190,
-  "fecha": "2026-11-09",
+  "precio": 4690,
+  "fecha": "2026-11-12",
   "titulo": "Polera Hombre Algodon 100% Premium Manga Corta Estampar"
  },
  "MLC3569974932": {
@@ -25,8 +25,8 @@
   "titulo": "Taladro Percutor Destornillador Inalámbrico 21v y 2 Baterías"
  },
  "MLC1580158559": {
-  "precio": 3965,
-  "fecha": "2026-11-11",
+  "precio": 3960,
+  "fecha": "2026-11-12",
   "titulo": "Polera Hombre 100% Algodon Manga Corta Classic"
  },
  "MLC2878375402": {
@@ -100,18 +100,18 @@
   "titulo": "Zapatillas adidas Casual Cloudfoam Comfy Mujer Negro Ih2974"
  },
  "MLC4483684240": {
-  "precio": 10256,
-  "fecha": "2026-11-10",
+  "precio": 9848,
+  "fecha": "2026-11-12",
   "titulo": "Sérum Celimax The Vita-A Retinal Shot Antiarrugas de 15 mL"
  },
  "MLC2163355034": {
-  "precio": 3520,
-  "fecha": "2026-11-10",
+  "precio": 3414,
+  "fecha": "2026-11-12",
   "titulo": "Mandil Delantal Cocina Chef Delantal Multiusos Ajustable"
  },
  "MLC3100555742": {
-  "precio": 12900,
-  "fecha": "2026-11-10",
+  "precio": 12513,
+  "fecha": "2026-11-12",
   "titulo": "Super Zings Guardians Of Kazoom Caja 25 Fig. Coleccionables"
  },
  "MLC1238063303": {
@@ -253,5 +253,75 @@
   "precio": 18990,
   "fecha": "2026-11-11",
   "titulo": "Mancuernas Y Barra Unibles 20 Kg Overfit Set Pesas Ajustable"
+ },
+ "MLC4226221002": {
+  "precio": 19980,
+  "fecha": "2026-11-12",
+  "titulo": "Reloj Inteligente Smartwatch Bluetooth 1atm Batería 30 Días "
+ },
+ "MLC2791560768": {
+  "precio": 27990,
+  "fecha": "2026-11-12",
+  "titulo": "Radio Auto 1 Din Aiwa Bluetooth Mp3 Usb Sd Rca Aw-3240bt"
+ },
+ "MLC3261016314": {
+  "precio": 46990,
+  "fecha": "2026-11-12",
+  "titulo": "Parlante Bluetooth Boombox Aiwa 70w Funcion Tws Aw-b403 Negr"
+ },
+ "MLC2850770554": {
+  "precio": 40990,
+  "fecha": "2026-11-12",
+  "titulo": "Motosierra Podadora Eléctrica MZ2BAT6 6 Pulgadas incluye 2 B"
+ },
+ "MLC2366473226": {
+  "precio": 4954,
+  "fecha": "2026-11-12",
+  "titulo": "Dispensador De Agua Eléctrico Portátil Bomba Usb Botellon"
+ },
+ "MLC3193462102": {
+  "precio": 119900,
+  "fecha": "2026-11-12",
+  "titulo": "Camilla Masaje Madera 2 Cuerpos Negra + Bolso Negro"
+ },
+ "MLC2890509272": {
+  "precio": 39990,
+  "fecha": "2026-11-12",
+  "titulo": "Router Huawei BE3 Banda Doble con Wi-Fi 7 y Puerto 2.5G, con"
+ },
+ "MLC2755739870": {
+  "precio": 42608,
+  "fecha": "2026-11-12",
+  "titulo": "Proyector Portátil Mini Hy300pro Ultra Hd 4k Wifi Bluetooth"
+ },
+ "MLC3447818864": {
+  "precio": 16990,
+  "fecha": "2026-11-12",
+  "titulo": "Set 2 Caballete Auto 3 Toneladas Marca Eoland Banquillo Auto"
+ },
+ "MLC2410182582": {
+  "precio": 7794,
+  "fecha": "2026-11-12",
+  "titulo": "Pack 4 Tintas Alternativa 100 Ml Para Epson/canon/hp/brother"
+ },
+ "MLC2339394800": {
+  "precio": 38953,
+  "fecha": "2026-11-12",
+  "titulo": "Horno Eléctrico 25 Litros Ursus Trotter Backofen Pro-b 1500w"
+ },
+ "MLC2780850820": {
+  "precio": 39990,
+  "fecha": "2026-11-12",
+  "titulo": "Báscula Inteligente Eufy C20, Pantalla a Color 3,36”, para G"
+ },
+ "MLC2837348624": {
+  "precio": 32990,
+  "fecha": "2026-11-12",
+  "titulo": "Audífonos True Wireless Bluetooth Wf-c510 Sony"
+ },
+ "MLC1374707435": {
+  "precio": 11990,
+  "fecha": "2026-11-12",
+  "titulo": "Máquina Para Hacer Mini Waffle cerámica Bmw079"
  }
 }
