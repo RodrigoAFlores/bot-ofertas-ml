@@ -3,7 +3,21 @@
 (async () => {
   const BASE = "https://rodrigoaflores.github.io/bot-ofertas-ml/";
   const CFG = { etiqueta: "flro3183825", descuento_minimo: 20, max_ofertas: 20, paginas: 8,
-    consultas: [{ filtros: [] }, { filtros: [{ id: "best_seller", value: true }] }] };
+    paginas_categoria: 3,   // páginas de 18 productos por cada categoría
+    max_por_grupo: 4,       // máximo de ofertas de una misma categoría, para que haya variedad
+    consultas: [{ nombre: "Para ti", filtros: [] }, { nombre: "Más vendidos", filtros: [{ id: "best_seller", value: true }] }],
+    // Categorías a revisar además de "Para ti" y "Más vendidos". Se buscan por nombre en la lista oficial de
+    // Mercado Libre; si no se puede leer esa lista, se usan los códigos de respaldo.
+    categorias: [
+      { nombre: "Moda", buscar: /vestuario|calzado/i, respaldo: "MLC1430" },
+      { nombre: "TV y Audio", buscar: /electr[oó]nica.*audio/i, respaldo: "MLC1000" },
+      { nombre: "Belleza", buscar: /belleza/i, respaldo: "MLC1246" },
+      { nombre: "Hogar", buscar: /^hogar/i, respaldo: "MLC1574" },
+      { nombre: "Electro", buscar: /electrodom/i, respaldo: "MLC5726" },
+      { nombre: "Computación", buscar: /^computaci/i, respaldo: "MLC1648" },
+      { nombre: "Celulares", buscar: /^celulares/i, respaldo: "MLC1051" },
+      { nombre: "Deportes", buscar: /^deportes/i, respaldo: "MLC1276" },
+    ] };
 
   if (window.__botOfertas) return;
   window.__botOfertas = true;
@@ -52,24 +66,48 @@
     let HIST = {};
     try { HIST = await (await fetch(BASE + "historial.json?" + Date.now())).json(); } catch (e) {}
 
+    decir("leyendo las categorías…");
+    let oficiales = [];
+    try { oficiales = await (await fetch("https://api.mercadolibre.com/sites/MLC/categories")).json(); } catch (e) {}
+    if (!Array.isArray(oficiales)) oficiales = [];
+    const porCategoria = CFG.categorias.map((c) => {
+      const hallada = oficiales.find((o) => c.buscar.test(o.name || ""));
+      return { nombre: c.nombre, filtros: [{ id: "category", value: hallada ? hallada.id : c.respaldo }], paginas: CFG.paginas_categoria };
+    });
+    const consultas = [...CFG.consultas.map((c) => ({ ...c, paginas: CFG.paginas, general: true })), ...porCategoria];
+    const total = consultas.reduce((t, c) => t + c.paginas, 0);
+
     const vistos = new Map();
-    let paso = 0;
-    for (const c of CFG.consultas) {
-      for (let pg = 0; pg < CFG.paginas; pg++) {
-        decir("revisando productos (" + (++paso) + " de " + CFG.consultas.length * CFG.paginas + ")…");
+    let paso = 0, respondieron = 0, base = null;
+    for (const c of consultas) {
+      for (let pg = 0; pg < c.paginas; pg++) {
+        decir("revisando " + c.nombre + " (" + (++paso) + " de " + total + ")…");
         const r = await post("/affiliate-program/api/hub/search?is_affiliate=true&device=desktop", { search: "", sort: "relevance", filters: c.filtros, offset: pg * 18 });
-        if (r.status !== 200) return fallar("no pude leer tu panel. Inicia sesión en Mercado Libre en este navegador y vuelve a intentarlo.");
+        if (r.status === 401 || r.status === 403) return fallar("no pude leer tu panel. Inicia sesión en Mercado Libre en este navegador y vuelve a intentarlo.");
+        if (r.status !== 200) break; // esta categoría falló: sigo con la próxima
+        respondieron++;
         const cards = (r.d && r.d.polycard_client_model && r.d.polycard_client_model.polycards) || [];
-        for (const k of cards) { const o = convertir(k); if (o && o.id && !vistos.has(o.id)) vistos.set(o.id, o); }
+        const ids = cards.map((k) => k.metadata && k.metadata.id);
+        if (pg === 0 && !base) base = new Set(ids);
+        // Si una categoría devuelve lo mismo que "Para ti", Mercado Libre ignoró el filtro: la salto.
+        if (pg === 0 && !c.general && ids.length && ids.filter((x) => base.has(x)).length >= ids.length * 0.8) break;
+        for (const k of cards) {
+          const o = convertir(k); if (!o || !o.id) continue;
+          if (!vistos.has(o.id)) vistos.set(o.id, { ...o, grupo: c.nombre, general: !!c.general });
+          else if (!c.general) Object.assign(vistos.get(o.id), { grupo: c.nombre, general: false }); // queda con su categoría
+        }
         if (cards.length < 18) break;
         await espera(600);
       }
     }
+    if (!respondieron) return fallar("no pude leer tu panel. Inicia sesión en Mercado Libre en este navegador y vuelve a intentarlo.");
     const candidatas = [...vistos.values()]
       .filter((o) => o.descuento_pct >= CFG.descuento_minimo && o.comision_pct > 0 && o.foto_id)
       .filter((o) => !(o.id in HIST) || o.precio < HIST[o.id])
       .map((o) => ({ ...o, puntaje: Math.round(puntaje(o) * 10) / 10, motivo: o.id in HIST ? "bajó" : "nueva" }))
-      .sort((a, b) => b.puntaje - a.puntaje).slice(0, CFG.max_ofertas);
+      .sort((a, b) => b.puntaje - a.puntaje)
+      .filter(((cuenta) => (o) => o.general || (cuenta[o.grupo] = (cuenta[o.grupo] || 0) + 1) <= CFG.max_por_grupo)({}))
+      .slice(0, CFG.max_ofertas);
     if (!candidatas.length) return fallar("hoy no encontré ofertas nuevas ni rebajadas (" + vistos.size + " productos revisados).");
 
     const ofertas = [];
@@ -79,7 +117,7 @@
       const u = r.d && r.d.urls && r.d.urls[0];
       if (r.status !== 200 || !u || !u.short_url) continue;
       ofertas.push({ id: o.id, titulo: o.titulo.slice(0, 140), precio: o.precio, precio_anterior: o.precio_anterior, comision_pct: o.comision_pct,
-        vendidos: o.vendidos, foto_id: o.foto_id, link: u.short_url, codigo: u.regex || null, puntaje: o.puntaje, motivo: o.motivo });
+        vendidos: o.vendidos, foto_id: o.foto_id, grupo: o.grupo, link: u.short_url, codigo: u.regex || null, puntaje: o.puntaje, motivo: o.motivo });
       await espera(400);
     }
     if (!ofertas.length) return fallar("no pude crear los links de afiliado.");
