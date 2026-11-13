@@ -15,7 +15,8 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
@@ -23,6 +24,10 @@ API = "https://graph.facebook.com/v21.0"
 PLAN = BASE / "docs" / "publicaciones.json"
 REGISTRO = BASE / "data" / "publicado.json"
 IG_USER_ID = os.environ.get("IG_USER_ID", "17841445164016594")
+CHILE = ZoneInfo("America/Santiago")
+HORA_INICIO, HORA_FIN = 9, 23      # publica entre 9:00 y 22:59 hora de Chile (cambia sola con el horario de verano)
+MINUTOS_ENTRE_POSTS = 50           # nunca dos posts seguidos, aunque GitHub ejecute varias veces juntas
+DIAS_SIN_REPETIR = 7               # un mismo producto no sale dos veces en esta cantidad de días
 
 
 def token():
@@ -96,19 +101,38 @@ def publicar(tipo, n):
     print(f"✅ {tipo} #{n} publicado: {enlace or media}")
 
 
+def normalizar(texto):
+    return " ".join(str(texto).lower().split())[:60]
+
+
 def siguiente(probar=False):
-    """Publica el próximo post del plan que aún no se ha subido (lo usa la tarea de cada hora)."""
+    """Publica el próximo post pendiente. GitHub lo ejecuta cada 20 minutos; este código decide si toca."""
+    ahora = datetime.now(timezone.utc)
+    hora_chile = ahora.astimezone(CHILE)
+    if not HORA_INICIO <= hora_chile.hour < HORA_FIN:
+        print(f"Son las {hora_chile:%H:%M} en Chile: fuera del horario de publicación.")
+        return
     plan = json.loads(PLAN.read_text())
     generado = datetime.fromisoformat(plan["generado"].replace("Z", "+00:00"))
-    edad_h = (datetime.now(timezone.utc) - generado).total_seconds() / 3600
+    edad_h = (ahora - generado).total_seconds() / 3600
     if edad_h > 30:
-        print(f"Las ofertas tienen {edad_h:.0f} horas: no publico precios viejos.")
+        print(f"Las ofertas tienen {edad_h:.0f} horas: no publico precios viejos. Falta recolectar hoy.")
         return
     registro = json.loads(REGISTRO.read_text()) if REGISTRO.exists() else []
+    fechas = [datetime.fromisoformat(r["fecha"]) for r in registro if r.get("fecha")]
+    if fechas:
+        minutos = (ahora - max(fechas)).total_seconds() / 60
+        if minutos < MINUTOS_ENTRE_POSTS:
+            print(f"El último post salió hace {minutos:.0f} minutos: espero.")
+            return
     hechas = {r["imagen"] for r in registro}
-    pendiente = next((p for p in plan["posts"] if p["imagen"] not in hechas), None)
+    limite = ahora - timedelta(days=DIAS_SIN_REPETIR)
+    recientes = {normalizar(r["titulo"]) for r in registro
+                 if r.get("fecha") and datetime.fromisoformat(r["fecha"]) >= limite}
+    pendiente = next((p for p in plan["posts"]
+                      if p["imagen"] not in hechas and normalizar(p["titulo"]) not in recientes), None)
     if not pendiente:
-        print("No quedan posts por publicar.")
+        print("No quedan posts nuevos por publicar hoy.")
         return
     if probar:
         print(f"Prueba: el siguiente sería el post #{pendiente['n']}: {pendiente['titulo']}")
