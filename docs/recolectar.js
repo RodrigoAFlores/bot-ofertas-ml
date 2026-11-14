@@ -2,7 +2,7 @@
 // Lo carga el marcador "Recolectar". Elige ofertas sin repetir, crea los links y manda todo a recibir.html.
 (async () => {
   const BASE = "https://rodrigoaflores.github.io/bot-ofertas-ml/";
-  const CFG = { etiqueta: "flro3183825", descuento_minimo: 20, max_ofertas: 20, paginas: 8,
+  const CFG = { etiqueta: "flro3183825", descuento_minimo: 20, max_ofertas: 40, max_populares: 10, paginas: 8,
     paginas_categoria: 3,   // páginas de 18 productos por cada categoría
     max_por_grupo: 4,       // máximo de ofertas de una misma categoría, para que haya variedad
     consultas: [{ nombre: "Para ti", filtros: [] }, { nombre: "Más vendidos", filtros: [{ id: "best_seller", value: true }] }],
@@ -54,12 +54,16 @@
       const rev = comp.review_compacted && comp.review_compacted.review_compacted;
       const et = ((rev && rev.values) || []).filter((v) => v.type === "label").map((v) => (v.label && v.label.text) || "");
       const foto = card.pictures && card.pictures.pictures && card.pictures.pictures[0] && card.pictures.pictures[0].id;
+      const etiqueta = ((comp.highlight && comp.highlight.highlight && comp.highlight.highlight.text) || "").toUpperCase();
       const m = card.metadata || {};
       return { id: m.id, pid: m.pid || m.id, tipo: m.type, url: m.url, extra: m.extra_commission || "false",
         titulo: (comp.title && comp.title.title && comp.title.title.text) || "", precio: actual, precio_anterior: anterior,
         descuento_pct: anterior && anterior > actual ? Math.round((1 - actual / anterior) * 100) : 0,
-        comision_pct: com, vendidos: numero(et[1] || (rev && rev.alt_text) || ""), foto_id: foto || null };
+        comision_pct: com, vendidos: numero(et.find((x) => /vendid/i.test(x)) || (rev && rev.alt_text) || ""), nota: notaValida(et[0]),
+        destacado: /BUSCADO/.test(etiqueta) ? "MÁS BUSCADO" : /VENDIDO/.test(etiqueta) ? "MÁS VENDIDO" : "", foto_id: foto || null };
     };
+    // La nota solo vale si es de 0 a 5: sin estrellas, la primera etiqueta es la de ventas.
+    const notaValida = (x) => { const n = parseFloat(String(x || "").replace(",", ".")); return n > 0 && n <= 5 ? n : null; };
     const puntaje = (o) => o.descuento_pct * (1 + o.comision_pct / 10) * Math.log10(o.vendidos + 10);
 
     decir("leyendo el historial…");
@@ -108,6 +112,16 @@
       .sort((a, b) => b.puntaje - a.puntaje)
       .filter(((cuenta) => (o) => o.general || (cuenta[o.grupo] = (cuenta[o.grupo] || 0) + 1) <= CFG.max_por_grupo)({}))
       .slice(0, CFG.max_ofertas);
+    // Más vendidos y más buscados SIN descuento: solo para historias. Mandan los que más venden y mejor pagan.
+    const yaElegidas = new Set(candidatas.map((o) => o.id));
+    const populares = [...vistos.values()]
+      .filter((o) => !yaElegidas.has(o.id) && o.destacado && o.descuento_pct < CFG.descuento_minimo && o.comision_pct > 0 && o.foto_id)
+      .filter((o) => !(o.id in HIST) || o.precio < HIST[o.id])
+      .map((o) => ({ ...o, tipo_oferta: "popular", motivo: o.id in HIST ? "bajó" : "nueva",
+        puntaje: Math.round(Math.log10(o.vendidos + 10) * (1 + o.comision_pct / 10) * (o.nota || 4) * 10) / 10 }))
+      .sort((a, b) => b.puntaje - a.puntaje)
+      .slice(0, CFG.max_populares);
+    candidatas.push(...populares);
     if (!candidatas.length) return fallar("hoy no encontré ofertas nuevas ni rebajadas (" + vistos.size + " productos revisados).");
 
     const ofertas = [];
@@ -117,7 +131,7 @@
       const u = r.d && r.d.urls && r.d.urls[0];
       if (r.status !== 200 || !u || !u.short_url) continue;
       ofertas.push({ id: o.id, titulo: o.titulo.slice(0, 140), precio: o.precio, precio_anterior: o.precio_anterior, comision_pct: o.comision_pct,
-        vendidos: o.vendidos, foto_id: o.foto_id, grupo: o.grupo, link: u.short_url, codigo: u.regex || null, puntaje: o.puntaje, motivo: o.motivo });
+        vendidos: o.vendidos, nota: o.nota, destacado: o.destacado, tipo: o.tipo_oferta || "oferta", foto_id: o.foto_id, grupo: o.grupo, link: u.short_url, codigo: u.regex || null, puntaje: o.puntaje, motivo: o.motivo });
       await espera(400);
     }
     if (!ofertas.length) return fallar("no pude crear los links de afiliado.");
@@ -126,7 +140,7 @@
     const bytes = new TextEncoder().encode(texto);
     let bin = ""; for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
     const b64 = btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-    decir(ofertas.length + " ofertas listas. Abriendo la página para enviarlas…");
+    decir(ofertas.length + " productos listos. Abriendo la página para enviarlos…");
     location.href = BASE + "recibir.html#" + b64;
   } catch (e) {
     fallar("algo falló: " + e);

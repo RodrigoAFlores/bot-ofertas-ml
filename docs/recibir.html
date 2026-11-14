@@ -29,7 +29,7 @@ let datos = null;
 try {
   datos = JSON.parse(deB64url(location.hash.slice(1)));
   const o = datos.ofertas;
-  const valido = Array.isArray(o) && o.length > 0 && o.length <= 40 && o.every((x) =>
+  const valido = Array.isArray(o) && o.length > 0 && o.length <= 60 && o.every((x) =>
     typeof x.id === "string" && typeof x.titulo === "string" && Number.isFinite(x.precio) &&
     typeof x.link === "string" && x.link.startsWith("https://meli.la/") && /^[\w-]+$/.test(x.foto_id || ""));
   if (!valido) throw new Error("datos no válidos");
@@ -44,7 +44,7 @@ if (!datos) {
   const origen = document.referrer;
   const raro = origen && !/^https:\/\/([\w-]+\.)*mercadolibre\.cl\//.test(origen);
   const primeras = datos.ofertas.slice(0, 3).map((x) => "<li>" + x.titulo.replace(/[<>&]/g, "") + " · " + clp(x.precio) + "</li>").join("");
-  $("resumen").innerHTML = "<b>" + datos.ofertas.length + " ofertas listas</b> (" + datos.total_revisados + " productos revisados)<ol>" + primeras + "</ol>" +
+  $("resumen").innerHTML = "<b>" + datos.ofertas.filter((x) => x.tipo !== "popular").length + " ofertas y " + datos.ofertas.filter((x) => x.tipo === "popular").length + " más vendidos listos</b> (" + datos.total_revisados + " productos revisados)<ol>" + primeras + "</ol>" +
     (raro ? '<p class="mal">Ojo: estos datos no vienen de tu panel de Mercado Libre. No los envíes si no tocaste tú el marcador.</p>' : "");
   if (localStorage.getItem(CLAVE)) $("enviar").hidden = false; else $("clave").hidden = false;
 }

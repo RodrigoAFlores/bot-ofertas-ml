@@ -19,6 +19,7 @@ const arg = (nombre, defecto) => {
 const clp = (n) => "$" + Math.round(n).toLocaleString("es-CL");
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const dos = (n) => String(n).padStart(2, "0");
+const vendidosTexto = (v) => (v >= 1000 ? `${Math.round(v / 1000).toLocaleString("es-CL")} mil` : String(v));
 
 function tarjeta(o, formato) {
   const historia = formato === "historia";
@@ -44,15 +45,21 @@ function tarjeta(o, formato) {
   .libre { height: 260px; display: flex; align-items: center; justify-content: center; }  /* espacio para el link en la historia */
   .link { background: #fff; color: #101b3b; font-size: 60px; font-weight: 800; padding: 26px 54px; border-radius: 999px; }
   .nota { margin-top: 18px; font-size: 26px; opacity: .6; }
+  .top { position: absolute; top: -26px; right: -18px; background: #ff7733; color: #fff; font-weight: 900; font-size: 50px;
+         line-height: 1.05; padding: 24px 32px; border-radius: 36px; transform: rotate(4deg); text-align: center; }
+  .top small { display: block; font-size: 30px; font-weight: 800; }
+  .ventas { margin-top: 14px; font-size: 40px; font-weight: 700; color: #ffd400; }
   .cta { margin-top: 26px; background: #ffd400; color: #101b3b; text-align: center; font-size: 46px; font-weight: 900; letter-spacing: 1px; padding: 22px; border-radius: 24px; }
   </style></head><body>
-    <div class="arriba"><div class="num">OFERTA #${o.n}</div><div class="tag">Mercado Libre Chile</div></div>
+    <div class="arriba"><div class="num">${o.tipo === "popular" ? "TOP" : "OFERTA"} #${o.n}</div><div class="tag">Mercado Libre Chile</div></div>
     <div class="foto">
       ${o.foto ? `<img src="${esc(o.foto)}">` : ""}
-      ${o.descuento_pct ? `<div class="off">${o.descuento_pct}%<small>OFF</small></div>` : ""}
+      ${o.descuento_pct ? `<div class="off">${o.descuento_pct}%<small>OFF</small></div>`
+        : o.tipo === "popular" ? `<div class="top">🔥 ${esc(o.destacado || "MÁS VENDIDO").split(" ").join("<br>")}<small>en Mercado Libre</small></div>` : ""}
     </div>
     <h1>${esc(o.titulo)}</h1>
     <div class="precios"><div class="ahora">${clp(o.precio)}</div>${o.precio_anterior ? `<div class="antes">${clp(o.precio_anterior)}</div>` : ""}</div>
+    ${o.tipo === "popular" && (o.vendidos || o.nota) ? `<div class="ventas">${[o.nota ? `⭐ ${String(o.nota).replace(".", ",")}` : "", o.vendidos ? `+${vendidosTexto(o.vendidos)} vendidos` : ""].filter(Boolean).join("  ·  ")}</div>` : ""}
     <div class="nota">Precio visto el ${esc(o._fecha)}. Puede cambiar.</div>
     ${historia ? "" : `<div class="cta">👉 LINK EN LAS HISTORIAS</div>`}
     ${historia ? `<div class="libre">${o._link_visible ? `<div class="link">🔗 ${esc(o.link.replace("https://", ""))}</div>` : ""}</div>` : ""}
@@ -71,15 +78,18 @@ function texto(o) {
 }
 
 function pagina(ofertas, fecha) {
-  const items = ofertas.map((o) => `
+  const tarjetas = (lista) => lista.map((o) => `
     <a class="card" href="${esc(o.link)}" rel="nofollow sponsored noopener" target="_blank">
       <span class="num">#${o.n}</span>
-      ${o.descuento_pct ? `<span class="off">${o.descuento_pct}% OFF</span>` : ""}
+      ${o.descuento_pct ? `<span class="off">${o.descuento_pct}% OFF</span>` : o.tipo === "popular" ? `<span class="off top">🔥 ${esc(o.destacado || "MÁS VENDIDO")}</span>` : ""}
       <img src="${esc(o.foto)}" alt="" loading="lazy">
       <h2>${esc(o.titulo)}</h2>
       <p class="precio">${clp(o.precio)} ${o.precio_anterior ? `<s>${clp(o.precio_anterior)}</s>` : ""}</p>
       <span class="btn">Ver oferta</span>
     </a>`).join("");
+  const conDescuento = ofertas.filter((o) => o.tipo !== "popular");
+  const populares = ofertas.filter((o) => o.tipo === "popular");
+  const items = tarjetas(conDescuento) + (populares.length ? `<h2 class="seccion">🔥 Los más vendidos</h2>${tarjetas(populares)}` : "");
   return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Ofertas de hoy</title>
 <style>
@@ -89,7 +99,8 @@ header{text-align:center;margin:10px 0 20px} header h1{margin:0;font-size:26px} 
 .card{position:relative;background:#fff;color:#111;border-radius:16px;padding:12px;text-decoration:none;display:flex;flex-direction:column}
 .card img{width:100%;aspect-ratio:1;object-fit:contain}
 .num{position:absolute;top:8px;left:8px;background:#ffd400;color:#101b3b;font-weight:800;border-radius:999px;padding:3px 10px;font-size:14px}
-.off{position:absolute;top:8px;right:8px;background:#e8003d;color:#fff;font-weight:800;border-radius:8px;padding:3px 8px;font-size:13px}
+.off{position:absolute;top:8px;right:8px;background:#e8003d;color:#fff;font-weight:800;border-radius:8px;padding:3px 8px;font-size:13px} .off.top{background:#ff7733;font-size:11px}
+.seccion{grid-column:1/-1;color:#fff;font-size:20px;margin:18px 0 0;-webkit-line-clamp:unset}
 h2{font-size:14px;font-weight:600;margin:8px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .precio{font-size:20px;font-weight:800;margin:0 0 10px} .precio s{font-size:13px;font-weight:400;color:#777}
 .btn{margin-top:auto;background:#101b3b;color:#fff;text-align:center;border-radius:10px;padding:9px;font-weight:700;font-size:14px}
@@ -103,9 +114,9 @@ footer{text-align:center;opacity:.6;font-size:12px;margin:24px auto 8px;max-widt
 
 // Página para el celular: cada historia con su imagen y su link listo para copiar.
 function paginaHistorias(historias, fecha) {
-  const items = historias.map((h) => `
+  const items = historias.map((h, i) => `${h.tipo === "popular" && (i === 0 || historias[i - 1].tipo !== "popular") ? `<h2 class="seccion">🔥 Los más vendidos</h2>` : ""}
     <section class="h" id="h${h.n}">
-      <header><b>#${h.n}</b> ${esc(h.titulo)}<br><span>${clp(h.precio)} · ${h.descuento_pct}% OFF</span></header>
+      <header><b>#${h.n}</b> ${esc(h.titulo)}<br><span>${clp(h.precio)} · ${h.tipo === "popular" ? "🔥 " + esc(h.destacado || "MÁS VENDIDO") : h.descuento_pct + "% OFF"}</span></header>
       <img src="${esc(h.imagen)}" alt="Historia ${h.n}" loading="lazy">
       <div class="botones">
         <a class="b" href="${esc(h.imagen)}" download>1. Guardar imagen</a>
@@ -123,7 +134,7 @@ h1{font-size:22px;margin:8px 0 4px} .ayuda{opacity:.75;font-size:14px;margin:0 0
 .h img{width:100%;border-radius:12px;display:block}
 .botones{display:flex;gap:10px;margin:12px 0 10px}
 .b{flex:1;background:#ffd400;color:#101b3b;border:0;border-radius:12px;padding:14px 8px;font-size:15px;font-weight:800;text-align:center;text-decoration:none;font-family:inherit}
-.b.ok{background:#3ddc84} label{font-size:14px;opacity:.85}
+.b.ok{background:#3ddc84} label{font-size:14px;opacity:.85} .seccion{font-size:20px;margin:26px 0 12px;color:#ffd400}
 </style></head><body>
 <h1>Historias de hoy</h1>
 <p class="ayuda">${esc(fecha)} · ${historias.length} historias.<br>Guarda la imagen, copia el link y, en Instagram, sube la historia y pega el link en el sticker "Enlace".</p>
@@ -167,13 +178,13 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
     const page = await navegador.newPage();
     for (const o of ofertas) {
       // Cada oferta tiene su historia; las primeras además tienen post.
-      const formatos = o.n <= nPosts ? ["post", "historia"] : ["historia"];
+      const formatos = o.tipo !== "popular" && o.n <= nPosts ? ["post", "historia"] : ["historia"];
       for (const formato of formatos) {
         const archivo = `${sello}-${formato}-${dos(o.n)}.jpg`;
         await page.setViewportSize({ width: 1080, height: formato === "post" ? 1350 : 1920 });
         await page.setContent(tarjeta(o, formato), { waitUntil: "networkidle" });
         await page.screenshot({ path: join(img, archivo), type: "jpeg", quality: 90 });
-        const item = { n: o.n, titulo: o.titulo, precio: o.precio, descuento_pct: o.descuento_pct, imagen: `img/${archivo}`, link: o.link };
+        const item = { n: o.n, titulo: o.titulo, precio: o.precio, descuento_pct: o.descuento_pct, tipo: o.tipo || "oferta", destacado: o.destacado || null, imagen: `img/${archivo}`, link: o.link };
         if (formato === "post") plan.posts.push({ ...item, texto: texto(o) });
         else plan.historias.push(item);
       }

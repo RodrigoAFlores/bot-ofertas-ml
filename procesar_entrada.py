@@ -17,7 +17,8 @@ ENTRADA = BASE / "data" / "entrada.json"
 OFERTAS = BASE / "data" / "ofertas.json"
 HISTORIAL = BASE / "data" / "historial.json"
 HISTORIAL_PUBLICO = BASE / "docs" / "historial.json"
-MAX_OFERTAS = 20
+MAX_OFERTAS = 40      # ofertas con descuento (las primeras también van como post)
+MAX_POPULARES = 10    # más vendidos / más buscados sin descuento (solo historias)
 
 
 def leer(ruta, defecto):
@@ -44,11 +45,12 @@ def main():
     for o in entrada.get("ofertas", []):
         try:
             precio, antes = int(o["precio"]), int(o.get("precio_anterior") or 0)
+            popular = o.get("tipo") == "popular"
             valida = (
                 re.fullmatch(r"MLC\d+", o["id"])
                 and re.fullmatch(r"https://meli\.la/\w+", o["link"])
                 and re.fullmatch(r"[\w-]+", o["foto_id"])
-                and precio > 0 and antes > precio
+                and precio > 0 and (popular or antes > precio)
             )
         except (KeyError, TypeError, ValueError):
             valida = False
@@ -61,8 +63,11 @@ def main():
             "id": o["id"],
             "titulo": " ".join(str(o["titulo"]).split())[:140],
             "precio": precio,
-            "precio_anterior": antes,
-            "descuento_pct": round((1 - precio / antes) * 100),
+            "precio_anterior": antes if antes > precio else None,
+            "descuento_pct": round((1 - precio / antes) * 100) if antes > precio else 0,
+            "tipo": "popular" if popular else "oferta",
+            "destacado": o.get("destacado") if o.get("destacado") in ("MÁS VENDIDO", "MÁS BUSCADO") else ("MÁS VENDIDO" if popular else None),
+            "nota": float(o["nota"]) if isinstance(o.get("nota"), (int, float)) and 0 < o["nota"] <= 5 else None,
             "comision_pct": float(o.get("comision_pct") or 0),
             "vendidos": int(o.get("vendidos") or 0),
             "foto": f"https://http2.mlstatic.com/D_NQ_NP_2X_{o['foto_id']}-F.webp",
@@ -72,8 +77,10 @@ def main():
             "motivo": "bajó" if previo else "nueva",
         })
 
-    ofertas.sort(key=lambda x: x["puntaje"], reverse=True)
-    ofertas = [{"n": i + 1, **o} for i, o in enumerate(ofertas[:MAX_OFERTAS])]
+    # Primero las ofertas con descuento, después los más vendidos. Cada grupo ordenado por su puntaje.
+    con_descuento = sorted((o for o in ofertas if o["tipo"] == "oferta"), key=lambda x: x["puntaje"], reverse=True)[:MAX_OFERTAS]
+    populares = sorted((o for o in ofertas if o["tipo"] == "popular"), key=lambda x: x["puntaje"], reverse=True)[:MAX_POPULARES]
+    ofertas = [{"n": i + 1, **o} for i, o in enumerate(con_descuento + populares)]
     if not ofertas:
         sys.exit("La recolección no trae ofertas nuevas ni rebajadas. Dejo todo como estaba.")
 
@@ -88,7 +95,8 @@ def main():
     }, ensure_ascii=False, indent=2) + "\n")
     HISTORIAL.write_text(json.dumps(historial, ensure_ascii=False, indent=1) + "\n")
     HISTORIAL_PUBLICO.write_text(json.dumps({k: v["precio"] for k, v in historial.items()}, separators=(",", ":")))
-    print(f"{len(ofertas)} ofertas listas ({sum(o['motivo'] == 'bajó' for o in ofertas)} rebajadas). Historial: {len(historial)}.")
+    print(f"{len(con_descuento)} ofertas y {len(populares)} más vendidos listos "
+          f"({sum(o['motivo'] == 'bajó' for o in ofertas)} rebajados). Historial: {len(historial)}.")
 
 
 if __name__ == "__main__":
