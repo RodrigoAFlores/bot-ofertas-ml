@@ -7,7 +7,7 @@
 - Regla de no repetir (data/historial.json, docs/historial.json).
 
 ## Sin comprobar
-- Publicación automática (publicar.yml, cada hora 9-22 Chile): la tarea está activa, pero GitHub NO ejecutó el horario de las 22:00 del 10-nov. Revisar el 11-nov después de las 9:00 con `gh run list --workflow publicar.yml`. Si GitHub sigue sin dispararla, buscar un reloj externo gratis que llame a workflow_dispatch.
+- RESUELTO 14-nov: GitHub solo disparaba el cron cada 5-6 h. Ahora cron-job.org llama a publicar.yml cada 10 min (9:00-22:59 Chile). Comprobado con el post #5 a las 9:10.
 - Hay 14 posts del 10-nov listos y sin publicar (ofertas recolectadas el 10-nov a las 20:50; el bot los descarta a las 30 horas).
 
 ## Rutina diaria de Rodrigo
