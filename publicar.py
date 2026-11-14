@@ -26,7 +26,7 @@ REGISTRO = BASE / "data" / "publicado.json"
 IG_USER_ID = os.environ.get("IG_USER_ID", "17841445164016594")
 CHILE = ZoneInfo("America/Santiago")
 HORA_INICIO, HORA_FIN = int(os.environ.get("HORA_INICIO", 9)), int(os.environ.get("HORA_FIN", 23))      # publica entre 9:00 y 22:59 hora de Chile (cambia sola con el horario de verano)
-MINUTOS_ENTRE_POSTS = int(os.environ.get("MINUTOS_ENTRE_POSTS", 50))           # nunca dos posts seguidos, aunque GitHub ejecute varias veces juntas
+MINUTOS_ENTRE_POSTS = int(os.environ.get("MINUTOS_ENTRE_POSTS", 9))           # nunca dos posts seguidos, aunque GitHub ejecute varias veces juntas
 DIAS_SIN_REPETIR = 7               # un mismo producto no sale dos veces en esta cantidad de días
 
 
@@ -106,7 +106,7 @@ def normalizar(texto):
 
 
 def siguiente(probar=False):
-    """Publica el próximo post pendiente. GitHub lo ejecuta cada 20 minutos; este código decide si toca."""
+    """Publica el próximo post pendiente. Lo llaman cada 10 minutos; este código decide si toca, repartiendo los posts en el día."""
     ahora = datetime.now(timezone.utc)
     hora_chile = ahora.astimezone(CHILE)
     if not HORA_INICIO <= hora_chile.hour < HORA_FIN:
@@ -119,21 +119,32 @@ def siguiente(probar=False):
         print(f"Las ofertas tienen {edad_h:.0f} horas: no publico precios viejos. Falta recolectar hoy.")
         return
     registro = json.loads(REGISTRO.read_text()) if REGISTRO.exists() else []
-    fechas = [datetime.fromisoformat(r["fecha"]) for r in registro if r.get("fecha")]
-    if fechas:
-        minutos = (ahora - max(fechas)).total_seconds() / 60
-        if minutos < MINUTOS_ENTRE_POSTS:
-            print(f"El último post salió hace {minutos:.0f} minutos: espero.")
-            return
     hechas = {r["imagen"] for r in registro}
     limite = ahora - timedelta(days=DIAS_SIN_REPETIR)
     recientes = {normalizar(r["titulo"]) for r in registro
                  if r.get("fecha") and datetime.fromisoformat(r["fecha"]) >= limite}
-    pendiente = next((p for p in plan["posts"]
-                      if p["imagen"] not in hechas and normalizar(p["titulo"]) not in recientes), None)
-    if not pendiente:
+    pendientes = [p for p in plan["posts"]
+                  if p["imagen"] not in hechas and normalizar(p["titulo"]) not in recientes]
+    if not pendientes:
         print("No quedan posts nuevos por publicar hoy.")
         return
+
+    # Reparte los posts que quedan en lo que queda del día: espacio = minutos restantes / posts pendientes.
+    # Se recalcula en cada llamada, así se ajusta solo si hay más o menos posts. Nunca menos de MINUTOS_ENTRE_POSTS.
+    fin = hora_chile.replace(hour=HORA_FIN % 24, minute=0, second=0, microsecond=0)
+    if HORA_FIN >= 24 or fin <= hora_chile:
+        fin = fin + timedelta(days=1) if fin <= hora_chile else fin
+    minutos_restantes = (fin - hora_chile).total_seconds() / 60
+    espacio = max(MINUTOS_ENTRE_POSTS, minutos_restantes / len(pendientes))
+    fechas = [datetime.fromisoformat(r["fecha"]) for r in registro if r.get("fecha")]
+    if fechas:
+        minutos = (ahora - max(fechas)).total_seconds() / 60
+        # Tolerancia de 5 minutos: el reloj externo llama cada 10, así no se salta una vuelta entera.
+        if minutos < max(MINUTOS_ENTRE_POSTS, espacio - 5):
+            print(f"El último post salió hace {minutos:.0f} minutos; toca uno cada {espacio:.0f} min "
+                  f"({len(pendientes)} pendientes): espero.")
+            return
+    pendiente = pendientes[0]
     if probar:
         print(f"Prueba: el siguiente sería el post #{pendiente['n']}: {pendiente['titulo']}")
         return
