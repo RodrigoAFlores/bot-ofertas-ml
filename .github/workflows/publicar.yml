@@ -23,6 +23,7 @@ jobs:
         env:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          MINUTOS_ENTRE_POSTS: "9"   # cron-job.org la llama cada 10 minutos
         run: python3 publicar.py siguiente
       - name: Guardar el registro de lo publicado
         run: |
