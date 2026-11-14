@@ -25,8 +25,8 @@ PLAN = BASE / "docs" / "publicaciones.json"
 REGISTRO = BASE / "data" / "publicado.json"
 IG_USER_ID = os.environ.get("IG_USER_ID", "17841445164016594")
 CHILE = ZoneInfo("America/Santiago")
-HORA_INICIO, HORA_FIN = 9, 23      # publica entre 9:00 y 22:59 hora de Chile (cambia sola con el horario de verano)
-MINUTOS_ENTRE_POSTS = 50           # nunca dos posts seguidos, aunque GitHub ejecute varias veces juntas
+HORA_INICIO, HORA_FIN = int(os.environ.get("HORA_INICIO", 9)), int(os.environ.get("HORA_FIN", 23))      # publica entre 9:00 y 22:59 hora de Chile (cambia sola con el horario de verano)
+MINUTOS_ENTRE_POSTS = int(os.environ.get("MINUTOS_ENTRE_POSTS", 50))           # nunca dos posts seguidos, aunque GitHub ejecute varias veces juntas
 DIAS_SIN_REPETIR = 7               # un mismo producto no sale dos veces en esta cantidad de días
 
 
