@@ -18,3 +18,7 @@
 1. Regenerar el token de Instagram (quedó pegado en el chat).
 2. Poner el link de la página en la bio de Instagram (lo hace Rodrigo).
 3. Ampliar la búsqueda por categorías cuando se agoten las ofertas nuevas.
+
+## Falabella (14-nov)
+- Integrada y subida. Rutina: después de recolectar Mercado Libre, abrir creators.falabella.com en el celular → marcador "Recolectar Falabella" → Enviar al bot.
+- Probado en Chrome de escritorio hasta la página de envío (10 links reales correctos). Falta: crear el marcador en el iPhone y el primer envío real.
