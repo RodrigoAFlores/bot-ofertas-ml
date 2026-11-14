@@ -115,7 +115,7 @@ footer{text-align:center;opacity:.6;font-size:12px;margin:24px auto 8px;max-widt
 }
 
 // Página para el celular: cada historia con su imagen y su link listo para copiar.
-function paginaHistorias(historias, fecha) {
+function paginaHistorias(historias, fecha, version) {
   const items = historias.map((h, i) => `${h.tipo === "popular" && (i === 0 || historias[i - 1].tipo !== "popular") ? `<h2 class="seccion">🔥 Los más vendidos</h2>` : ""}
     <section class="h" id="h${h.n}">
       <header><b>#${h.n}</b> ${h.tienda === "falabella" ? "<em>Falabella</em> · " : ""}${esc(h.titulo)}<br><span>${clp(h.precio)} · ${h.tipo === "popular" ? "🔥 " + esc(h.destacado || "MÁS VENDIDO") : h.descuento_pct + "% OFF"}</span></header>
@@ -143,6 +143,16 @@ h1{font-size:22px;margin:8px 0 4px} .ayuda{opacity:.75;font-size:14px;margin:0 0
 ${items}
 <script>
 const clave = "hechas-${esc(fecha)}";
+// Si la lista cambió desde que abriste la página (por ejemplo, llegó Falabella), recarga sola
+// para que ninguna imagen quede con el link de otra oferta.
+const version = "${esc(version)}";
+setInterval(async () => {
+  try {
+    const r = await fetch("publicaciones.json?" + Date.now(), { cache: "no-store" });
+    const p = await r.json();
+    if (p.version && p.version !== version) location.reload();
+  } catch {}
+}, 60000);
 const hechas = new Set(JSON.parse(localStorage.getItem(clave) || "[]"));
 document.querySelectorAll(".copiar").forEach((b) => b.addEventListener("click", async () => {
   try { await navigator.clipboard.writeText(b.dataset.link); } catch { prompt("Copia el link:", b.dataset.link); }
@@ -160,6 +170,13 @@ document.querySelectorAll("input[type=checkbox]").forEach((c) => {
 </script></body></html>`;
 }
 
+
+// Huella de la lista de historias: cambia si cambia cualquier imagen o link.
+function historiasVersion(historias) {
+  let h = 0;
+  for (const c of historias.map((x) => x.imagen + x.link).join("|")) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return h.toString(36);
+}
 
 export async function generar({ datos = join(BASE, "data", "ofertas.json"), salida = join(BASE, "docs"), config } = {}) {
   const cfg = config || JSON.parse(readFileSync(join(BASE, "recolector.config.json"), "utf8"));
@@ -183,7 +200,8 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
       // Post: las primeras ofertas de Mercado Libre (hasta posts_por_dia) y todas las de Falabella.
       const formatos = o.tipo !== "popular" && (o.tienda === "falabella" || o.n <= nPosts) ? ["post", "historia"] : ["historia"];
       for (const formato of formatos) {
-        const archivo = `${sello}-${formato}-${dos(o.n)}.jpg`;
+        // El nombre lleva el id del producto: una imagen nunca puede quedar asociada al link de otro producto.
+        const archivo = `${sello}-${formato}-${dos(o.n)}-${String(o.id).replace(/[^\w]/g, "")}.jpg`;
         await page.setViewportSize({ width: 1080, height: formato === "post" ? 1350 : 1920 });
         await page.setContent(tarjeta(o, formato), { waitUntil: "networkidle" });
         await page.screenshot({ path: join(img, archivo), type: "jpeg", quality: 90 });
@@ -200,7 +218,8 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
   plan.posts = [];
   while (ml.length || fal.length) { plan.posts.push(...ml.splice(0, 4)); if (fal.length) plan.posts.push(fal.shift()); }
   writeFileSync(join(salida, "index.html"), pagina(ofertas, fecha));
-  writeFileSync(join(salida, "historias.html"), paginaHistorias(plan.historias, fecha));
+  plan.version = historiasVersion(plan.historias);
+  writeFileSync(join(salida, "historias.html"), paginaHistorias(plan.historias, fecha, plan.version));
   writeFileSync(join(salida, "publicaciones.json"), JSON.stringify(plan, null, 2) + "\n");
   return plan;
 }

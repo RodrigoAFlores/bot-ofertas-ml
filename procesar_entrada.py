@@ -158,8 +158,9 @@ def main():
         print("No hay recolecciones nuevas que procesar.")
         return
 
-    # 3) Unir: Mercado Libre (mantiene sus números) → Falabella → más vendidos.
-    lista = [{**o, "n": None} for o in ml_ofertas + falabella + ml_populares]
+    # 3) Unir: Mercado Libre → más vendidos → Falabella al final. Así, cuando llega Falabella más tarde,
+    #    ninguna oferta que ya estaba cambia de número (antes los más vendidos se corrían y se mezclaban).
+    lista = [{**o, "n": None} for o in ml_ofertas + ml_populares + falabella]
     for i, o in enumerate(lista):
         o["n"] = i + 1
     OFERTAS.write_text(json.dumps({
