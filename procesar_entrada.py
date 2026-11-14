@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Convierte data/entrada.json (lo que manda el celular) en data/ofertas.json y actualiza el historial.
+"""Convierte lo que manda el celular (data/entrada.json de Mercado Libre y data/entrada_falabella.json)
+en data/ofertas.json y actualiza el historial.
 
 Corre en GitHub cada vez que llega una recolección nueva. Todo el cálculo se hace aquí, con código:
 vuelve a aplicar la regla de no repetir, recalcula el descuento y numera las ofertas.
@@ -17,6 +18,9 @@ ENTRADA = BASE / "data" / "entrada.json"
 OFERTAS = BASE / "data" / "ofertas.json"
 HISTORIAL = BASE / "data" / "historial.json"
 HISTORIAL_PUBLICO = BASE / "docs" / "historial.json"
+FAL_ENTRADA = BASE / "data" / "entrada_falabella.json"   # lo que manda el marcador de Falabella
+FAL_OFERTAS = BASE / "data" / "falabella_ofertas.json"   # Falabella ya procesado (para no repetir el trabajo)
+MAX_FALABELLA = 10
 MAX_OFERTAS = 40      # ofertas con descuento (las primeras también van como post)
 MAX_POPULARES = 10    # más vendidos / más buscados sin descuento (solo historias)
 
@@ -25,22 +29,12 @@ def leer(ruta, defecto):
     return json.loads(ruta.read_text()) if ruta.exists() else defecto
 
 
-def main():
-    entrada = leer(ENTRADA, None)
-    if not entrada:
-        print("No hay data/entrada.json: no hay nada nuevo que procesar.")
-        return
-    anterior = leer(OFERTAS, {})
-    if anterior.get("generado") == entrada.get("generado"):
-        print("Esa recolección ya estaba procesada.")
-        return
+def edad_horas(iso):
+    return (datetime.now(timezone.utc) - datetime.fromisoformat(iso.replace("Z", "+00:00"))).total_seconds() / 3600
 
-    generado = datetime.fromisoformat(entrada["generado"].replace("Z", "+00:00"))
-    edad_h = (datetime.now(timezone.utc) - generado).total_seconds() / 3600
-    if not -1 <= edad_h <= 12:
-        sys.exit(f"La recolección tiene una fecha rara ({entrada['generado']}). No la uso.")
 
-    historial = leer(HISTORIAL, {})
+def procesar_mercadolibre(entrada, historial):
+    """Valida la recolección de Mercado Libre y aplica la regla de no repetir. Devuelve (ofertas, populares)."""
     ofertas = []
     for o in entrada.get("ofertas", []):
         try:
@@ -61,6 +55,7 @@ def main():
             continue  # ya salió y no está más barata
         ofertas.append({
             "id": o["id"],
+            "tienda": "mercadolibre",
             "titulo": " ".join(str(o["titulo"]).split())[:140],
             "precio": precio,
             "precio_anterior": antes if antes > precio else None,
@@ -76,27 +71,105 @@ def main():
             "puntaje": float(o.get("puntaje") or 0),
             "motivo": "bajó" if previo else "nueva",
         })
-
-    # Primero las ofertas con descuento, después los más vendidos. Cada grupo ordenado por su puntaje.
     con_descuento = sorted((o for o in ofertas if o["tipo"] == "oferta"), key=lambda x: x["puntaje"], reverse=True)[:MAX_OFERTAS]
     populares = sorted((o for o in ofertas if o["tipo"] == "popular"), key=lambda x: x["puntaje"], reverse=True)[:MAX_POPULARES]
-    ofertas = [{"n": i + 1, **o} for i, o in enumerate(con_descuento + populares)]
-    if not ofertas:
-        sys.exit("La recolección no trae ofertas nuevas ni rebajadas. Dejo todo como estaba.")
+    return con_descuento, populares
 
-    hoy = generado.astimezone(ZoneInfo("America/Santiago")).strftime("%Y-%m-%d")
-    for o in ofertas:
+
+def procesar_falabella(entrada, historial):
+    """Valida el envío de Falabella (links ya creados en el panel) y aplica la regla de no repetir."""
+    ofertas = []
+    for o in entrada.get("ofertas", []):
+        try:
+            precio, antes = int(o["precio"]), int(o.get("precio_anterior") or 0)
+            valida = (
+                re.fullmatch(r"FAL\d+", o["id"])
+                and re.fullmatch(r"https://creators\.falabella\.com/-[\w-]+", o["link"])
+                and re.fullmatch(r"https://media\.falabella\.com/[\w/.-]+", o["foto"])
+                and 0 < precio < antes
+            )
+        except (KeyError, TypeError, ValueError):
+            valida = False
+        if not valida:
+            continue
+        previo = historial.get(o["id"])
+        if previo and precio >= previo["precio"]:
+            continue
+        nota = o.get("nota")
+        ofertas.append({
+            "id": o["id"],
+            "tienda": "falabella",
+            "titulo": " ".join(str(o["titulo"]).split())[:140],
+            "precio": precio,
+            "precio_anterior": antes,
+            "precio_cmr": int(o["precio_cmr"]) if isinstance(o.get("precio_cmr"), int) and 0 < o["precio_cmr"] < precio else None,
+            "descuento_pct": round((1 - precio / antes) * 100),
+            "tipo": "oferta",
+            "nota": float(nota) if isinstance(nota, (int, float)) and 0 < nota <= 5 else None,
+            "vendedor": str(o.get("vendedor") or "")[:60],
+            "foto": o["foto"],
+            "link": o["link"],
+            "puntaje": float(o.get("puntaje") or 0),
+            "motivo": "bajó" if previo else "nueva",
+        })
+    return sorted(ofertas, key=lambda x: x["puntaje"], reverse=True)[:MAX_FALABELLA]
+
+
+def anotar(historial, lista, generado):
+    hoy = datetime.fromisoformat(generado.replace("Z", "+00:00")).astimezone(ZoneInfo("America/Santiago")).strftime("%Y-%m-%d")
+    for o in lista:
         historial[o["id"]] = {"precio": o["precio"], "fecha": hoy, "titulo": o["titulo"][:60]}
 
+
+def main():
+    anterior = leer(OFERTAS, {})
+    historial = leer(HISTORIAL, {})
+    cambios = []
+
+    # 1) Mercado Libre: solo si llegó una recolección nueva; si no, se mantiene la de hoy.
+    entrada = leer(ENTRADA, None)
+    previas = [o for o in anterior.get("ofertas", []) if o.get("tienda", "mercadolibre") != "falabella"]
+    ml_ofertas = [o for o in previas if o["tipo"] == "oferta"]
+    ml_populares = [o for o in previas if o["tipo"] == "popular"]
+    generado = anterior.get("generado")
+    total = anterior.get("total_revisados", 0)
+    if entrada and entrada.get("generado") != anterior.get("generado"):
+        if not -1 <= edad_horas(entrada["generado"]) <= 12:
+            sys.exit(f"La recolección tiene una fecha rara ({entrada['generado']}). No la uso.")
+        ml_ofertas, ml_populares = procesar_mercadolibre(entrada, historial)
+        if not ml_ofertas and not ml_populares:
+            sys.exit("La recolección no trae ofertas nuevas ni rebajadas. Dejo todo como estaba.")
+        anotar(historial, ml_ofertas + ml_populares, entrada["generado"])
+        generado, total = entrada["generado"], int(entrada.get("total_revisados") or 0)
+        cambios.append(f"{len(ml_ofertas)} ofertas y {len(ml_populares)} más vendidos de Mercado Libre")
+
+    # 2) Falabella: si llegó un envío nuevo, se procesa una vez y se guarda aparte.
+    fal_entrada = leer(FAL_ENTRADA, None)
+    fal_guardado = leer(FAL_OFERTAS, {})
+    if fal_entrada and fal_entrada.get("generado") != fal_guardado.get("generado") and -1 <= edad_horas(fal_entrada["generado"]) <= 12:
+        fal_lista = procesar_falabella(fal_entrada, historial)
+        anotar(historial, fal_lista, fal_entrada["generado"])
+        fal_guardado = {"generado": fal_entrada["generado"], "ofertas": fal_lista}
+        FAL_OFERTAS.write_text(json.dumps(fal_guardado, ensure_ascii=False, indent=1) + "\n")
+        cambios.append(f"{len(fal_lista)} ofertas de Falabella")
+    falabella = fal_guardado.get("ofertas", []) if fal_guardado.get("generado") and edad_horas(fal_guardado["generado"]) <= 24 else []
+
+    if not cambios:
+        print("No hay recolecciones nuevas que procesar.")
+        return
+
+    # 3) Unir: Mercado Libre (mantiene sus números) → Falabella → más vendidos.
+    lista = [{**o, "n": None} for o in ml_ofertas + falabella + ml_populares]
+    for i, o in enumerate(lista):
+        o["n"] = i + 1
     OFERTAS.write_text(json.dumps({
-        "generado": entrada["generado"],
-        "total_revisados": int(entrada.get("total_revisados") or 0),
-        "ofertas": ofertas,
+        "generado": generado or fal_guardado.get("generado"),
+        "total_revisados": total,
+        "ofertas": [{"n": o.pop("n"), **o} for o in lista],
     }, ensure_ascii=False, indent=2) + "\n")
     HISTORIAL.write_text(json.dumps(historial, ensure_ascii=False, indent=1) + "\n")
     HISTORIAL_PUBLICO.write_text(json.dumps({k: v["precio"] for k, v in historial.items()}, separators=(",", ":")))
-    print(f"{len(con_descuento)} ofertas y {len(populares)} más vendidos listos "
-          f"({sum(o['motivo'] == 'bajó' for o in ofertas)} rebajados). Historial: {len(historial)}.")
+    print("Procesado: " + " y ".join(cambios) + f". Total: {len(lista)}. Historial: {len(historial)}.")
 
 
 if __name__ == "__main__":

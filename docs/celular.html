@@ -37,10 +37,23 @@ a{color:#ffd400} .nota{opacity:.75;font-size:14px} img{width:100%;border-radius:
 <li>Al terminar te lleva a "Enviar ofertas al bot". La primera vez te pide <b>pegar la clave</b> del paso B.</li>
 <li>Toca <b>Enviar al bot</b>. En unos 3 minutos están listas las imágenes, las páginas y los posts del día.</li>
 </ol>
+<h2>D. Falabella (opcional, después de Mercado Libre)</h2>
+<p class="nota">Suma hasta 10 ofertas de Falabella al día. Las elige el bot; tu panel solo crea los links.</p>
+<button id="copiarF">Copiar código "Recolectar Falabella"</button>
+<textarea id="codigoF" readonly>javascript:fetch('https://rodrigoaflores.github.io/bot-ofertas-ml/falabella.js?'+Date.now()).then(r=>r.text()).then(t=>(0,eval)(t)).catch(e=>alert('Bot Falabella: '+e))</textarea>
+<ol>
+<li>Guarda un marcador nuevo llamado <b>Recolectar Falabella</b> y pega este código como dirección (igual que el de Mercado Libre).</li>
+<li>Cada día: abre <a href="https://creators.falabella.com/publisher/dashboard">tu panel de Falabella Creators</a>, toca el marcador y luego <b>Enviar al bot</b>.</li>
+</ol>
 <p><a href="historias.html">Ir a las historias de hoy</a></p>
 <script>
 document.getElementById("copiar").addEventListener("click", async (e) => {
   const t = document.getElementById("codigo");
+  try { await navigator.clipboard.writeText(t.value); } catch { t.select(); document.execCommand("copy"); }
+  e.target.textContent = "¡Código copiado!"; e.target.classList.add("ok");
+});
+document.getElementById("copiarF").addEventListener("click", async (e) => {
+  const t = document.getElementById("codigoF");
   try { await navigator.clipboard.writeText(t.value); } catch { t.select(); document.execCommand("copy"); }
   e.target.textContent = "¡Código copiado!"; e.target.classList.add("ok");
 });

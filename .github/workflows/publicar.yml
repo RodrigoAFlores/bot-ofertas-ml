@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Buscar ofertas de Falabella (una vez al día)
+        run: python3 falabella.py --si-hace-falta || echo "No se pudo buscar en Falabella, sigo igual"
       - name: Publicar el siguiente post (si toca)
         env:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
@@ -29,5 +31,5 @@ jobs:
         run: |
           git config user.name "bot-ofertas"
           git config user.email "bot-ofertas@users.noreply.github.com"
-          git add data/publicado.json
+          git add data/publicado.json docs/falabella_candidatas.json
           git diff --cached --quiet || (git commit -m "Registro de publicación" && git pull --rebase -q && git push -q)

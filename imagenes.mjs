@@ -51,7 +51,7 @@ function tarjeta(o, formato) {
   .ventas { margin-top: 14px; font-size: 40px; font-weight: 700; color: #ffd400; }
   .cta { margin-top: 26px; background: #ffd400; color: #101b3b; text-align: center; font-size: 46px; font-weight: 900; letter-spacing: 1px; padding: 22px; border-radius: 24px; }
   </style></head><body>
-    <div class="arriba"><div class="num">${o.tipo === "popular" ? "TOP" : "OFERTA"} #${o.n}</div><div class="tag">Mercado Libre Chile</div></div>
+    <div class="arriba"><div class="num">${o.tipo === "popular" ? "TOP" : "OFERTA"} #${o.n}</div><div class="tag">${o.tienda === "falabella" ? "Falabella" : "Mercado Libre Chile"}</div></div>
     <div class="foto">
       ${o.foto ? `<img src="${esc(o.foto)}">` : ""}
       ${o.descuento_pct ? `<div class="off">${o.descuento_pct}%<small>OFF</small></div>`
@@ -71,9 +71,11 @@ function texto(o) {
     `🔥 ${o.titulo}`,
     "",
     `💰 Ahora ${clp(o.precio)}` + (o.precio_anterior ? ` (antes ${clp(o.precio_anterior)}) · ${o.descuento_pct}% OFF` : ""),
+    o.precio_cmr ? `💳 Con tarjeta CMR: ${clp(o.precio_cmr)}` : null,
+    `🛒 En ${o.tienda === "falabella" ? "Falabella" : "Mercado Libre"}`,
     "",
     `Precio visto el ${o._fecha}. Puede cambiar.`,
-    "#ofertas #descuentos #mercadolibre #chile #ofertaschile",
+    o.tienda === "falabella" ? "#ofertas #descuentos #falabella #chile #ofertaschile" : "#ofertas #descuentos #mercadolibre #chile #ofertaschile",
   ].filter((l) => l !== null).join("\n");
 }
 
@@ -116,7 +118,7 @@ footer{text-align:center;opacity:.6;font-size:12px;margin:24px auto 8px;max-widt
 function paginaHistorias(historias, fecha) {
   const items = historias.map((h, i) => `${h.tipo === "popular" && (i === 0 || historias[i - 1].tipo !== "popular") ? `<h2 class="seccion">🔥 Los más vendidos</h2>` : ""}
     <section class="h" id="h${h.n}">
-      <header><b>#${h.n}</b> ${esc(h.titulo)}<br><span>${clp(h.precio)} · ${h.tipo === "popular" ? "🔥 " + esc(h.destacado || "MÁS VENDIDO") : h.descuento_pct + "% OFF"}</span></header>
+      <header><b>#${h.n}</b> ${h.tienda === "falabella" ? "<em>Falabella</em> · " : ""}${esc(h.titulo)}<br><span>${clp(h.precio)} · ${h.tipo === "popular" ? "🔥 " + esc(h.destacado || "MÁS VENDIDO") : h.descuento_pct + "% OFF"}</span></header>
       <img src="${esc(h.imagen)}" alt="Historia ${h.n}" loading="lazy">
       <div class="botones">
         <a class="b" href="${esc(h.imagen)}" download>1. Guardar imagen</a>
@@ -178,13 +180,14 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
     const page = await navegador.newPage();
     for (const o of ofertas) {
       // Cada oferta tiene su historia; las primeras además tienen post.
-      const formatos = o.tipo !== "popular" && o.n <= nPosts ? ["post", "historia"] : ["historia"];
+      // Post: las primeras ofertas de Mercado Libre (hasta posts_por_dia) y todas las de Falabella.
+      const formatos = o.tipo !== "popular" && (o.tienda === "falabella" || o.n <= nPosts) ? ["post", "historia"] : ["historia"];
       for (const formato of formatos) {
         const archivo = `${sello}-${formato}-${dos(o.n)}.jpg`;
         await page.setViewportSize({ width: 1080, height: formato === "post" ? 1350 : 1920 });
         await page.setContent(tarjeta(o, formato), { waitUntil: "networkidle" });
         await page.screenshot({ path: join(img, archivo), type: "jpeg", quality: 90 });
-        const item = { n: o.n, titulo: o.titulo, precio: o.precio, descuento_pct: o.descuento_pct, tipo: o.tipo || "oferta", destacado: o.destacado || null, imagen: `img/${archivo}`, link: o.link };
+        const item = { n: o.n, titulo: o.titulo, precio: o.precio, descuento_pct: o.descuento_pct, tipo: o.tipo || "oferta", tienda: o.tienda || "mercadolibre", destacado: o.destacado || null, imagen: `img/${archivo}`, link: o.link };
         if (formato === "post") plan.posts.push({ ...item, texto: texto(o) });
         else plan.historias.push(item);
       }
@@ -192,6 +195,10 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
   } finally {
     await navegador.close();
   }
+  // Intercala Falabella entre los posts de Mercado Libre (1 cada 4) para que no salgan todos al final.
+  const ml = plan.posts.filter((p) => p.tienda !== "falabella"), fal = plan.posts.filter((p) => p.tienda === "falabella");
+  plan.posts = [];
+  while (ml.length || fal.length) { plan.posts.push(...ml.splice(0, 4)); if (fal.length) plan.posts.push(fal.shift()); }
   writeFileSync(join(salida, "index.html"), pagina(ofertas, fecha));
   writeFileSync(join(salida, "historias.html"), paginaHistorias(plan.historias, fecha));
   writeFileSync(join(salida, "publicaciones.json"), JSON.stringify(plan, null, 2) + "\n");

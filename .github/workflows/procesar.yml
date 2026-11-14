@@ -1,11 +1,12 @@
 name: Procesar ofertas nuevas
 
-# Corre cuando el celular envía una recolección (data/entrada.json).
+# Corre cuando el celular envía una recolección (data/entrada.json de Mercado Libre o data/entrada_falabella.json).
 # Elige las ofertas, dibuja las imágenes y actualiza las páginas.
 on:
   push:
     paths:
       - data/entrada.json
+      - data/entrada_falabella.json
   workflow_dispatch:
 
 permissions:
