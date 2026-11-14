@@ -44,6 +44,7 @@ function tarjeta(o, formato) {
   .libre { height: 260px; display: flex; align-items: center; justify-content: center; }  /* espacio para el link en la historia */
   .link { background: #fff; color: #101b3b; font-size: 60px; font-weight: 800; padding: 26px 54px; border-radius: 999px; }
   .nota { margin-top: 18px; font-size: 26px; opacity: .6; }
+  .cta { margin-top: 26px; background: #ffd400; color: #101b3b; text-align: center; font-size: 46px; font-weight: 900; letter-spacing: 1px; padding: 22px; border-radius: 24px; }
   </style></head><body>
     <div class="arriba"><div class="num">OFERTA #${o.n}</div><div class="tag">Mercado Libre Chile</div></div>
     <div class="foto">
@@ -53,6 +54,7 @@ function tarjeta(o, formato) {
     <h1>${esc(o.titulo)}</h1>
     <div class="precios"><div class="ahora">${clp(o.precio)}</div>${o.precio_anterior ? `<div class="antes">${clp(o.precio_anterior)}</div>` : ""}</div>
     <div class="nota">Precio visto el ${esc(o._fecha)}. Puede cambiar.</div>
+    ${historia ? "" : `<div class="cta">👉 LINK EN LAS HISTORIAS</div>`}
     ${historia ? `<div class="libre">${o._link_visible ? `<div class="link">🔗 ${esc(o.link.replace("https://", ""))}</div>` : ""}</div>` : ""}
   </body></html>`;
 }
