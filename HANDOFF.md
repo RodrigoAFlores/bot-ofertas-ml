@@ -32,7 +32,7 @@
 - publicar.py: `siguiente` publica los carruseles (si la tanda los trae) en vez de los posts sueltos, repartidos en el día (con recolección a las 9: ~9:00, 12:30, 16:00, 19:30). `python3 publicar.py carrusel Moda` publica uno a mano. Probado solo en modo prueba (--probar); la primera subida real a Instagram está SIN comprobar.
 - FALTA: subir a GitHub (push) con permiso de Rodrigo. Hasta entonces sigue el sistema viejo de posts sueltos.
 
-## Borrado de posts antiguos (15-nov, en curso)
+## Borrado de posts antiguos (15-nov)
 - Rodrigo aprobó borrar los 87 posts sueltos (se conserva el carrusel). Lista guardada en data/borrados_2026-11-15.json (id, enlace, texto).
-- El token actual NO tiene el permiso instagram_manage_contents: Instagram responde "(#10) Insufficient permissions". Falta que Rodrigo genere un token temporal con ese permiso (Graph API Explorer) y lo copie; se usa con pbpaste solo para borrar, sin guardarlo.
+- El borrado por API falló: "(#10) Insufficient permissions" (el token no tiene permisos de páginas; 'instagram_manage_contents' no existe en la app). Rodrigo decidió BORRARLOS A MANO desde la app de Instagram. data/publicado.json se deja igual (sirve para no repetir productos).
 - Reel eliminado del flujo (reel.mjs, docs/reels y pasos de los workflows). Primer carrusel publicado el 15-nov: https://www.instagram.com/p/Dfw2El5Iyg5/
