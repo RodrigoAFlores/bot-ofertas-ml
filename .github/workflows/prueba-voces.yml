@@ -1,0 +1,41 @@
+name: Prueba voces
+
+# Prueba temporal: genera la misma frase con varias voces gratuitas para elegir. No publica nada.
+on:
+  workflow_dispatch:
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instalar
+        run: |
+          sudo apt-get update -q > /dev/null || true
+          sudo apt-get install -y -q ffmpeg espeak-ng > /dev/null
+          pip install -q piper-tts
+          pip install -q "kokoro>=0.9" soundfile || echo "Kokoro no se pudo instalar"
+      - name: Generar muestras
+        run: |
+          TXT="¡Hola! Soy Ofertín, y hoy encontré esto en Mercado Libre. Audífonos inalámbricos Sony. Antes costaban 47990 pesos, y hoy están a 29990. ¡Eso es un 38 por ciento menos! El link está en mis historias. ¡Sígueme para más ofertas!"
+          mkdir -p muestras
+          for v in es/es_AR/daniela/high/es_AR-daniela-high es/es_MX/ald/medium/es_MX-ald-medium es/es_MX/claude/high/es_MX-claude-high es/es_ES/sharvard/medium/es_ES-sharvard-medium; do
+            n=$(basename $v)
+            curl -sL -o $n.onnx https://huggingface.co/rhasspy/piper-voices/resolve/main/$v.onnx
+            curl -sL -o $n.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/main/$v.onnx.json
+            echo "$TXT" | piper --model $n.onnx --output_file $n.wav --sentence_silence 0.25 && ffmpeg -v error -y -i $n.wav -b:a 96k muestras/piper-$n.mp3 || echo "falló $n"
+          done
+          python3 - <<'PY' || echo "Kokoro falló"
+          from kokoro import KPipeline
+          import soundfile as sf, numpy as np, subprocess
+          txt = "¡Hola! Soy Ofertín, y hoy encontré esto en Mercado Libre. Audífonos inalámbricos Sony. Antes costaban 47990 pesos, y hoy están a 29990. ¡Eso es un 38 por ciento menos! El link está en mis historias. ¡Sígueme para más ofertas!"
+          p = KPipeline(lang_code="e")
+          for voz in ["ef_dora", "em_alex", "em_santa"]:
+              partes = [a for _, _, a in p(txt, voice=voz)]
+              sf.write(f"{voz}.wav", np.concatenate(partes), 24000)
+              subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", f"{voz}.wav", "-b:a", "96k", f"muestras/kokoro-{voz}.mp3"])
+          PY
+          ls -la muestras
+      - uses: actions/upload-artifact@v4
+        with:
+          name: voces
+          path: muestras/*.mp3
