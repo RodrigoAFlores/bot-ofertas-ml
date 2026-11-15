@@ -33,7 +33,7 @@ function guion(o) {
     `${nombreCorto(o.titulo)}.`,
     o.precio_anterior ? `Antes costaba ${Math.round(o.precio_anterior)} pesos, y hoy está a ${Math.round(o.precio)}.` : `Hoy está a ${Math.round(o.precio)} pesos.`,
     o.descuento_pct ? `¡Eso es un ${o.descuento_pct} por ciento menos!` : null,
-    o.vendidos >= 1000 ? `Y ya lleva más de ${Math.round(o.vendidos / 1000)} mil vendidos.` : o.nota ? `Y tiene ${String(o.nota).replace(".", " coma ")} estrellas.` : null,
+    o.vendidos >= 1000 ? `Y ya lleva más de ${o.vendidos < 2000 ? "" : Math.round(o.vendidos / 1000) + " "}mil vendidos.` : o.nota ? `Y tiene ${String(o.nota).replace(".", " coma ")} estrellas.` : null,
     "El link está en mis historias. ¡Sígueme para más ofertas!",
   ];
   return frases.filter(Boolean);
