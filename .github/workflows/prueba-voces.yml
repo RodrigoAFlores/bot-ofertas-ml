@@ -8,12 +8,15 @@ jobs:
   probar:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Instalar
         run: |
           sudo apt-get update -q > /dev/null || true
           sudo apt-get install -y -q ffmpeg espeak-ng > /dev/null
           pip install -q piper-tts
-          pip install -q "kokoro>=0.9" soundfile || echo "Kokoro no se pudo instalar"
+          pip install -q "kokoro>=0.9" soundfile "misaki[es]" || echo "Kokoro no se pudo instalar"
       - name: Generar muestras
         run: |
           TXT="¡Hola! Soy Ofertín, y hoy encontré esto en Mercado Libre. Audífonos inalámbricos Sony. Antes costaban 47990 pesos, y hoy están a 29990. ¡Eso es un 38 por ciento menos! El link está en mis historias. ¡Sígueme para más ofertas!"
