@@ -9,6 +9,7 @@ import { chromium } from "playwright-core";
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { categoria, CATEGORIAS } from "./categorias.mjs";
 
 const BASE = dirname(fileURLToPath(import.meta.url));
 const arg = (nombre, defecto) => {
@@ -19,6 +20,11 @@ const arg = (nombre, defecto) => {
 const clp = (n) => "$" + Math.round(n).toLocaleString("es-CL");
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const dos = (n) => String(n).padStart(2, "0");
+// Logos de las tiendas, incrustados en el HTML (así no dependen de internet).
+const logo = (archivo) => "data:image/png;base64," + readFileSync(join(BASE, "marcas", archivo)).toString("base64");
+const LOGOS = { mercadolibre: logo("mercadolibre.png"), falabella: logo("falabella.png") };
+const logoTienda = (o) => `<div class="logo ${o.tienda === "falabella" ? "fal" : "ml"}"><img src="${LOGOS[o.tienda === "falabella" ? "falabella" : "mercadolibre"]}" alt=""></div>`;
+
 const vendidosTexto = (v) => (v >= 1000 ? `${Math.round(v / 1000).toLocaleString("es-CL")} mil` : String(v));
 
 function tarjeta(o, formato) {
@@ -29,8 +35,9 @@ function tarjeta(o, formato) {
   body { width: 1080px; height: ${alto}px; background: #101b3b; color: #fff; display: flex; flex-direction: column;
          font-family: -apple-system, "Inter", "Helvetica Neue", Arial, sans-serif; padding: ${historia ? "150px 70px 170px" : "60px"}; }
   .arriba { display: flex; justify-content: space-between; align-items: center; }
-  .num { font-size: 44px; font-weight: 800; background: #ffd400; color: #101b3b; padding: 12px 30px; border-radius: 999px; }
-  .tag { font-size: 34px; font-weight: 600; opacity: .85; }
+  .logo { background: #fff; border-radius: 28px; height: 116px; padding: 10px 30px; display: flex; align-items: center; }
+  .logo img { height: 96px; } .logo.fal img { height: 58px; }
+  .tag { font-size: 34px; font-weight: 700; background: rgba(255,255,255,.12); padding: 14px 30px; border-radius: 999px; }
   .foto { flex: 1; min-height: 0; margin: 40px 0; background: #fff; border-radius: 48px; position: relative;
           display: flex; align-items: center; justify-content: center; padding: 50px; }
   .foto img { max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -51,7 +58,7 @@ function tarjeta(o, formato) {
   .ventas { margin-top: 14px; font-size: 40px; font-weight: 700; color: #ffd400; }
   .cta { margin-top: 26px; background: #ffd400; color: #101b3b; text-align: center; font-size: 46px; font-weight: 900; letter-spacing: 1px; padding: 22px; border-radius: 24px; }
   </style></head><body>
-    <div class="arriba"><div class="num">${o.tipo === "popular" ? "TOP" : "OFERTA"} #${o.n}</div><div class="tag">${o.tienda === "falabella" ? "Falabella" : "Mercado Libre Chile"}</div></div>
+    <div class="arriba">${logoTienda(o)}${o._categoria && o._categoria !== "Otros" ? `<div class="tag">${esc(o._categoria)}</div>` : ""}</div>
     <div class="foto">
       ${o.foto ? `<img src="${esc(o.foto)}">` : ""}
       ${o.descuento_pct ? `<div class="off">${o.descuento_pct}%<small>OFF</small></div>`
@@ -64,6 +71,89 @@ function tarjeta(o, formato) {
     ${historia ? "" : `<div class="cta">👉 LINK EN LAS HISTORIAS</div>`}
     ${historia ? `<div class="libre">${o._link_visible ? `<div class="link">🔗 ${esc(o.link.replace("https://", ""))}</div>` : ""}</div>` : ""}
   </body></html>`;
+}
+
+// Colores y emoji de cada categoría (portada del carrusel y página).
+const ESTILO = {
+  "Tecnología": { color: "#4fd8ff", emoji: "🎧", tags: "#tecnologia #tech #gadgets" },
+  "Cuidado y Belleza": { color: "#ffa8d6", emoji: "💄", tags: "#belleza #skincare #perfumes" },
+  "Moda": { color: "#ffd400", emoji: "👟", tags: "#moda #ropa #zapatillas" },
+  "Entretención": { color: "#8ef5a4", emoji: "🎮", tags: "#entretencion #panoramas #aventura" },
+};
+
+// Garabatos blancos/de color para la portada (dibujados con SVG, sin imágenes de terceros).
+const garabatos = (c) => `
+  <svg class="g g1" viewBox="0 0 120 60"><path d="M5 40 L25 10 L45 40 L65 10 L85 40 L105 10" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="g g2" viewBox="0 0 200 90"><path d="M10 60 C10 10 50 10 50 45 C50 75 20 70 30 45 C40 20 80 15 85 45 C90 75 60 72 70 45 C80 20 120 15 125 45 C130 75 100 72 110 45 C120 20 160 20 165 50" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg>
+  <svg class="g g3" viewBox="0 0 160 90"><path d="M10 20 Q30 0 50 20 T90 20 T130 20 M10 45 Q30 25 50 45 T90 45 T130 45 M10 70 Q30 50 50 70 T90 70 T130 70" fill="none" stroke="${c}" stroke-width="8" stroke-linecap="round"/></svg>
+  <svg class="g g4" viewBox="0 0 100 100"><path d="M50 8 L58 40 L92 50 L58 60 L50 92 L42 60 L8 50 L42 40 Z" fill="${c}"/></svg>
+  <svg class="g g5" viewBox="0 0 100 100"><path d="M50 15 L56 44 L85 50 L56 56 L50 85 L44 56 L15 50 L44 44 Z" fill="#fff"/></svg>`;
+
+function portada(cat, items, fecha) {
+  const { color } = ESTILO[cat];
+  const maxOff = Math.max(0, ...items.map((o) => o.descuento_pct || 0));
+  const tiendas = [...new Set(items.map((o) => (o.tienda === "falabella" ? "falabella" : "mercadolibre")))];
+  // Hasta 3 fotos de productos, como stickers con borde blanco, en posiciones y ángulos fijos.
+  const pos = [
+    { l: 560, t: 610, w: 420, r: 6 }, { l: 90, t: 650, w: 370, r: -7 }, { l: 380, t: 905, w: 290, r: -3 },
+  ];
+  const fotos = items.filter((o) => o.foto).slice(0, 3).map((o, i) => {
+    const p = pos[i];
+    return `<div class="st" style="left:${p.l}px;top:${p.t}px;width:${p.w}px;height:${p.w}px;transform:rotate(${p.r}deg)">
+      <img src="${esc(o.foto)}">${o.descuento_pct ? `<b style="font-size:${Math.round(p.w / 6.5)}px">-${o.descuento_pct}%</b>` : ""}</div>`;
+  });
+  const collage = [fotos[1], fotos[0], fotos[2]].filter(Boolean).join(""); // la tercera queda encima, para que se vea su descuento
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Pacifico&display=block" rel="stylesheet">
+  <style>
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1080px; height: 1350px; position: relative; overflow: hidden; color: #fff;
+         background: radial-gradient(circle at 75% 15%, #2a3a6e 0, #101b3b 55%, #0a1230 100%);
+         font-family: "Fredoka", -apple-system, "Inter", Arial, sans-serif; }
+  .titulo { position: absolute; left: 0; right: 0; top: 90px; text-align: center; transform: rotate(-3deg); }
+  .t1 { font-size: 190px; font-weight: 700; line-height: .95; letter-spacing: 2px; text-shadow: 0 8px 0 rgba(0,0,0,.25); }
+  .t2 { font-family: "Pacifico", cursive; font-size: ${cat.length > 12 ? 92 : 118}px; color: ${color}; line-height: 1.25; margin-top: 6px; text-shadow: 0 6px 0 rgba(0,0,0,.25); }
+  .t3 { font-size: 64px; font-weight: 600; letter-spacing: 6px; margin-top: 4px; }
+  .st { position: absolute; background: #fff; border-radius: 40px; padding: 26px; border: 10px solid #fff;
+        box-shadow: 0 24px 50px rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; }
+  .st img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .st b { position: absolute; top: -22px; right: -22px; background: #e8003d; color: #fff; font-weight: 700; padding: 8px 18px; border-radius: 22px; transform: rotate(8deg); }
+  .g { position: absolute; }
+  .g1 { width: 170px; left: 50px; top: 70px; transform: rotate(-12deg); }
+  .g2 { width: 230px; right: 40px; top: 60px; transform: rotate(10deg); }
+  .g3 { width: 170px; left: 760px; top: 1075px; transform: rotate(-6deg); }
+  .g4 { width: 90px; left: 40px; top: 520px; } .g5 { width: 70px; right: 60px; top: 500px; }
+  .pie { position: absolute; left: 50px; right: 50px; bottom: 44px; display: flex; align-items: center; justify-content: space-between; }
+  .chip { background: #ffd400; color: #101b3b; font-size: 46px; font-weight: 700; padding: 18px 36px; border-radius: 999px; box-shadow: 0 10px 0 rgba(0,0,0,.25); }
+  .marcas { display: flex; gap: 14px; }
+  .marcas div { background: #fff; border-radius: 22px; height: 92px; padding: 8px 20px; display: flex; align-items: center; }
+  .marcas img { height: 76px; } .marcas .fal img { height: 44px; }
+  .fecha { position: absolute; left: 0; right: 0; top: 505px; text-align: center; font-size: 36px; font-weight: 600; opacity: .8; }
+  </style></head><body>
+    ${garabatos(color)}
+    <div class="titulo"><div class="t1">¡OFERTAS</div><div class="t2">de ${esc(cat)}</div><div class="t3">PARA HOY!</div></div>
+    <div class="fecha">${esc(fecha)}${maxOff ? ` · hasta ${maxOff}% OFF` : ""}</div>
+    ${collage}
+    <div class="pie"><div class="chip">Desliza 👉</div>
+      <div class="marcas">${tiendas.map((t) => `<div class="${t === "falabella" ? "fal" : "ml"}"><img src="${LOGOS[t]}"></div>`).join("")}</div></div>
+  </body></html>`;
+}
+
+function textoCarrusel(cat, items, fecha) {
+  const { emoji, tags } = ESTILO[cat];
+  return [
+    `${emoji} Ofertas de ${cat} para hoy (${fecha})`,
+    "",
+    ...items.map((o) => `• ${o.titulo.length > 70 ? o.titulo.slice(0, 67).trimEnd() + "…" : o.titulo} — ${clp(o.precio)}`
+      + (o.descuento_pct ? ` (${o.descuento_pct}% OFF)` : o.tipo === "popular" ? " 🔥 más vendido" : "")
+      + ` · ${o.tienda === "falabella" ? "Falabella" : "Mercado Libre"}`),
+    "",
+    "👉 Los links están en las historias.",
+    "Precios vistos hoy. Pueden cambiar.",
+    "",
+    `#ofertas #descuentos #chile #ofertaschile ${tags}`,
+  ].join("\n");
 }
 
 function texto(o) {
@@ -82,16 +172,18 @@ function texto(o) {
 function pagina(ofertas, fecha) {
   const tarjetas = (lista) => lista.map((o) => `
     <a class="card" href="${esc(o.link)}" rel="nofollow sponsored noopener" target="_blank">
-      <span class="num">#${o.n}</span>
       ${o.descuento_pct ? `<span class="off">${o.descuento_pct}% OFF</span>` : o.tipo === "popular" ? `<span class="off top">🔥 ${esc(o.destacado || "MÁS VENDIDO")}</span>` : ""}
       <img src="${esc(o.foto)}" alt="" loading="lazy">
       <h2>${esc(o.titulo)}</h2>
       <p class="precio">${clp(o.precio)} ${o.precio_anterior ? `<s>${clp(o.precio_anterior)}</s>` : ""}</p>
       <span class="btn">Ver oferta</span>
     </a>`).join("");
-  const conDescuento = ofertas.filter((o) => o.tipo !== "popular");
-  const populares = ofertas.filter((o) => o.tipo === "popular");
-  const items = tarjetas(conDescuento) + (populares.length ? `<h2 class="seccion">🔥 Los más vendidos</h2>${tarjetas(populares)}` : "");
+  // Agrupadas por categoría: primero las con descuento y después los más vendidos de cada una.
+  const orden = (lista) => [...lista.filter((o) => o.tipo !== "popular"), ...lista.filter((o) => o.tipo === "popular")];
+  const items = [...CATEGORIAS, "Otros"].map((cat) => {
+    const lista = orden(ofertas.filter((o) => o._categoria === cat));
+    return lista.length ? `<h2 class="seccion">${cat === "Otros" ? "🛍️ Otras ofertas" : `${ESTILO[cat].emoji} ${cat}`}</h2>${tarjetas(lista)}` : "";
+  }).join("");
   return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Ofertas de hoy</title>
 <style>
@@ -108,7 +200,7 @@ h2{font-size:14px;font-weight:600;margin:8px 0 6px;display:-webkit-box;-webkit-l
 .btn{margin-top:auto;background:#101b3b;color:#fff;text-align:center;border-radius:10px;padding:9px;font-weight:700;font-size:14px}
 footer{text-align:center;opacity:.6;font-size:12px;margin:24px auto 8px;max-width:600px}
 </style></head><body>
-<header><h1>🔥 Ofertas de hoy</h1><p>Actualizado el ${esc(fecha)} · Busca el número que viste en Instagram</p></header>
+<header><h1>🔥 Ofertas de hoy</h1><p>Actualizado el ${esc(fecha)} · Busca el producto que viste en Instagram</p></header>
 <main class="grid">${items || "<p>Hoy no hay ofertas publicadas.</p>"}</main>
 <footer>Los precios pueden cambiar sin aviso.</footer>
 </body></html>`;
@@ -184,7 +276,7 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
   const cuando = new Date(entrada.generado);
   const fecha = cuando.toLocaleDateString("es-CL", { day: "numeric", month: "long", timeZone: "America/Santiago" });
   const sello = cuando.toLocaleDateString("sv-SE", { timeZone: "America/Santiago" }); // 2026-11-09
-  const ofertas = entrada.ofertas.map((o) => ({ ...o, _fecha: fecha, _link_visible: !!cfg.link_en_historia }));
+  const ofertas = entrada.ofertas.map((o) => ({ ...o, _fecha: fecha, _link_visible: !!cfg.link_en_historia, _categoria: categoria(o.titulo) }));
   const nPosts = cfg.posts_por_dia ?? 3;
 
   const img = join(salida, "img");
@@ -192,7 +284,7 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
   mkdirSync(img, { recursive: true });
 
   const navegador = await chromium.launch({ channel: "chrome", headless: true, args: process.env.CI ? ["--no-sandbox"] : [] });
-  const plan = { generado: entrada.generado, base_url: cfg.pagina_url, posts: [], historias: [] };
+  const plan = { generado: entrada.generado, base_url: cfg.pagina_url, posts: [], historias: [], carruseles: [] };
   try {
     const page = await navegador.newPage();
     for (const o of ofertas) {
@@ -209,6 +301,44 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
         if (formato === "post") plan.posts.push({ ...item, texto: texto(o) });
         else plan.historias.push(item);
       }
+    }
+
+    // CARRUSELES: uno por categoría = portada + hasta 9 ofertas (Instagram acepta 10 fotos por carrusel).
+    // Primero las de mayor descuento, alternando Mercado Libre y Falabella; si faltan, se completa con los más vendidos.
+    const MAX = 9, MIN = cfg.min_ofertas_carrusel ?? 3;
+    const porDescuento = (a, b) => (b.descuento_pct || 0) - (a.descuento_pct || 0);
+    for (const cat of CATEGORIAS) {
+      const deCat = ofertas.filter((o) => o._categoria === cat);
+      const ml = deCat.filter((o) => o.tipo !== "popular" && o.tienda !== "falabella").sort(porDescuento);
+      const fal = deCat.filter((o) => o.tipo !== "popular" && o.tienda === "falabella").sort(porDescuento);
+      const elegidas = [];
+      while (ml.length || fal.length) {
+        const sig = [ml[0], fal[0]].filter(Boolean).sort(porDescuento);
+        if (sig.length) elegidas.push(...sig.map((o) => (o === ml[0] ? ml.shift() : fal.shift())));
+      }
+      elegidas.push(...deCat.filter((o) => o.tipo === "popular").sort((a, b) => (b.vendidos || 0) - (a.vendidos || 0)));
+      const items = elegidas.slice(0, MAX);
+      if (items.length < MIN) continue;
+      const clave = cat.normalize("NFD").replace(/[^\w]/g, "").toLowerCase();
+      const slides = [];
+      await page.setViewportSize({ width: 1080, height: 1350 });
+      await page.setContent(portada(cat, items, fecha), { waitUntil: "networkidle" });
+      await page.evaluate(() => document.fonts.ready);
+      const archivoPortada = `${sello}-carrusel-${clave}-portada.jpg`;
+      await page.screenshot({ path: join(img, archivoPortada), type: "jpeg", quality: 90 });
+      for (const o of items) {
+        const yaHecho = plan.posts.find((p) => p.link === o.link);
+        if (yaHecho) { slides.push(yaHecho.imagen); continue; }
+        const archivo = `${sello}-carrusel-${clave}-${String(o.id).replace(/[^\w]/g, "")}.jpg`;
+        await page.setContent(tarjeta(o, "post"), { waitUntil: "networkidle" });
+        await page.screenshot({ path: join(img, archivo), type: "jpeg", quality: 90 });
+        slides.push(`img/${archivo}`);
+      }
+      plan.carruseles.push({
+        categoria: cat, portada: `img/${archivoPortada}`, imagenes: [`img/${archivoPortada}`, ...slides],
+        ofertas: items.map((o) => ({ titulo: o.titulo, precio: o.precio, descuento_pct: o.descuento_pct, tienda: o.tienda || "mercadolibre", link: o.link })),
+        texto: textoCarrusel(cat, items, fecha),
+      });
     }
   } finally {
     await navegador.close();
@@ -227,5 +357,5 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const plan = await generar({ datos: arg("--datos"), salida: arg("--salida") });
-  console.log(`✅ ${plan.posts.length} posts y ${plan.historias.length} historias generados`);
+  console.log(`✅ ${plan.posts.length} posts, ${plan.historias.length} historias y ${plan.carruseles.length} carruseles (${plan.carruseles.map((c) => `${c.categoria}: ${c.imagenes.length - 1}`).join(", ")})`);
 }

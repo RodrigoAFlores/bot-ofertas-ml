@@ -22,3 +22,10 @@
 ## Falabella (14-nov)
 - Integrada y subida. Rutina: después de recolectar Mercado Libre, abrir creators.falabella.com en el celular → marcador "Recolectar Falabella" → Enviar al bot.
 - Probado en Chrome de escritorio hasta la página de envío (10 links reales correctos). Falta: crear el marcador en el iPhone y el primer envío real.
+
+## Carruseles por categoría (15-nov)
+- Hecho (commit local, SIN subir a GitHub): posts e historias sin número ("OFERTA #n" se quitó), con el logo de Mercado Libre o Falabella arriba a la izquierda y la categoría arriba a la derecha.
+- categorias.mjs clasifica por palabras del título: Tecnología · Cuidado y Belleza · Moda · Entretención (lo demás = "Otros", no va a carrusel). Probar con `node categorias.mjs`.
+- imagenes.mjs arma un carrusel por categoría: portada (estilo stickers con garabatos, fuentes Fredoka + Pacifico de Google Fonts) + hasta 9 ofertas, ordenadas por descuento alternando tiendas y completadas con "más vendidos". Quedan en publicaciones.json → "carruseles" (imagenes, texto del caption, links). Logos en marcas/.
+- Probado en el Mac con las ofertas del 15-nov: 4 carruseles (Tecnología 9, Belleza 6, Moda 9, Entretención 5).
+- FALTA: publicar.py todavía publica posts sueltos; hay que agregar la publicación de carruseles (API: un contenedor por imagen con is_carousel_item, luego media_type=CAROUSEL) y decidir cuáles 3 de las 4 categorías salen y a qué hora.
