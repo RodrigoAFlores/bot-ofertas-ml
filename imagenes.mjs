@@ -213,10 +213,11 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
   } finally {
     await navegador.close();
   }
-  // Intercala Falabella entre los posts de Mercado Libre (1 cada 4) para que no salgan todos al final.
+  // Intercala las tiendas en proporción (con 20 y 20: una y una) para que no salgan todas juntas.
   const ml = plan.posts.filter((p) => p.tienda !== "falabella"), fal = plan.posts.filter((p) => p.tienda === "falabella");
   plan.posts = [];
-  while (ml.length || fal.length) { plan.posts.push(...ml.splice(0, 4)); if (fal.length) plan.posts.push(fal.shift()); }
+  const cada = fal.length ? Math.max(1, Math.round(ml.length / fal.length)) : 1;
+  while (ml.length || fal.length) { plan.posts.push(...ml.splice(0, cada)); if (fal.length) plan.posts.push(fal.shift()); }
   writeFileSync(join(salida, "index.html"), pagina(ofertas, fecha));
   plan.version = historiasVersion(plan.historias);
   writeFileSync(join(salida, "historias.html"), paginaHistorias(plan.historias, fecha, plan.version));

@@ -31,8 +31,8 @@ BUSQUEDAS = FAL.get("busquedas", [
     "audifonos", "smart tv", "notebook", "celular", "freidora de aire", "aspiradora", "cafetera",
     "zapatillas", "perfume", "colchon", "juguetes", "maquillaje", "parlante bluetooth", "smartwatch",
 ])
-DESCUENTO_MINIMO = FAL.get("descuento_minimo", 25)
-CANDIDATAS = FAL.get("candidatas", 15)          # se crean links para hasta este número (algunas pueden fallar)
+DESCUENTO_MINIMO = FAL.get("descuento_minimo", 20)
+CANDIDATAS = FAL.get("candidatas", 26)          # se crean links para hasta este número (algunas pueden fallar)
 MAX_POR_BUSQUEDA = FAL.get("max_por_busqueda", 2)  # variedad: no más de 2 colchones, 2 perfumes, etc.
 NOTA_MINIMA_MARKETPLACE = 4.0                   # regla de Creators: vendedores de marketplace con 4-5 estrellas
 VENDEDORES_EXCLUIDOS = re.compile(r"sodimac|tottus", re.I)  # no comisionan
@@ -101,7 +101,9 @@ def convertir(r):
         "nota": round(nota, 1) if nota else None,
         "resenas": resenas,
         "foto": foto,
-        "puntaje": round(descuento * (1 + math.log10(resenas + 1)) * ((nota or 4) / 5), 1),
+        # Prioriza lo que más se vende: reseñas (señal de ventas) pesan más y "más vendido" suma 50%.
+        "mas_vendido": bool(r.get("isBestSeller")),
+        "puntaje": round(descuento * (1 + math.log10(resenas + 1)) ** 1.5 * ((nota or 4) / 5) * (1.5 if r.get("isBestSeller") else 1), 1),
     }
 
 

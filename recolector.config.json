@@ -2,7 +2,7 @@
   "etiqueta": "flro3183825",
   "ventana_visible": false,
   "descuento_minimo": 20,
-  "max_ofertas": 40,
+  "max_ofertas": 20,
   "paginas_por_consulta": 8,
   "consultas": [
     {
@@ -21,6 +21,6 @@
       ]
     }
   ],
-  "posts_por_dia": 40,
+  "posts_por_dia": 20,
   "pagina_url": "https://rodrigoaflores.github.io/bot-ofertas-ml"
 }

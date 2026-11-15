@@ -2,7 +2,7 @@
 // Lo carga el marcador "Recolectar". Elige ofertas sin repetir, crea los links y manda todo a recibir.html.
 (async () => {
   const BASE = "https://rodrigoaflores.github.io/bot-ofertas-ml/";
-  const CFG = { etiqueta: "flro3183825", descuento_minimo: 20, max_ofertas: 40, max_populares: 10, paginas: 8,
+  const CFG = { etiqueta: "flro3183825", descuento_minimo: 20, max_ofertas: 20, max_populares: 0, paginas: 8,
     paginas_categoria: 3,   // páginas de 18 productos por cada categoría
     max_por_grupo: 4,       // máximo de ofertas de una misma categoría, para que haya variedad
     consultas: [{ nombre: "Para ti", filtros: [] }, { nombre: "Más vendidos", filtros: [{ id: "best_seller", value: true }] }],
@@ -64,7 +64,8 @@
     };
     // La nota solo vale si es de 0 a 5: sin estrellas, la primera etiqueta es la de ventas.
     const notaValida = (x) => { const n = parseFloat(String(x || "").replace(",", ".")); return n > 0 && n <= 5 ? n : null; };
-    const puntaje = (o) => o.descuento_pct * (1 + o.comision_pct / 10) * Math.log10(o.vendidos + 10);
+    // Prioriza lo que más se vende y lo más buscado: ventas pesan más y la etiqueta MÁS VENDIDO/BUSCADO suma 50%.
+    const puntaje = (o) => o.descuento_pct * (1 + o.comision_pct / 10) * Math.pow(Math.log10(o.vendidos + 10), 1.5) * (o.destacado ? 1.5 : 1);
 
     decir("leyendo el historial…");
     let HIST = {};

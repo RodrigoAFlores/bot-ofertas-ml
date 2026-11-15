@@ -5,7 +5,7 @@
 (async () => {
   const BASE = "https://rodrigoaflores.github.io/bot-ofertas-ml/";
   const GENERADOR = "https://creators.falabella.com/publisher/campaign/16240/deeplink_generator";
-  const MAXIMO = 10;    // ofertas de Falabella por día
+  const MAXIMO = 20;    // ofertas de Falabella por día
   const POR_TANDA = 5;  // URLs por envío al generador
 
   if (window.__botFalabella) return;

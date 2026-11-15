@@ -20,9 +20,9 @@ HISTORIAL = BASE / "data" / "historial.json"
 HISTORIAL_PUBLICO = BASE / "docs" / "historial.json"
 FAL_ENTRADA = BASE / "data" / "entrada_falabella.json"   # lo que manda el marcador de Falabella
 FAL_OFERTAS = BASE / "data" / "falabella_ofertas.json"   # Falabella ya procesado (para no repetir el trabajo)
-MAX_FALABELLA = 10
-MAX_OFERTAS = 40      # ofertas con descuento (las primeras también van como post)
-MAX_POPULARES = 10    # más vendidos / más buscados sin descuento (solo historias)
+MAX_FALABELLA = 20
+MAX_OFERTAS = 20      # ofertas de Mercado Libre con descuento (todas van como post e historia)
+MAX_POPULARES = 0     # más vendidos sin descuento (solo historias); apagado desde el 15-nov
 
 
 def familia(titulo):
