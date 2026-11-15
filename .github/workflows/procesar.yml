@@ -28,14 +28,12 @@ jobs:
         run: |
           npm ci --no-audit --no-fund
           sudo apt-get update -q > /dev/null || true
-          sudo apt-get install -y -q ffmpeg fonts-inter > /dev/null || echo "Faltó instalar algo, sigo igual"
+          sudo apt-get install -y -q fonts-inter > /dev/null || echo "Faltó instalar algo, sigo igual"
 
       - name: Elegir las ofertas del día
         run: python3 procesar_entrada.py
       - name: Dibujar imágenes y páginas
         run: node imagenes.mjs
-      - name: Armar el reel del día
-        run: node reel.mjs || echo "Hoy no se pudo armar el reel, sigo igual"
       - name: Guardar y publicar
         run: |
           git config user.name "bot-ofertas"

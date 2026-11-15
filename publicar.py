@@ -6,7 +6,6 @@
     python3 publicar.py siguiente     → publica el próximo carrusel pendiente (o post suelto, si la tanda no
                                         tiene carruseles) repartidos en el día (--probar solo lo muestra)
     python3 publicar.py carrusel Moda → publica el carrusel de esa categoría ya
-    python3 publicar.py reel          → publica el reel del día, una vez, desde las 12:00 (--probar solo lo muestra)
 
 El token se lee de la variable IG_TOKEN (en GitHub) o de ~/.config/bot-ofertas-ml/ig_token (en el Mac).
 Nunca se imprime. Lo publicado queda anotado en data/publicado.json para no repetirlo.
@@ -150,52 +149,6 @@ def carrusel(categoria):
     print(f"✅ Carrusel de {c['categoria']} publicado ({len(hijos)} fotos): {enlace or media}")
 
 
-REEL = BASE / "docs" / "reel.json"
-HORA_REEL = int(os.environ.get("HORA_REEL", 12))   # el reel del día sale desde esta hora de Chile
-
-
-def reel(probar=False):
-    """Publica una vez al día el reel "Top 5 ofertas de hoy" (docs/reel.json), desde las 12:00 de Chile."""
-    if not REEL.exists():
-        print("Todavía no hay reel.")
-        return
-    datos = json.loads(REEL.read_text())
-    ahora = datetime.now(timezone.utc)
-    hora_chile = ahora.astimezone(CHILE)
-    if datos.get("fecha") != hora_chile.strftime("%Y-%m-%d"):
-        print("El reel no es de hoy: falta recolectar.")
-        return
-    if not HORA_REEL <= hora_chile.hour < HORA_FIN:
-        print(f"Son las {hora_chile:%H:%M}: el reel sale desde las {HORA_REEL}:00.")
-        return
-    registro = json.loads(REGISTRO.read_text()) if REGISTRO.exists() else []
-    if any(r.get("tipo") == "reel" and r.get("imagen") == datos["video"] for r in registro):
-        print("El reel de hoy ya se publicó.")
-        return
-    plan = json.loads(PLAN.read_text())
-    if probar:
-        print(f"Prueba: publicaría {plan['base_url']}/{datos['video']}")
-        return
-
-    contenedor = llamar("POST", f"{IG_USER_ID}/media", media_type="REELS", share_to_feed="true",
-                        video_url=f"{plan['base_url']}/{datos['video']}", caption=datos["texto"])["id"]
-    for _ in range(36):  # un video tarda más que una imagen: hasta 6 minutos
-        estado = llamar("GET", contenedor, fields="status_code").get("status_code")
-        if estado == "FINISHED":
-            break
-        if estado == "ERROR":
-            sys.exit("Instagram no pudo procesar el video.")
-        time.sleep(10)
-    else:
-        sys.exit("Instagram no terminó de procesar el video a tiempo. Se reintenta en la próxima vuelta.")
-    media = llamar("POST", f"{IG_USER_ID}/media_publish", creation_id=contenedor)["id"]
-    enlace = llamar("GET", media, fields="permalink").get("permalink", "")
-    registro.append({"tipo": "reel", "n": 0, "titulo": "Top 5 ofertas de hoy", "imagen": datos["video"],
-                     "media_id": media, "enlace": enlace, "fecha": ahora.isoformat(timespec="seconds")})
-    REGISTRO.write_text(json.dumps(registro, ensure_ascii=False, indent=2) + "\n")
-    print(f"✅ Reel publicado: {enlace or media}")
-
-
 def normalizar(texto):
     return " ".join(str(texto).lower().split())[:60]
 
@@ -257,9 +210,6 @@ def siguiente(probar=False):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) >= 2 and sys.argv[1] == "reel":
-        reel(probar="--probar" in sys.argv)
-        sys.exit(0)
     if len(sys.argv) >= 3 and sys.argv[1] == "carrusel":
         carrusel(" ".join(sys.argv[2:]))
         sys.exit(0)
