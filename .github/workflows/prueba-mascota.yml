@@ -1,0 +1,37 @@
+name: Prueba mascota
+
+# Prueba temporal: arma el video de Ofertín con la mejor oferta actual y lo deja para descargar. No publica nada.
+on:
+  workflow_dispatch:
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar lo necesario
+        run: |
+          npm ci --no-audit --no-fund
+          sudo apt-get update -q > /dev/null || true
+          sudo apt-get install -y -q ffmpeg fonts-inter > /dev/null
+          pip install -q piper-tts
+          mkdir -p voz
+          curl -sL -o voz/es_MX-claude-high.onnx https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/claude/high/es_MX-claude-high.onnx
+          curl -sL -o voz/es_MX-claude-high.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/claude/high/es_MX-claude-high.onnx.json
+      - name: Armar el video de Ofertín
+        run: node mascota.mjs
+      - name: Sacar 3 cuadros para revisar
+        run: |
+          V=$(ls docs/mascota/*.mp4 | head -1)
+          ffprobe -v error -show_entries format=duration -of compact "$V"
+          for s in 1 5 9; do ffmpeg -v error -ss $s -i "$V" -frames:v 1 -vf scale=360:-1 "cuadro-$s.png"; done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mascota-prueba
+          path: |
+            docs/mascota/*.mp4
+            docs/mascota.json
+            cuadro-*.png
