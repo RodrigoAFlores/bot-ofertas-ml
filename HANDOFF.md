@@ -36,3 +36,6 @@
 - Rodrigo aprobó borrar los 87 posts sueltos (se conserva el carrusel). Lista guardada en data/borrados_2026-11-15.json (id, enlace, texto).
 - El borrado por API falló: "(#10) Insufficient permissions" (el token no tiene permisos de páginas; 'instagram_manage_contents' no existe en la app). Rodrigo decidió BORRARLOS A MANO desde la app de Instagram. data/publicado.json se deja igual (sirve para no repetir productos).
 - Reel eliminado del flujo (reel.mjs, docs/reels y pasos de los workflows). Primer carrusel publicado el 15-nov: https://www.instagram.com/p/Dfw2El5Iyg5/
+
+## Historias por categoría (15-nov, subido)
+- docs/historias.html ahora agrupa las historias por categoría (Tecnología → Belleza → Moda → Entretención → Otras), con índice arriba y título fijo por grupo. Dentro de cada grupo: primero con descuento, luego más vendidos. Cada historia en publicaciones.json trae "categoria". Comprobado en la página publicada.
