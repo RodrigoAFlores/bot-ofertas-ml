@@ -2,7 +2,7 @@
 // Lo carga el marcador "Recolectar". Elige ofertas sin repetir, crea los links y manda todo a recibir.html.
 (async () => {
   const BASE = "https://rodrigoaflores.github.io/bot-ofertas-ml/";
-  const CFG = { etiqueta: "flro3183825", descuento_minimo: 20, max_ofertas: 20, max_populares: 0, paginas: 8,
+  const CFG = { etiqueta: "flro3183825", descuento_minimo: 20, max_ofertas: 20, max_populares: 10, paginas: 8,
     paginas_categoria: 3,   // páginas de 18 productos por cada categoría
     max_por_grupo: 4,       // máximo de ofertas de una misma categoría, para que haya variedad
     consultas: [{ nombre: "Para ti", filtros: [] }, { nombre: "Más vendidos", filtros: [{ id: "best_seller", value: true }] }],

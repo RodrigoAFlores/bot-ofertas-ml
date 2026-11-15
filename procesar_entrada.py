@@ -22,7 +22,7 @@ FAL_ENTRADA = BASE / "data" / "entrada_falabella.json"   # lo que manda el marca
 FAL_OFERTAS = BASE / "data" / "falabella_ofertas.json"   # Falabella ya procesado (para no repetir el trabajo)
 MAX_FALABELLA = 20
 MAX_OFERTAS = 20      # ofertas de Mercado Libre con descuento (todas van como post e historia)
-MAX_POPULARES = 0     # más vendidos sin descuento (solo historias); apagado desde el 15-nov
+MAX_POPULARES = 10    # más vendidos / más buscados sin descuento (solo historias, "TOP #")
 
 
 def familia(titulo):
