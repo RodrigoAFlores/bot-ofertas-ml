@@ -23,9 +23,9 @@
     }
     decir("leyendo las ofertas que eligió el bot…");
     const cand = await (await fetch(BASE + "falabella_candidatas.json?" + Date.now())).json();
-    const horas = (Date.now() - new Date(cand.generado).getTime()) / 36e5;
+    const hoy = new Date().toLocaleDateString("sv-SE", { timeZone: "America/Santiago" });
+    if (cand.fecha !== hoy) return fallar("las ofertas de Falabella de hoy todavía no están listas. Prueba de nuevo en 15 minutos.");
     if (!(cand.candidatas || []).length) return fallar("hoy no hay ofertas nuevas de Falabella.");
-    if (horas > 36) return fallar("las ofertas de Falabella tienen más de un día. Espera unos minutos a que el bot las actualice.");
 
     decir("abriendo el generador de links…");
     const pagina = await (await fetch(GENERADOR, { credentials: "include" })).text();

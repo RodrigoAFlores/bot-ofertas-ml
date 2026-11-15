@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main   # siempre lo último: si llegan dos envíos seguidos, el segundo parte del resultado del primero
       - uses: actions/setup-node@v4
         with:
           node-version: 22

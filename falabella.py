@@ -38,6 +38,22 @@ NOTA_MINIMA_MARKETPLACE = 4.0                   # regla de Creators: vendedores 
 VENDEDORES_EXCLUIDOS = re.compile(r"sodimac|tottus", re.I)  # no comisionan
 
 
+def familia(titulo):
+    """Huella de un producto para detectar variantes: 3 primeras palabras con letras (sin números ni plurales).
+    'Colchón Ortopedic 1.5 Plazas' y 'Colchón Ortopedic 1 Plaza' dan lo mismo: 'colchon ortopedic plaza'."""
+    import unicodedata
+    texto = unicodedata.normalize("NFKD", str(titulo).lower()).encode("ascii", "ignore").decode()
+    palabras = [re.sub(r"s$", "", p) for p in re.findall(r"[a-z]{3,}", texto)]
+    return " ".join(palabras[:3])
+
+
+def familias_recientes(historial, dias=14):
+    """Familias de productos de Falabella que ya salieron en los últimos días."""
+    from datetime import date, timedelta
+    limite = (date.today() - timedelta(days=dias)).isoformat()
+    return {familia(v.get("titulo", "")) for k, v in historial.items() if k.startswith("FAL") and v.get("fecha", "") >= limite}
+
+
 def precio(texto):
     return int(re.sub(r"\D", "", texto or "") or 0)
 
@@ -112,11 +128,11 @@ def main():
          and (o["id"] not in historial or o["precio"] < historial[o["id"]]["precio"])),
         key=lambda o: o["puntaje"], reverse=True,
     )
-    # Variedad: máximo MAX_POR_BUSQUEDA por búsqueda y nada de variantes del mismo producto
-    # (mismas 3 primeras palabras del nombre, por ejemplo "Colchón Ortopedic 1.5").
-    elegidas, por_busqueda, parecidos = [], {}, set()
+    # Variedad: máximo MAX_POR_BUSQUEDA por búsqueda y nada de variantes del mismo producto.
+    # Además: nada que sea variante de algo que ya salió en los últimos 14 días (otro color, otra talla).
+    elegidas, por_busqueda, parecidos = [], {}, familias_recientes(historial)
     for o in ordenadas:
-        parecido = " ".join(o["titulo"].lower().split()[:3])
+        parecido = familia(o["titulo"])
         if parecido in parecidos or por_busqueda.get(o["busqueda"], 0) >= MAX_POR_BUSQUEDA:
             continue
         elegidas.append(o)

@@ -25,6 +25,22 @@ MAX_OFERTAS = 40      # ofertas con descuento (las primeras también van como po
 MAX_POPULARES = 10    # más vendidos / más buscados sin descuento (solo historias)
 
 
+def familia(titulo):
+    """Huella de un producto para detectar variantes: 3 primeras palabras con letras (sin números ni plurales).
+    'Colchón Ortopedic 1.5 Plazas' y 'Colchón Ortopedic 1 Plaza' dan lo mismo: 'colchon ortopedic plaza'."""
+    import unicodedata
+    texto = unicodedata.normalize("NFKD", str(titulo).lower()).encode("ascii", "ignore").decode()
+    palabras = [re.sub(r"s$", "", p) for p in re.findall(r"[a-z]{3,}", texto)]
+    return " ".join(palabras[:3])
+
+
+def familias_recientes(historial, dias=14):
+    """Familias de productos de Falabella que ya salieron en los últimos días."""
+    from datetime import date, timedelta
+    limite = (date.today() - timedelta(days=dias)).isoformat()
+    return {familia(v.get("titulo", "")) for k, v in historial.items() if k.startswith("FAL") and v.get("fecha", "") >= limite}
+
+
 def leer(ruta, defecto):
     return json.loads(ruta.read_text()) if ruta.exists() else defecto
 
@@ -77,8 +93,10 @@ def procesar_mercadolibre(entrada, historial):
 
 
 def procesar_falabella(entrada, historial):
-    """Valida el envío de Falabella (links ya creados en el panel) y aplica la regla de no repetir."""
+    """Valida el envío de Falabella (links ya creados en el panel) y aplica la regla de no repetir,
+    también para variantes del mismo producto (otra talla, otro color) que ya salieron."""
     ofertas = []
+    vistas = familias_recientes(historial)
     for o in entrada.get("ofertas", []):
         try:
             precio, antes = int(o["precio"]), int(o.get("precio_anterior") or 0)
@@ -95,6 +113,9 @@ def procesar_falabella(entrada, historial):
         previo = historial.get(o["id"])
         if previo and precio >= previo["precio"]:
             continue
+        if not previo and familia(o["titulo"]) in vistas:
+            continue  # variante de algo que ya salió
+        vistas.add(familia(o["titulo"]))
         nota = o.get("nota")
         ofertas.append({
             "id": o["id"],
