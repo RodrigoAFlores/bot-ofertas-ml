@@ -39,3 +39,7 @@
 
 ## Historias por categoría (15-nov, subido)
 - docs/historias.html ahora agrupa las historias por categoría (Tecnología → Belleza → Moda → Entretención → Otras), con índice arriba y título fijo por grupo. Dentro de cada grupo: primero con descuento, luego más vendidos. Cada historia en publicaciones.json trae "categoria". Comprobado en la página publicada.
+
+## Historias programadas con link (15-nov, en pausa)
+- Idea: programar las historias con sticker de link desde Meta Business Suite (Claude lo haría desde el Chrome de Rodrigo). La API de Instagram no tiene borradores ni sticker de link.
+- Bloqueo: @ofertas_punto_cl no está conectado a ninguna página de Facebook en Business Suite (páginas: Ferretería Horizont y Jajs). Al intentar conectarlo, Meta le mostró a Rodrigo "acceso restringido". Rodrigo decidió dejarlo así por ahora; las historias se siguen subiendo a mano desde historias.html.
