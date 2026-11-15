@@ -28,4 +28,6 @@
 - categorias.mjs clasifica por palabras del título: Tecnología · Cuidado y Belleza · Moda · Entretención (lo demás = "Otros", no va a carrusel). Probar con `node categorias.mjs`.
 - imagenes.mjs arma un carrusel por categoría: portada (estilo stickers con garabatos, fuentes Fredoka + Pacifico de Google Fonts) + hasta 9 ofertas, ordenadas por descuento alternando tiendas y completadas con "más vendidos". Quedan en publicaciones.json → "carruseles" (imagenes, texto del caption, links). Logos en marcas/.
 - Probado en el Mac con las ofertas del 15-nov: 4 carruseles (Tecnología 9, Belleza 6, Moda 9, Entretención 5).
-- FALTA: publicar.py todavía publica posts sueltos; hay que agregar la publicación de carruseles (API: un contenedor por imagen con is_carousel_item, luego media_type=CAROUSEL) y decidir cuáles 3 de las 4 categorías salen y a qué hora.
+- Rodrigo eligió publicar LAS 4 categorías cada día.
+- publicar.py: `siguiente` publica los carruseles (si la tanda los trae) en vez de los posts sueltos, repartidos en el día (con recolección a las 9: ~9:00, 12:30, 16:00, 19:30). `python3 publicar.py carrusel Moda` publica uno a mano. Probado solo en modo prueba (--probar); la primera subida real a Instagram está SIN comprobar.
+- FALTA: subir a GitHub (push) con permiso de Rodrigo. Hasta entonces sigue el sistema viejo de posts sueltos.

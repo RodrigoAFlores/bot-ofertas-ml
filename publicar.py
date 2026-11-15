@@ -3,7 +3,9 @@
 
     python3 publicar.py post 1        → publica el post de la oferta #1
     python3 publicar.py historia 4    → publica la historia de la oferta #4
-    python3 publicar.py siguiente     → publica el próximo post pendiente (--probar solo lo muestra)
+    python3 publicar.py siguiente     → publica el próximo carrusel pendiente (o post suelto, si la tanda no
+                                        tiene carruseles) repartidos en el día (--probar solo lo muestra)
+    python3 publicar.py carrusel Moda → publica el carrusel de esa categoría ya
     python3 publicar.py reel          → publica el reel del día, una vez, desde las 12:00 (--probar solo lo muestra)
 
 El token se lee de la variable IG_TOKEN (en GitHub) o de ~/.config/bot-ofertas-ml/ig_token (en el Mac).
@@ -102,6 +104,52 @@ def publicar(tipo, n):
     print(f"✅ {tipo} #{n} publicado: {enlace or media}")
 
 
+def esperar(contenedor, que="la imagen"):
+    """Espera a que Instagram termine de procesar un contenedor."""
+    for _ in range(20):
+        estado = llamar("GET", contenedor, fields="status_code").get("status_code")
+        if estado == "FINISHED":
+            return
+        if estado == "ERROR":
+            sys.exit(f"Instagram no pudo procesar {que}.")
+        time.sleep(3)
+    sys.exit(f"Instagram no terminó de procesar {que} a tiempo. Se reintenta en la próxima vuelta.")
+
+
+def titulo_carrusel(plan, c):
+    return f"Carrusel {c['categoria']} {plan['generado'][:10]}"
+
+
+def carrusel(categoria):
+    """Publica el carrusel de una categoría: portada + ofertas (máximo 10 fotos, regla de Instagram)."""
+    plan = json.loads(PLAN.read_text())
+    c = next((x for x in plan.get("carruseles", []) if x["categoria"].lower() == categoria.lower()), None)
+    if not c:
+        sys.exit(f"No hay carrusel de '{categoria}' en la tanda de hoy.")
+    registro = json.loads(REGISTRO.read_text()) if REGISTRO.exists() else []
+    if any(r["imagen"] == c["portada"] for r in registro):
+        sys.exit("Ese carrusel ya se publicó antes. No lo repito.")
+
+    hijos = []
+    for imagen in c["imagenes"][:10]:
+        hijo = llamar("POST", f"{IG_USER_ID}/media", image_url=f"{plan['base_url']}/{imagen}", is_carousel_item="true")["id"]
+        esperar(hijo)
+        hijos.append(hijo)
+    contenedor = llamar("POST", f"{IG_USER_ID}/media", media_type="CAROUSEL", children=",".join(hijos), caption=c["texto"])["id"]
+    esperar(contenedor, "el carrusel")
+    media = llamar("POST", f"{IG_USER_ID}/media_publish", creation_id=contenedor)["id"]
+    enlace = llamar("GET", media, fields="permalink").get("permalink", "")
+
+    registro.append({
+        "tipo": "carrusel", "n": 0, "titulo": titulo_carrusel(plan, c), "imagen": c["portada"],
+        "fotos": len(hijos), "media_id": media, "enlace": enlace,
+        "fecha": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    })
+    REGISTRO.parent.mkdir(exist_ok=True)
+    REGISTRO.write_text(json.dumps(registro, ensure_ascii=False, indent=2) + "\n")
+    print(f"✅ Carrusel de {c['categoria']} publicado ({len(hijos)} fotos): {enlace or media}")
+
+
 REEL = BASE / "docs" / "reel.json"
 HORA_REEL = int(os.environ.get("HORA_REEL", 12))   # el reel del día sale desde esta hora de Chile
 
@@ -170,10 +218,16 @@ def siguiente(probar=False):
     limite = ahora - timedelta(days=DIAS_SIN_REPETIR)
     recientes = {normalizar(r["titulo"]) for r in registro
                  if r.get("fecha") and datetime.fromisoformat(r["fecha"]) >= limite}
-    pendientes = [p for p in plan["posts"]
-                  if p["imagen"] not in hechas and normalizar(p["titulo"]) not in recientes]
+    # Si la tanda trae carruseles (uno por categoría), se publican esos y no los posts sueltos.
+    carruseles = plan.get("carruseles") or []
+    if carruseles:
+        pendientes = [{**c, "titulo": titulo_carrusel(plan, c), "imagen": c["portada"]}
+                      for c in carruseles if c["portada"] not in hechas]
+    else:
+        pendientes = [p for p in plan["posts"]
+                      if p["imagen"] not in hechas and normalizar(p["titulo"]) not in recientes]
     if not pendientes:
-        print("No quedan posts nuevos por publicar hoy.")
+        print("No quedan publicaciones nuevas por hacer hoy.")
         return
 
     # Reparte los posts que quedan en lo que queda del día: espacio = minutos restantes / posts pendientes.
@@ -193,14 +247,21 @@ def siguiente(probar=False):
             return
     pendiente = pendientes[0]
     if probar:
-        print(f"Prueba: el siguiente sería el post #{pendiente['n']}: {pendiente['titulo']}")
+        cual = f"el carrusel de {pendiente['categoria']}" if carruseles else f"el post #{pendiente['n']}"
+        print(f"Prueba: tocaría publicar {cual}: {pendiente['titulo']} ({len(pendientes)} pendientes, uno cada {espacio:.0f} min)")
         return
-    publicar("post", pendiente["n"])
+    if carruseles:
+        carrusel(pendiente["categoria"])
+    else:
+        publicar("post", pendiente["n"])
 
 
 if __name__ == "__main__":
     if len(sys.argv) >= 2 and sys.argv[1] == "reel":
         reel(probar="--probar" in sys.argv)
+        sys.exit(0)
+    if len(sys.argv) >= 3 and sys.argv[1] == "carrusel":
+        carrusel(" ".join(sys.argv[2:]))
         sys.exit(0)
     if len(sys.argv) >= 2 and sys.argv[1] == "siguiente":
         siguiente(probar="--probar" in sys.argv)
