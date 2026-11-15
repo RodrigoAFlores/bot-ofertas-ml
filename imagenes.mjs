@@ -208,7 +208,10 @@ footer{text-align:center;opacity:.6;font-size:12px;margin:24px auto 8px;max-widt
 
 // Página para el celular: cada historia con su imagen y su link listo para copiar.
 function paginaHistorias(historias, fecha, version) {
-  const items = historias.map((h, i) => `${h.tipo === "popular" && (i === 0 || historias[i - 1].tipo !== "popular") ? `<h2 class="seccion">🔥 Los más vendidos</h2>` : ""}
+  // Agrupadas por categoría (en el mismo orden que los carruseles), con un título y contador por grupo.
+  const cuantas = (cat) => historias.filter((h) => h.categoria === cat).length;
+  const items = historias.map((h, i) => `${i === 0 || historias[i - 1].categoria !== h.categoria
+      ? `<h2 class="seccion" id="cat-${h.categoria.normalize("NFD").replace(/[^\w]/g, "")}">${h.categoria === "Otros" ? "🛍️ Otras ofertas" : `${ESTILO[h.categoria].emoji} ${esc(h.categoria)}`} <small>(${cuantas(h.categoria)})</small></h2>` : ""}
     <section class="h" id="h${h.n}">
       <header><b>#${h.n}</b> ${h.tienda === "falabella" ? "<em>Falabella</em> · " : ""}${esc(h.titulo)}<br><span>${clp(h.precio)} · ${h.tipo === "popular" ? "🔥 " + esc(h.destacado || "MÁS VENDIDO") : h.descuento_pct + "% OFF"}</span></header>
       <img src="${esc(h.imagen)}" alt="Historia ${h.n}" loading="lazy">
@@ -228,10 +231,12 @@ h1{font-size:22px;margin:8px 0 4px} .ayuda{opacity:.75;font-size:14px;margin:0 0
 .h img{width:100%;border-radius:12px;display:block}
 .botones{display:flex;gap:10px;margin:12px 0 10px}
 .b{flex:1;background:#ffd400;color:#101b3b;border:0;border-radius:12px;padding:14px 8px;font-size:15px;font-weight:800;text-align:center;text-decoration:none;font-family:inherit}
-.b.ok{background:#3ddc84} label{font-size:14px;opacity:.85} .seccion{font-size:20px;margin:26px 0 12px;color:#ffd400}
+.b.ok{background:#3ddc84} label{font-size:14px;opacity:.85} .seccion{font-size:22px;margin:30px 0 12px;color:#ffd400;position:sticky;top:0;background:#101b3b;padding:10px 0;z-index:2} .seccion small{font-size:15px;opacity:.7;color:#fff}
+.indice{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px} .indice a{background:#1b2850;color:#fff;text-decoration:none;border-radius:999px;padding:8px 12px;font-size:14px;font-weight:700}
 </style></head><body>
 <h1>Historias de hoy</h1>
-<p class="ayuda">${esc(fecha)} · ${historias.length} historias.<br>Guarda la imagen, copia el link y, en Instagram, sube la historia y pega el link en el sticker "Enlace".</p>
+<p class="ayuda">${esc(fecha)} · ${historias.length} historias, agrupadas por categoría.<br>Guarda la imagen, copia el link y, en Instagram, sube la historia y pega el link en el sticker "Enlace". Sube una categoría completa antes de pasar a la siguiente.</p>
+<nav class="indice">${[...new Set(historias.map((h) => h.categoria))].map((c) => `<a href="#cat-${c.normalize("NFD").replace(/[^\w]/g, "")}">${c === "Otros" ? "🛍️ Otras" : ESTILO[c].emoji + " " + esc(c)} (${cuantas(c)})</a>`).join("")}</nav>
 ${items}
 <script>
 const clave = "hechas-${esc(fecha)}";
@@ -297,7 +302,7 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
         await page.setViewportSize({ width: 1080, height: formato === "post" ? 1350 : 1920 });
         await page.setContent(tarjeta(o, formato), { waitUntil: "networkidle" });
         await page.screenshot({ path: join(img, archivo), type: "jpeg", quality: 90 });
-        const item = { n: o.n, titulo: o.titulo, precio: o.precio, descuento_pct: o.descuento_pct, tipo: o.tipo || "oferta", tienda: o.tienda || "mercadolibre", destacado: o.destacado || null, imagen: `img/${archivo}`, link: o.link };
+        const item = { n: o.n, titulo: o.titulo, precio: o.precio, descuento_pct: o.descuento_pct, tipo: o.tipo || "oferta", tienda: o.tienda || "mercadolibre", destacado: o.destacado || null, categoria: o._categoria, imagen: `img/${archivo}`, link: o.link };
         if (formato === "post") plan.posts.push({ ...item, texto: texto(o) });
         else plan.historias.push(item);
       }
@@ -349,6 +354,13 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
   const cada = fal.length ? Math.max(1, Math.round(ml.length / fal.length)) : 1;
   while (ml.length || fal.length) { plan.posts.push(...ml.splice(0, cada)); if (fal.length) plan.posts.push(fal.shift()); }
   writeFileSync(join(salida, "index.html"), pagina(ofertas, fecha));
+  // Historias ordenadas por categoría (Tecnología, Belleza, Moda, Entretención, Otros); dentro de cada una,
+  // primero las con descuento y después los más vendidos.
+  const ordenCat = [...CATEGORIAS, "Otros"];
+  plan.historias = plan.historias.map((h, i) => ({ h, i }))
+    .sort((a, b) => ordenCat.indexOf(a.h.categoria) - ordenCat.indexOf(b.h.categoria)
+      || (a.h.tipo === "popular") - (b.h.tipo === "popular") || a.i - b.i)
+    .map(({ h }) => h);
   plan.version = historiasVersion(plan.historias);
   writeFileSync(join(salida, "historias.html"), paginaHistorias(plan.historias, fecha, plan.version));
   writeFileSync(join(salida, "publicaciones.json"), JSON.stringify(plan, null, 2) + "\n");
