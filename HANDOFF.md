@@ -43,3 +43,10 @@
 ## Historias programadas con link (15-nov, en pausa)
 - Idea: programar las historias con sticker de link desde Meta Business Suite (Claude lo haría desde el Chrome de Rodrigo). La API de Instagram no tiene borradores ni sticker de link.
 - Bloqueo: @ofertas_punto_cl no está conectado a ninguna página de Facebook en Business Suite (páginas: Ferretería Horizont y Jajs). Al intentar conectarlo, Meta le mostró a Rodrigo "acceso restringido". Rodrigo decidió dejarlo así por ahora; las historias se siguen subiendo a mano desde historias.html.
+
+## Ofertas flash con aviso al teléfono (17-nov, commit local SIN subir)
+- vigilante.py (paso nuevo en publicar.yml, revisa Falabella cada 30 min de 8:00 a 23:00, 25 búsquedas, ~850 productos): mejor precio = menor entre internet y CMR. Fuerte si descuento ≥55%, o bajó ≥15% desde el mínimo que el bot vio (data/precios_falabella.json, 30 días) con descuento ≥35%, o la CMR rebaja ≥15% extra con descuento ≥45%. Máx 3 avisos por revisión y 15 al día; no repite familias ya publicadas en 14 días. Ajustes en recolector.config.json → "vigilante".
+- Aviso con ntfy (app gratis, sin cuenta). Canal guardado en ~/.config/bot-ofertas-ml/ntfy_topic (600); falta copiarlo al secreto NTFY_TOPIC de GitHub. Probado: 3 avisos con foto y 2 botones llegaron al canal.
+- Aprobar: aviso → docs/aprobar.html#ID → "Aprobar y publicar" abre Falabella Creators → marcador "Recolectar Falabella" (modo oferta flash, crea 1 link) → recibir.html envía solo → data/alerta_aprobada.json → aprobar.yml: aprobar_alerta.py + alerta.mjs (docs/img-alertas, historia arriba en historias.html, sección "Ofertas flash") → espera la imagen en Pages → publicar.py alerta ID.
+- Probado en una copia: aprobación, imágenes, texto e historia; imagenes.mjs conserva las ofertas flash del día. SIN probar: subida real a Instagram y el marcador en el iPhone.
+- Mercado Libre NO se vigila: la nube no puede leer ML (bloqueo anti-bot) y el panel de afiliados no muestra descuentos con tarjeta.
