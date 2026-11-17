@@ -149,6 +149,33 @@ def carrusel(categoria):
     print(f"✅ Carrusel de {c['categoria']} publicado ({len(hijos)} fotos): {enlace or media}")
 
 
+def alerta(id_alerta):
+    """Publica el post de una oferta flash que Rodrigo aprobó (vigilante.py → aprobar.yml). Sin horario: se publica ya."""
+    ruta = BASE / "docs" / "alertas.json"
+    alertas = json.loads(ruta.read_text())
+    a = next((x for x in alertas["alertas"] if x["id"] == id_alerta), None)
+    if not a or a.get("estado") != "aprobada" or not a.get("post"):
+        sys.exit(f"La oferta {id_alerta} no está aprobada y lista para publicar.")
+    registro = json.loads(REGISTRO.read_text()) if REGISTRO.exists() else []
+    if any(r["imagen"] == a["post"]["imagen"] for r in registro):
+        sys.exit("Esa oferta flash ya se publicó. No la repito.")
+    base_url = json.loads(PLAN.read_text())["base_url"]
+    contenedor = llamar("POST", f"{IG_USER_ID}/media", image_url=f"{base_url}/{a['post']['imagen']}",
+                        caption=a["post"]["texto"])["id"]
+    esperar(contenedor)
+    media = llamar("POST", f"{IG_USER_ID}/media_publish", creation_id=contenedor)["id"]
+    enlace = llamar("GET", media, fields="permalink").get("permalink", "")
+    registro.append({
+        "tipo": "alerta", "n": 0, "titulo": a["titulo"], "imagen": a["post"]["imagen"],
+        "media_id": media, "enlace": enlace,
+        "fecha": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    })
+    REGISTRO.write_text(json.dumps(registro, ensure_ascii=False, indent=2) + "\n")
+    a["estado"], a["enlace"] = "publicada", enlace
+    ruta.write_text(json.dumps(alertas, ensure_ascii=False, indent=1) + "\n")
+    print(f"✅ Oferta flash publicada: {enlace or media}")
+
+
 def normalizar(texto):
     return " ".join(str(texto).lower().split())[:60]
 
@@ -212,6 +239,9 @@ def siguiente(probar=False):
 if __name__ == "__main__":
     if len(sys.argv) >= 3 and sys.argv[1] == "carrusel":
         carrusel(" ".join(sys.argv[2:]))
+        sys.exit(0)
+    if len(sys.argv) == 3 and sys.argv[1] == "alerta":
+        alerta(sys.argv[2])
         sys.exit(0)
     if len(sys.argv) >= 2 and sys.argv[1] == "siguiente":
         siguiente(probar="--probar" in sys.argv)

@@ -30,13 +30,15 @@ let datos = null;
 try {
   datos = JSON.parse(deB64url(location.hash.slice(1)));
   const o = datos.ofertas;
-  const falabella = datos.tienda === "falabella";
+  const flash = datos.tienda === "alerta";   // oferta flash aprobada desde el aviso del teléfono
+  const falabella = datos.tienda === "falabella" || flash;
   const valido = Array.isArray(o) && o.length > 0 && o.length <= 60 && o.every((x) =>
     typeof x.id === "string" && typeof x.titulo === "string" && Number.isFinite(x.precio) && typeof x.link === "string" &&
     (falabella
       ? /^https:\/\/creators\.falabella\.com\/-[\w-]+$/.test(x.link) && /^https:\/\/media\.falabella\.com\//.test(x.foto || "")
       : x.link.startsWith("https://meli.la/") && /^[\w-]+$/.test(x.foto_id || "")));
-  if (falabella) RUTA = "data/entrada_falabella.json";
+  if (falabella) RUTA = flash ? "data/alerta_aprobada.json" : "data/entrada_falabella.json";
+  if (flash && o.length !== 1) throw new Error("datos no válidos");
   if (!valido) throw new Error("datos no válidos");
 } catch (e) { datos = null; }
 history.replaceState(null, "", location.pathname);
@@ -49,9 +51,11 @@ if (!datos) {
   const origen = document.referrer;
   const raro = origen && !/^https:\/\/([\w-]+\.)*(mercadolibre\.cl|falabella\.com)\//.test(origen);
   const primeras = datos.ofertas.slice(0, 3).map((x) => "<li>" + x.titulo.replace(/[<>&]/g, "") + " · " + clp(x.precio) + "</li>").join("");
-  $("resumen").innerHTML = (datos.tienda === "falabella" ? "<b>" + datos.ofertas.length + " ofertas de Falabella listas</b>" : "<b>" + datos.ofertas.filter((x) => x.tipo !== "popular").length + " ofertas y " + datos.ofertas.filter((x) => x.tipo === "popular").length + " más vendidos listos</b>") + " (" + datos.total_revisados + " productos revisados)<ol>" + primeras + "</ol>" +
+  $("resumen").innerHTML = datos.tienda === "alerta" ? "<b>⚡ Oferta flash aprobada</b><ol>" + primeras + "</ol>" + (raro ? '<p class="mal">Ojo: esto no viene de tu panel de Falabella. No lo envíes si no tocaste tú el marcador.</p>' : "") : (datos.tienda === "falabella" ? "<b>" + datos.ofertas.length + " ofertas de Falabella listas</b>" : "<b>" + datos.ofertas.filter((x) => x.tipo !== "popular").length + " ofertas y " + datos.ofertas.filter((x) => x.tipo === "popular").length + " más vendidos listos</b>") + " (" + datos.total_revisados + " productos revisados)<ol>" + primeras + "</ol>" +
     (raro ? '<p class="mal">Ojo: estos datos no vienen de tu panel de afiliados. No los envíes si no tocaste tú el marcador.</p>' : "");
   if (localStorage.getItem(CLAVE)) $("enviar").hidden = false; else $("clave").hidden = false;
+  // La oferta flash ya la aprobaste en el aviso: se envía sola (si viene de tu panel de Falabella).
+  if (datos.tienda === "alerta" && !raro && localStorage.getItem(CLAVE)) setTimeout(() => $("enviar").click(), 300);
 }
 
 $("guardar").addEventListener("click", () => {
@@ -79,10 +83,11 @@ $("enviar").addEventListener("click", async () => {
     if (actual.status === 200) sha = (await actual.json()).sha;
     else if (actual.status === 401 || actual.status === 403) throw new Error("clave");
     const r = await fetch(url, { method: "PUT", headers: cabeceras, body: JSON.stringify({
-      message: RUTA.includes("falabella") ? "Ofertas de Falabella desde el celular" : "Ofertas recolectadas desde el celular", branch: "main", sha, content: aB64(JSON.stringify(datos, null, 1)) }) });
+      message: RUTA.includes("alerta") ? "Oferta flash aprobada desde el celular" : RUTA.includes("falabella") ? "Ofertas de Falabella desde el celular" : "Ofertas recolectadas desde el celular", branch: "main", sha, content: aB64(JSON.stringify(datos, null, 1)) }) });
     if (r.status === 401 || r.status === 403 || r.status === 404) throw new Error("clave");
     if (!r.ok) throw new Error("GitHub respondió " + r.status);
     $("enviar").hidden = true;
+    if (RUTA.includes("alerta")) return estado("✅ Aprobada. En unos 3 minutos sale el post en Instagram y la historia queda primera en historias de hoy.", "ok");
     estado("✅ Enviadas. En unos 3 minutos el bot tendrá listas las imágenes, las páginas y los posts del día.", "ok");
   } catch (e) {
     if (e.message === "clave") { localStorage.removeItem(CLAVE); $("clave").hidden = false; $("enviar").hidden = true; estado("La clave de GitHub no sirvió. Pégala de nuevo.", "mal"); }

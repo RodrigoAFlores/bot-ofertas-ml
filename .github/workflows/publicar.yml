@@ -21,6 +21,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Buscar ofertas de Falabella (una vez al día)
         run: python3 falabella.py --si-hace-falta || echo "No se pudo buscar en Falabella, sigo igual"
+      - name: Vigilar ofertas fuertes y avisar al teléfono (cada 30 min)
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python3 vigilante.py || echo "El vigilante falló, sigo igual"
       - name: Publicar el siguiente carrusel (si toca)
         env:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
@@ -31,5 +35,5 @@ jobs:
         run: |
           git config user.name "bot-ofertas"
           git config user.email "bot-ofertas@users.noreply.github.com"
-          git add data/publicado.json docs/falabella_candidatas.json
+          git add data/publicado.json docs/falabella_candidatas.json data/precios_falabella.json docs/alertas.json
           git diff --cached --quiet || (git commit -m "Registro de publicación" && git pull --rebase -q && git push -q)

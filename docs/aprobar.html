@@ -1,0 +1,46 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Aprobar oferta flash</title>
+<style>
+*{box-sizing:border-box} body{margin:0 auto;max-width:520px;background:#101b3b;color:#fff;font-family:-apple-system,system-ui,sans-serif;padding:18px;line-height:1.45}
+h1{font-size:22px;margin:4px 0 12px} .caja{background:#1b2850;border-radius:14px;padding:14px;margin:14px 0}
+.foto{background:#fff;border-radius:14px;padding:14px;text-align:center} .foto img{max-width:100%;max-height:320px}
+.precio{font-size:34px;font-weight:900;color:#ffd400} .antes{opacity:.7;text-decoration:line-through;margin-left:8px}
+.off{display:inline-block;background:#e8003d;border-radius:10px;padding:4px 10px;font-weight:900;margin-right:6px}
+.nota{opacity:.75;font-size:14px} .motivo{color:#8ef5a4;font-weight:700}
+.b{display:block;width:100%;background:#ffd400;color:#101b3b;border:0;border-radius:12px;padding:15px;font-size:16px;font-weight:800;text-align:center;text-decoration:none;font-family:inherit;margin:10px 0}
+.b.gris{background:#33406a;color:#fff} ol{padding-left:20px} li{margin-bottom:6px} a{color:#ffd400}
+.estado{font-weight:800} .ok{color:#3ddc84}
+</style></head><body>
+<h1>⚡ Oferta flash</h1>
+<div id="contenido" class="caja">Cargando la oferta…</div>
+<script>
+const BASE = "https://rodrigoaflores.github.io/bot-ofertas-ml/";
+const GENERADOR = "https://creators.falabella.com/publisher/campaign/16240/deeplink_generator";
+const clp = (n) => "$" + Math.round(n).toLocaleString("es-CL");
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const id = decodeURIComponent(location.hash.slice(1));
+const caja = document.getElementById("contenido");
+
+fetch(BASE + "alertas.json?" + Date.now(), { cache: "no-store" }).then((r) => r.json()).then((d) => {
+  const a = (d.alertas || []).find((x) => x.id === id);
+  if (!a) { caja.innerHTML = "No encontré esta oferta. Puede ser de otro día (las ofertas flash duran solo el día del aviso)."; return; }
+  const conCmr = a.precio_cmr && a.precio_cmr < a.precio;
+  const estado = { avisada: "", aprobada: '<p class="estado ok">✅ Ya la aprobaste: se está publicando.</p>', publicada: `<p class="estado ok">✅ Ya está publicada${a.enlace ? `: <a href="${esc(a.enlace)}">ver en Instagram</a>` : ""}.</p>` }[a.estado] || "";
+  caja.innerHTML = `
+    <div class="foto"><img src="${esc(a.foto)}" alt=""></div>
+    <h2 style="font-size:18px;margin:12px 0 6px">${esc(a.titulo)}</h2>
+    <div><span class="off">${a.descuento_total}% OFF</span><span class="precio">${clp(a.mejor_precio)}</span><span class="antes">${clp(a.precio_anterior)}</span></div>
+    ${conCmr ? `<p>💳 Con tarjeta CMR · sin tarjeta: <b>${clp(a.precio)}</b></p>` : ""}
+    <p class="motivo">Por qué te aviso: ${esc(a.motivo)}</p>
+    <p class="nota">Vendedor: ${esc(a.vendedor)}${a.nota ? ` · ⭐ ${a.nota}` : ""} · ${a.resenas} reseñas · precio visto hoy a las ${esc(a.hora)}</p>
+    <a class="b gris" href="${esc(a.url)}">Ver el producto en Falabella</a>
+    ${estado || `
+    <a class="b" href="${GENERADOR}#bot-alerta=${encodeURIComponent(a.id)}">✅ Aprobar y publicar</a>
+    <ol class="nota">
+      <li>Se abre tu panel de Falabella Creators.</li>
+      <li>Ahí toca el marcador <b>Recolectar Falabella</b>: crea tu link y lo manda solo.</li>
+      <li>En unos 3 minutos sale el post y la historia queda primera en <a href="historias.html">historias de hoy</a> (con su link).</li>
+    </ol>
+    <p class="nota">Si no te convence, no hagas nada: sin tu aprobación no se publica.</p>`}`;
+}).catch(() => { caja.textContent = "No pude cargar la oferta. Revisa tu conexión y vuelve a abrir el aviso."; });
+</script></body></html>

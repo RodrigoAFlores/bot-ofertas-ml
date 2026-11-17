@@ -1,0 +1,58 @@
+name: Publicar oferta flash aprobada
+
+# Corre cuando Rodrigo aprueba una oferta desde el aviso del teléfono (el celular sube data/alerta_aprobada.json).
+# Dibuja el post y la historia, espera a que la página publique la imagen y sube el post a Instagram.
+on:
+  push:
+    paths:
+      - data/alerta_aprobada.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: publicar   # la misma fila que publicar.yml: nunca dos publicaciones a la vez
+
+jobs:
+  aprobar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar lo necesario
+        run: |
+          npm ci --no-audit --no-fund
+          sudo apt-get update -q > /dev/null || true
+          sudo apt-get install -y -q fonts-inter > /dev/null || echo "Faltó instalar algo, sigo igual"
+      - name: Revisar la aprobación
+        id: aprobacion
+        run: echo "id=$(python3 aprobar_alerta.py)" >> "$GITHUB_OUTPUT"
+      - name: Dibujar el post y la historia
+        run: node alerta.mjs "${{ steps.aprobacion.outputs.id }}"
+      - name: Guardar y publicar la página
+        run: |
+          git config user.name "bot-ofertas"
+          git config user.email "bot-ofertas@users.noreply.github.com"
+          git add data docs
+          git commit -m "Oferta flash aprobada" && git pull --rebase -q && git push -q
+      - name: Esperar a que la imagen esté en la página
+        run: |
+          IMG=$(python3 -c "import json;a=[x for x in json.load(open('docs/alertas.json'))['alertas'] if x['id']=='${{ steps.aprobacion.outputs.id }}'][0];print(a['post']['imagen'])")
+          for i in $(seq 1 40); do
+            curl -sfI "https://rodrigoaflores.github.io/bot-ofertas-ml/$IMG" > /dev/null && echo "Imagen lista" && exit 0
+            sleep 15
+          done
+          echo "La página no publicó la imagen a tiempo" && exit 1
+      - name: Publicar en Instagram
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: python3 publicar.py alerta "${{ steps.aprobacion.outputs.id }}"
+      - name: Guardar el registro
+        run: |
+          git add data/publicado.json docs/alertas.json
+          git diff --cached --quiet || (git commit -m "Oferta flash publicada" && git pull --rebase -q && git push -q)

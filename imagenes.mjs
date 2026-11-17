@@ -6,7 +6,7 @@
 // Las imágenes se dibujan con el Chrome instalado (HTML → foto), sin IA: todo sale de los datos.
 
 import { chromium } from "playwright-core";
-import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { categoria, CATEGORIAS } from "./categorias.mjs";
@@ -27,7 +27,7 @@ const logoTienda = (o) => `<div class="logo ${o.tienda === "falabella" ? "fal" :
 
 const vendidosTexto = (v) => (v >= 1000 ? `${Math.round(v / 1000).toLocaleString("es-CL")} mil` : String(v));
 
-function tarjeta(o, formato) {
+export function tarjeta(o, formato) {
   const historia = formato === "historia";
   const alto = historia ? 1920 : 1350;
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>
@@ -66,15 +66,17 @@ function tarjeta(o, formato) {
     </div>
     <h1>${esc(o.titulo)}</h1>
     <div class="precios"><div class="ahora">${clp(o.precio)}</div>${o.precio_anterior ? `<div class="antes">${clp(o.precio_anterior)}</div>` : ""}</div>
+    ${o._con_cmr ? `<div class="ventas">💳 Precio con tarjeta CMR · sin tarjeta ${clp(o._sin_tarjeta)}</div>` : ""}
     ${o.tipo === "popular" && (o.vendidos || o.nota) ? `<div class="ventas">${[o.nota ? `⭐ ${String(o.nota).replace(".", ",")}` : "", o.vendidos ? `+${vendidosTexto(o.vendidos)} vendidos` : ""].filter(Boolean).join("  ·  ")}</div>` : ""}
-    <div class="nota">Precio visto el ${esc(o._fecha)}. Puede cambiar.</div>
+    <div class="nota">Precio visto el ${esc(o._fecha)}${o._hora ? " a las " + esc(o._hora) : ""}. Puede cambiar.</div>
     ${historia ? "" : `<div class="cta">👉 LINK EN LAS HISTORIAS</div>`}
     ${historia ? `<div class="libre">${o._link_visible ? `<div class="link">🔗 ${esc(o.link.replace("https://", ""))}</div>` : ""}</div>` : ""}
   </body></html>`;
 }
 
 // Colores y emoji de cada categoría (portada del carrusel y página).
-const ESTILO = {
+export const ESTILO = {
+  "Ofertas flash": { color: "#ff4d6d", emoji: "⚡", tags: "#blackfriday #ofertaflash" },
   "Tecnología": { color: "#4fd8ff", emoji: "🎧", tags: "#tecnologia #tech #gadgets" },
   "Cuidado y Belleza": { color: "#ffa8d6", emoji: "💄", tags: "#belleza #skincare #perfumes" },
   "Moda": { color: "#ffd400", emoji: "👟", tags: "#moda #ropa #zapatillas" },
@@ -207,7 +209,7 @@ footer{text-align:center;opacity:.6;font-size:12px;margin:24px auto 8px;max-widt
 }
 
 // Página para el celular: cada historia con su imagen y su link listo para copiar.
-function paginaHistorias(historias, fecha, version) {
+export function paginaHistorias(historias, fecha, version) {
   // Agrupadas por categoría (en el mismo orden que los carruseles), con un título y contador por grupo.
   const cuantas = (cat) => historias.filter((h) => h.categoria === cat).length;
   const items = historias.map((h, i) => `${i === 0 || historias[i - 1].categoria !== h.categoria
@@ -268,8 +270,17 @@ document.querySelectorAll("input[type=checkbox]").forEach((c) => {
 }
 
 
+// Historias de las ofertas flash aprobadas hoy (sus imágenes viven en docs/img-alertas y no se borran).
+export function alertasAprobadas(salida, sello) {
+  const ruta = join(salida, "alertas.json");
+  if (!existsSync(ruta)) return [];
+  const a = JSON.parse(readFileSync(ruta, "utf8"));
+  if (a.fecha !== sello) return [];
+  return (a.alertas || []).filter((x) => x.historia).map((x) => x.historia);
+}
+
 // Huella de la lista de historias: cambia si cambia cualquier imagen o link.
-function historiasVersion(historias) {
+export function historiasVersion(historias) {
   let h = 0;
   for (const c of historias.map((x) => x.imagen + x.link).join("|")) h = (h * 31 + c.charCodeAt(0)) >>> 0;
   return h.toString(36);
@@ -361,6 +372,8 @@ export async function generar({ datos = join(BASE, "data", "ofertas.json"), sali
     .sort((a, b) => ordenCat.indexOf(a.h.categoria) - ordenCat.indexOf(b.h.categoria)
       || (a.h.tipo === "popular") - (b.h.tipo === "popular") || a.i - b.i)
     .map(({ h }) => h);
+  // Las ofertas flash que Rodrigo aprobó hoy (vigilante.py → aprobar.yml) quedan arriba de todo.
+  plan.historias = [...alertasAprobadas(salida, sello), ...plan.historias];
   plan.version = historiasVersion(plan.historias);
   writeFileSync(join(salida, "historias.html"), paginaHistorias(plan.historias, fecha, plan.version));
   writeFileSync(join(salida, "publicaciones.json"), JSON.stringify(plan, null, 2) + "\n");
