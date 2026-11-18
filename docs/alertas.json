@@ -510,24 +510,24 @@
    "url": "https://www.lider.cl/ip/Smartphone-Samsung-Galaxy-26-FE-256-GB-Blueberry/00880609942546",
    "titulo": "Samsung Galaxy S26 FE (SM-S741B / 256 GB / 8 GB / Blueberry) [SM-S741BZVKLTL]",
    "foto": "https://i5.walmartimages.cl/asr/a93d5297-e8b4-4082-93ad-c12b914263a2.4a6260da294f30bf4c46e01baa8d5242.jpeg",
-   "precio": 499990.0,
+   "precio": 499990,
    "precio_tarjeta": null,
-   "mejor_precio": 499990.0,
+   "mejor_precio": 499990,
    "comparado": [
     {
      "tienda": "Mercado Libre",
-     "precio": 689990.0
+     "precio": 689990
     },
     {
      "tienda": "Hites",
-     "precio": 699990.0
+     "precio": 699990
     },
     {
      "tienda": "Paris",
-     "precio": 729990.0
+     "precio": 729990
     }
    ],
-   "precio_anterior": 689990.0,
+   "precio_anterior": 689990,
    "descuento_total": 28,
    "baja_mes": 0,
    "motivo": "28% más barato que en Mercado Libre ($689.990)",
@@ -537,7 +537,25 @@
    "puntaje_alerta": 40,
    "hora": "12:40",
    "visto": "2026-11-18T15:40:22+00:00",
-   "estado": "avisada"
+   "estado": "aprobada",
+   "link": "https://www.lider.cl/ip/Smartphone-Samsung-Galaxy-26-FE-256-GB-Blueberry/00880609942546",
+   "aprobada": "2026-11-18T16:46:13+00:00",
+   "post": {
+    "imagen": "img-alertas/2026-11-18-post-ST2385031.jpg",
+    "texto": "⚡ OFERTA FLASH\n🔥 Samsung Galaxy S26 FE (SM-S741B / 256 GB / 8 GB / Blueberry) [SM-S741BZVKLTL]\n\n💰 $499.990 en Líder · 28% más barato que en otras tiendas\n   Mercado Libre: $689.990\n   Hites: $699.990\n   Paris: $729.990\n🛒 En Líder\n\nPrecio visto el 18 de noviembre a las 12:40. Puede cambiar o agotarse.\n#ofertas #descuentos #lider #blackfriday #chile #ofertaschile"
+   },
+   "historia": {
+    "n": 918,
+    "titulo": "Samsung Galaxy S26 FE (SM-S741B / 256 GB / 8 GB / Blueberry) [SM-S741BZVKLTL]",
+    "precio": 499990,
+    "descuento_pct": 28,
+    "tipo": "oferta",
+    "tienda": "lider",
+    "destacado": null,
+    "categoria": "Ofertas flash",
+    "imagen": "img-alertas/2026-11-18-historia-ST2385031.jpg",
+    "link": "https://www.lider.cl/ip/Smartphone-Samsung-Galaxy-26-FE-256-GB-Blueberry/00880609942546"
+   }
   },
   {
    "id": "ST2382581",
@@ -547,16 +565,16 @@
    "url": "https://www.lider.cl/ip/Freidora-de-Aire-TH-AF18M-Negro/00780963970967",
    "titulo": "Thomas TH-AF18M",
    "foto": "https://i5.walmartimages.cl/asr/63734e3a-d595-4519-84a7-35abc260c31d.dfac339e810e2bd3d1b4b22891d6fb1c.jpeg",
-   "precio": 28990.0,
+   "precio": 28990,
    "precio_tarjeta": null,
-   "mejor_precio": 28990.0,
+   "mejor_precio": 28990,
    "comparado": [
     {
      "tienda": "Hites",
-     "precio": 44990.0
+     "precio": 44990
     }
    ],
-   "precio_anterior": 44990.0,
+   "precio_anterior": 44990,
    "descuento_total": 36,
    "baja_mes": 0,
    "motivo": "36% más barato que en Hites ($44.990)",

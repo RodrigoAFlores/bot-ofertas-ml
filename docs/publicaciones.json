@@ -486,6 +486,18 @@
   ],
   "historias": [
     {
+      "n": 918,
+      "titulo": "Samsung Galaxy S26 FE (SM-S741B / 256 GB / 8 GB / Blueberry) [SM-S741BZVKLTL]",
+      "precio": 499990,
+      "descuento_pct": 28,
+      "tipo": "oferta",
+      "tienda": "lider",
+      "destacado": null,
+      "categoria": "Ofertas flash",
+      "imagen": "img-alertas/2026-11-18-historia-ST2385031.jpg",
+      "link": "https://www.lider.cl/ip/Smartphone-Samsung-Galaxy-26-FE-256-GB-Blueberry/00880609942546"
+    },
+    {
       "n": 917,
       "titulo": "Garmin Lily 2 Sport - Cream Gold / Coconut",
       "precio": 159990,
@@ -1336,5 +1348,5 @@
       "texto": "🎮 Ofertas de Entretención para hoy (18 de noviembre)\n\n• Muñeca Bebé Realista Reborn 100% Silicona 55cm — $27.990 (53% OFF) · Falabella\n• Silla Gamer Vidita Gx2000 Ergonómica Presidencial Reclinable Negra… — $64.990 (50% OFF) · Mercado Libre\n• Carrito Camping Plegable Multiuso 100kg Ruedas 360° Negro — $15.160 (8% OFF) · Mercado Libre\n\n👉 Los links están en las historias.\nPrecios vistos hoy. Pueden cambiar.\n\n#ofertas #descuentos #chile #ofertaschile #entretencion #panoramas #aventura"
     }
   ],
-  "version": "1tlnpjt"
+  "version": "134i69v"
 }
