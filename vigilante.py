@@ -104,6 +104,8 @@ def avisar(topico, a):
     else:
         con_cmr = a.get("precio_cmr") and a["precio_cmr"] <= a["precio"]
         precio = f"{clp(a['mejor_precio'])}{' con CMR' if con_cmr else ''} (antes {clp(a['precio_anterior'])})"
+        if a.get("otras_tiendas"):
+            precio += "\nOtras tiendas: " + " · ".join(f"{c['tienda']} {clp(c['precio'])}" for c in a["otras_tiendas"][:2])
         titulo = f"🔥 {a['descuento_total']}% OFF en Falabella"
     cuerpo = {
         "topic": topico,
@@ -122,6 +124,36 @@ def avisar(topico, a):
                                  headers={"Content-Type": "application/json"}, method="POST")
     with urllib.request.urlopen(req, timeout=30) as r:
         return r.status == 200
+
+
+def con_otras_tiendas(fuertes, revisar=12):
+    """Compara las mejores ofertas de Falabella con otras tiendas (SoloTodo). Descarta las que están más baratas
+    en otro lado; a las que ganan les suma el dato al motivo. Las que SoloTodo no sigue (ropa, colchones) quedan igual."""
+    salida = []
+    for i, a in enumerate(fuertes):
+        if i >= revisar:
+            salida.append(a)
+            continue
+        try:
+            otras = comparador.comparar(a["titulo"], a["id"][3:].replace("prod", ""), 9)
+        except Exception:
+            otras = None
+        if otras is None:
+            a["otras_tiendas"] = None
+        else:
+            a["otras_tiendas"] = [{"tienda": t, "precio": v} for v, t in otras[:3]]
+            if otras and otras[0][0] < a["mejor_precio"] * 0.98:
+                print(f"  Descartada: {a['titulo'][:50]} está más barata en {otras[0][1]} ({clp(otras[0][0])})")
+                continue
+            if otras:
+                ahorro = round((1 - a["mejor_precio"] / otras[0][0]) * 100)
+                a["motivo"] += f" · {ahorro}% más barato que en {otras[0][1]}" if ahorro > 0 else f" · mismo precio que en {otras[0][1]}"
+                a["puntaje_alerta"] += 3 * max(ahorro, 0)
+            else:
+                a["motivo"] += " · solo lo vende Falabella"
+        salida.append(a)
+        time.sleep(0.5)
+    return sorted(salida, key=lambda a: a["puntaje_alerta"], reverse=True)
 
 
 def ofertas_reales(alertas, historial, ahora, forzar=False):
@@ -211,6 +243,7 @@ def main():
             continue  # ya salió en Instagram y no está más barata
         fuertes.append({**o, **ev})
     fuertes.sort(key=lambda a: a["puntaje_alerta"], reverse=True)
+    fuertes = con_otras_tiendas(fuertes)
 
     # Variedad: no dos variantes del mismo producto (otra talla o color) en la misma revisión.
     # Tampoco algo que ya salió en Instagram en los últimos 14 días, ni dos del mismo tipo (dos colchones) a la vez.

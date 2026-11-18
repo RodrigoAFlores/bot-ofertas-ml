@@ -71,7 +71,7 @@ export function tarjeta(o, formato) {
     </div>
     <h1>${esc(o.titulo)}</h1>
     <div class="precios"><div class="ahora">${clp(o.precio)}</div>${o.precio_anterior && !o._comparado ? `<div class="antes">${clp(o.precio_anterior)}</div>` : ""}</div>
-    ${o._comparado ? `<div class="comp">En otras tiendas: ${o._comparado.slice(0, 2).map((c) => `${esc(c.tienda)} ${clp(c.precio)}`).join(" · ")}</div>` : ""}
+    ${o._comparado || o._otras?.length ? `<div class="comp">En otras tiendas: ${(o._comparado || o._otras).slice(0, 2).map((c) => `${esc(c.tienda)} ${clp(c.precio)}`).join(" · ")}</div>` : ""}
     ${o._con_cmr ? `<div class="ventas">💳 Precio con tarjeta CMR · sin tarjeta ${clp(o._sin_tarjeta)}</div>` : ""}
     ${o.tipo === "popular" && (o.vendidos || o.nota) ? `<div class="ventas">${[o.nota ? `⭐ ${String(o.nota).replace(".", ",")}` : "", o.vendidos ? `+${vendidosTexto(o.vendidos)} vendidos` : ""].filter(Boolean).join("  ·  ")}</div>` : ""}
     <div class="nota">Precio visto el ${esc(o._fecha)}${o._hora ? " a las " + esc(o._hora) : ""}. Puede cambiar.</div>

@@ -123,6 +123,22 @@ def buscar(tienda="lider", avisar=print):
     return sorted((r for r in reales if r["foto"]), key=lambda r: r["puntaje_alerta"], reverse=True)
 
 
+def comparar(titulo, id_producto, id_tienda=9):
+    """Busca en SoloTodo un producto de una tienda (por defecto Falabella) y devuelve los precios de las demás.
+    [(precio, tienda), ...] de menor a mayor, [] si solo lo vende esa tienda, o None si SoloTodo no lo tiene
+    (ropa, colchones y otras categorías que SoloTodo no sigue)."""
+    lista = get("products/browse/", search=titulo[:60], stores=id_tienda, countries=1, page_size=5)
+    ids = [pe["product"]["id"] for r in lista["results"] for pe in r["product_entries"]]
+    if not ids:
+        return None
+    datos = get("products/available_entities/", ids=ids, countries=1, page_size=len(ids))
+    for p in datos["results"]:
+        if any(e["store"] == id_tienda and str(id_producto) in (e.get("external_url") or "") + (e.get("sku") or "")
+               for e in p["entities"]):
+            return sorted((v["precio"], TIENDAS[k]) for k, v in precios_por_tienda(p).items() if k != id_tienda)
+    return None
+
+
 def clp(n):
     return "$" + f"{round(n):,}".replace(",", ".")
 

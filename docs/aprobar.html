@@ -35,6 +35,10 @@ fetch(BASE + "alertas.json?" + Date.now(), { cache: "no-store" }).then((r) => r.
          <p>En otras tiendas: ${a.comparado.map((c) => `${esc(c.tienda)} <b>${clp(c.precio)}</b>`).join(" · ")}</p>`
       : `<div><span class="off">${a.descuento_total}% OFF</span><span class="precio">${clp(a.mejor_precio)}</span><span class="antes">${clp(a.precio_anterior)}</span></div>`}
     ${conCmr ? `<p>💳 Con tarjeta CMR · sin tarjeta: <b>${clp(a.precio)}</b></p>` : ""}
+    ${a.comparado || !("otras_tiendas" in a) ? ""
+      : a.otras_tiendas === null ? '<p class="nota">🔎 No encontré este producto en otras tiendas para comparar (SoloTodo no sigue ropa, colchones ni juguetes).</p>'
+      : !a.otras_tiendas.length ? "<p>🔎 Solo lo vende Falabella.</p>"
+      : `<p>🔎 En otras tiendas: ${a.otras_tiendas.map((c) => `${esc(c.tienda)} <b>${clp(c.precio)}</b>`).join(" · ")}</p>`}
     <p class="motivo">Por qué te aviso: ${esc(a.motivo)}</p>
     <p class="nota">${a.comparado ? "Precios de SoloTodo" : `Vendedor: ${esc(a.vendedor)}${a.nota ? ` · ⭐ ${a.nota}` : ""} · ${a.resenas} reseñas`} · visto hoy a las ${esc(a.hora)}</p>
     <a class="b gris" href="${esc(a.url)}">Ver el producto en ${esc(a.nombre_tienda || "Falabella")}</a>

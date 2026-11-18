@@ -27,7 +27,7 @@ const comparado = a.comparado || null;   // oferta real de otra tienda (comparad
 const tienda = a.nombre_tienda || "Falabella";
 const n = 900 + alertas.alertas.indexOf(a) + 1;   // número propio, no choca con las ofertas del día
 const oferta = {
-  ...a, n, tienda: a.tienda || "falabella", precio: a.mejor_precio, descuento_pct: a.descuento_total, _comparado: comparado,
+  ...a, n, tienda: a.tienda || "falabella", precio: a.mejor_precio, descuento_pct: a.descuento_total, _comparado: comparado, _otras: a.otras_tiendas || null,
   _fecha: fecha, _hora: a.hora, _categoria: "Ofertas flash", _con_cmr: conCmr, _sin_tarjeta: a.precio,
 };
 
@@ -41,11 +41,12 @@ const texto = [
     : conCmr
     ? `💳 Con tarjeta CMR: ${clp(a.mejor_precio)} (antes ${clp(a.precio_anterior)}) · ${a.descuento_total}% OFF\n💰 Sin tarjeta: ${clp(a.precio)}`
     : `💰 Ahora ${clp(a.mejor_precio)} (antes ${clp(a.precio_anterior)}) · ${a.descuento_total}% OFF`,
+  !comparado && a.otras_tiendas?.length ? `🔎 En otras tiendas: ${a.otras_tiendas.slice(0, 3).map((c) => `${c.tienda} ${clp(c.precio)}`).join(" · ")}` : null,
   `🛒 En ${tienda}`,
   "",
   `Precio visto el ${fecha} a las ${a.hora}. Puede cambiar o agotarse.`,
   `#ofertas #descuentos #${tienda.normalize("NFD").replace(/[^\w]/g, "").toLowerCase()} #blackfriday #chile #ofertaschile`,
-].join("\n");
+].filter((l) => l !== null).join("\n");
 
 const carpeta = join(DOCS, "img-alertas");
 mkdirSync(carpeta, { recursive: true });
