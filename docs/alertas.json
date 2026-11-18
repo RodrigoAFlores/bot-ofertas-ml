@@ -537,7 +537,7 @@
    "puntaje_alerta": 40,
    "hora": "12:40",
    "visto": "2026-11-18T15:40:22+00:00",
-   "estado": "aprobada",
+   "estado": "publicada",
    "link": "https://www.lider.cl/ip/Smartphone-Samsung-Galaxy-26-FE-256-GB-Blueberry/00880609942546",
    "aprobada": "2026-11-18T16:46:13+00:00",
    "post": {
@@ -555,7 +555,8 @@
     "categoria": "Ofertas flash",
     "imagen": "img-alertas/2026-11-18-historia-ST2385031.jpg",
     "link": "https://www.lider.cl/ip/Smartphone-Samsung-Galaxy-26-FE-256-GB-Blueberry/00880609942546"
-   }
+   },
+   "enlace": "https://www.instagram.com/p/Df4-BC0l2-q/"
   },
   {
    "id": "ST2382581",
