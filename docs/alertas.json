@@ -481,7 +481,7 @@
    "puntaje_alerta": 40,
    "hora": "10:20",
    "visto": "2026-11-18T13:20:16+00:00",
-   "estado": "aprobada",
+   "estado": "publicada",
    "link": "https://www.lider.cl/ip/Smartwatch-Lily-2-Crema/00075375932471",
    "aprobada": "2026-11-18T13:24:26+00:00",
    "post": {
@@ -499,7 +499,8 @@
     "categoria": "Ofertas flash",
     "imagen": "img-alertas/2026-11-18-historia-ST2384964.jpg",
     "link": "https://www.lider.cl/ip/Smartwatch-Lily-2-Crema/00075375932471"
-   }
+   },
+   "enlace": "https://www.instagram.com/p/Df4m4w2D0Lk/"
   }
  ],
  "ultima_comparacion": "2026-11-18T13:20:16+00:00",
