@@ -89,24 +89,24 @@
    "url": "https://www.lider.cl/ip/Cafetera-Piccolo-XS-Black/00844529159144",
    "titulo": "Nescafé Piccolo XS",
    "foto": "https://i5.walmartimages.cl/asr/30f4a84f-e010-4811-9cce-7a8be515fe81.242d0c6a85e08449f4573a047687f4ab.jpeg",
-   "precio": 39990.0,
+   "precio": 39990,
    "precio_tarjeta": null,
-   "mejor_precio": 39990.0,
+   "mejor_precio": 39990,
    "comparado": [
     {
      "tienda": "Ripley",
-     "precio": 58491.0
+     "precio": 58491
     },
     {
      "tienda": "Paris",
-     "precio": 59990.0
+     "precio": 59990
     },
     {
      "tienda": "Falabella",
-     "precio": 61990.0
+     "precio": 61990
     }
    ],
-   "precio_anterior": 58491.0,
+   "precio_anterior": 58491,
    "descuento_total": 32,
    "baja_mes": 0,
    "motivo": "32% más barato que en Ripley ($58.491)",
@@ -126,16 +126,16 @@
    "url": "https://www.lider.cl/ip/Frigobar-Fr-o-directo-90-Litros-Retro-Line-LFB-90R/00780464698019",
    "titulo": "Libero LFB-90R",
    "foto": "https://i5.walmartimages.cl/asr/f7b1c004-02da-42a6-8997-93aeee11990e.f82d552756edb5fed03e66abc1088e1a.jpeg",
-   "precio": 119990.0,
+   "precio": 119990,
    "precio_tarjeta": null,
-   "mejor_precio": 119990.0,
+   "mejor_precio": 119990,
    "comparado": [
     {
      "tienda": "Hites",
-     "precio": 199990.0
+     "precio": 199990
     }
    ],
-   "precio_anterior": 199990.0,
+   "precio_anterior": 199990,
    "descuento_total": 40,
    "baja_mes": 0,
    "motivo": "40% más barato que en Hites ($199.990)",
@@ -253,11 +253,11 @@
    "otras_tiendas": [
     {
      "tienda": "Paris",
-     "precio": 217990.0
+     "precio": 217990
     },
     {
      "tienda": "Ripley",
-     "precio": 217990.0
+     "precio": 217990
     }
    ],
    "hora": "09:10",
@@ -305,7 +305,7 @@
    "resenas": 24,
    "foto": "https://media.falabella.com/falabellaCL/883175229_1/public",
    "mas_vendido": false,
-   "puntaje": 140.0,
+   "puntaje": 140,
    "busqueda": "juguetes",
    "mejor_precio": 13990,
    "descuento_total": 50,
@@ -433,16 +433,16 @@
    "url": "https://www.lider.cl/ip/Lavadora-Carga-Superior-22-KG-WA22A8370GV-ZS/00880609432903",
    "titulo": "Samsung WA22A8370GV",
    "foto": "https://i5.walmartimages.cl/asr/21e6ee76-a8ad-447d-add9-63c1e7765f4a.f1e31a281e53502aaa5e9c7a54d75549.jpeg",
-   "precio": 464990.0,
+   "precio": 464990,
    "precio_tarjeta": null,
-   "mejor_precio": 464990.0,
+   "mejor_precio": 464990,
    "comparado": [
     {
      "tienda": "Paris",
-     "precio": 839990.0
+     "precio": 839990
     }
    ],
-   "precio_anterior": 839990.0,
+   "precio_anterior": 839990,
    "descuento_total": 45,
    "baja_mes": 0,
    "motivo": "45% más barato que en Paris ($839.990)",
@@ -462,16 +462,16 @@
    "url": "https://www.lider.cl/ip/Smartwatch-Lily-2-Crema/00075375932471",
    "titulo": "Garmin Lily 2 Sport - Cream Gold / Coconut",
    "foto": "https://i5.walmartimages.cl/asr/be506050-f420-4e9c-a489-3ee054557cd6.38b5a13326ed63fce339ed96ec654cfa.jpeg",
-   "precio": 159990.0,
+   "precio": 159990,
    "precio_tarjeta": null,
-   "mejor_precio": 159990.0,
+   "mejor_precio": 159990,
    "comparado": [
     {
      "tienda": "Mercado Libre",
-     "precio": 253712.0
+     "precio": 253712
     }
    ],
-   "precio_anterior": 253712.0,
+   "precio_anterior": 253712,
    "descuento_total": 37,
    "baja_mes": 0,
    "motivo": "37% más barato que en Mercado Libre ($253.712)",
@@ -481,7 +481,25 @@
    "puntaje_alerta": 40,
    "hora": "10:20",
    "visto": "2026-11-18T13:20:16+00:00",
-   "estado": "avisada"
+   "estado": "aprobada",
+   "link": "https://www.lider.cl/ip/Smartwatch-Lily-2-Crema/00075375932471",
+   "aprobada": "2026-11-18T13:24:26+00:00",
+   "post": {
+    "imagen": "img-alertas/2026-11-18-post-ST2384964.jpg",
+    "texto": "⚡ OFERTA FLASH\n🔥 Garmin Lily 2 Sport - Cream Gold / Coconut\n\n💰 $159.990 en Líder · 37% más barato que en otras tiendas\n   Mercado Libre: $253.712\n🛒 En Líder\n\nPrecio visto el 18 de noviembre a las 10:20. Puede cambiar o agotarse.\n#ofertas #descuentos #lider #blackfriday #chile #ofertaschile"
+   },
+   "historia": {
+    "n": 917,
+    "titulo": "Garmin Lily 2 Sport - Cream Gold / Coconut",
+    "precio": 159990,
+    "descuento_pct": 37,
+    "tipo": "oferta",
+    "tienda": "lider",
+    "destacado": null,
+    "categoria": "Ofertas flash",
+    "imagen": "img-alertas/2026-11-18-historia-ST2384964.jpg",
+    "link": "https://www.lider.cl/ip/Smartwatch-Lily-2-Crema/00075375932471"
+   }
   }
  ],
  "ultima_comparacion": "2026-11-18T13:20:16+00:00",
