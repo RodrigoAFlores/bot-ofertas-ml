@@ -49,6 +49,7 @@ MAX_POR_REVISION = CFG.get("max_por_revision", 3)
 MAX_POR_DIA = CFG.get("max_por_dia", 15)
 PRECIO_MINIMO = CFG.get("precio_minimo", 8000)       # nada de ofertas de $2.990
 DIAS_MEMORIA = 30
+TOPE_DESCUENTO = 80                                  # Soicos prohíbe publicar descuentos sobre 80%
 
 
 def leer(ruta, defecto):
@@ -72,6 +73,8 @@ def evaluar(o, memoria):
     if not (o["resenas"] >= 10 or o["vendedor"].lower() == "falabella"):
         return None
     descuento = round((1 - mejor / normal) * 100)
+    if descuento > TOPE_DESCUENTO:
+        return None  # regla de Soicos: nada de errores de precio ni descuentos "sospechosos"
     extra_cmr = round((1 - cmr / internet) * 100) if cmr and cmr < internet else 0
     antes = memoria.get(o["id"])
     baja_real = round((1 - mejor / antes["min"]) * 100) if antes and antes["min"] > mejor else 0

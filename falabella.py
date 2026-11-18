@@ -88,6 +88,8 @@ def convertir(r):
     if not (url.startswith("https://www.falabella.com/") and foto and r.get("productId")):
         return None
     descuento = round((1 - actual / normal) * 100)
+    if descuento > 80:
+        return None  # regla de Soicos (Falabella Creators): no publicar descuentos sobre 80%
     return {
         "id": "FAL" + str(r["productId"]),
         "url": url,

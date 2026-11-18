@@ -50,3 +50,17 @@
 - Aprobar: aviso → docs/aprobar.html#ID → "Aprobar y publicar" abre Falabella Creators → marcador "Recolectar Falabella" (modo oferta flash, crea 1 link) → recibir.html envía solo → data/alerta_aprobada.json → aprobar.yml: aprobar_alerta.py + alerta.mjs (docs/img-alertas, historia arriba en historias.html, sección "Ofertas flash") → espera la imagen en Pages → publicar.py alerta ID.
 - Probado en una copia: aprobación, imágenes, texto e historia; imagenes.mjs conserva las ofertas flash del día. SIN probar: subida real a Instagram y el marcador en el iPhone.
 - Mercado Libre NO se vigila: la nube no puede leer ML (bloqueo anti-bot) y el panel de afiliados no muestra descuentos con tarjeta.
+
+## TABLERO (18-nov): qué falta y en qué orden
+### 1. Ahora (no depende de nadie)
+- [ ] Activar el vigilante de Falabella: push a GitHub + secreto NTFY_TOPIC (falta el sí de Rodrigo). Rodrigo instala la app ntfy y se suscribe al canal.
+- [ ] Rodrigo le avisa a Cata (cmiari@soicos.com) que publica en Instagram @ofertas_punto_cl (lo pidió en el correo de bienvenida).
+- [x] Tope de 80% de descuento en vigilante.py y falabella.py (regla de Soicos). Commit local.
+### 2. Cuando Soicos apruebe (13 solicitudes pendientes desde el 17-nov)
+- Tiendas con muchas ofertas, prioridad: Paris (2-2,33%, precio Tarjeta Cencosud legible desde la nube), ABC (2,8%), Easy (2,5%), Sodimac (1,5%), Santa Isabel (2,5%, supermercado).
+- Marcas: Nike (6%), Crocs (3%), Columbia (2,5%), Merrell (2,5%), RainDoor (7,8%).
+- Poco útiles para ofertas: Hites (0% de comisión), Tienda Copec, JetSmart.
+- Plan: un solo vigilante para varias tiendas, empezando por Paris. Links con "Crea tu DeepLink" del panel de Soicos (aparece en "Herramientas" al aprobar), mediante un marcador como el de Falabella. Revisar tienda por tienda si su web se deja leer.
+### 3. En pausa
+- Líder: no tiene programa en Soicos y su web bloquea a los programas (captcha).
+- Historias programadas en Meta Business Suite (acceso restringido).
