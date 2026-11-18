@@ -644,8 +644,74 @@
    "hora": "15:00",
    "visto": "2026-11-18T18:00:26+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2382252",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Hornos y Microondas",
+   "url": "https://www.lider.cl/ip/Horno-El-ctrico-UT-Backofen-Pro-B-25-Litros-Negro/00780466036093",
+   "titulo": "Ursus Trotter UT-BACKOFEN PRO-B 25L",
+   "foto": "https://i5.walmartimages.cl/asr/dce05c6e-56cc-4236-8987-ea3c552c0cec.44a30def564372f553c9707281ba23ce.jpeg",
+   "precio": 25990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 25990.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 34990.0
+    },
+    {
+     "tienda": "Hites",
+     "precio": 34990.0
+    },
+    {
+     "tienda": "Mercado Libre",
+     "precio": 38953.0
+    }
+   ],
+   "precio_anterior": 34990.0,
+   "descuento_total": 26,
+   "baja_mes": 0,
+   "motivo": "26% más barato que en Falabella ($34.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 38,
+   "hora": "17:30",
+   "visto": "2026-11-18T20:30:19+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382561",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-doble-Ninja-6-en-1-de-7-6-Litros/00062235623956",
+   "titulo": "Ninja AF300EU",
+   "foto": "https://i5.walmartimages.cl/asr/1b6f5b4c-9897-4fab-8414-531b240f5801.41df4a46bd16c8389e5f4b59898101b4.jpeg",
+   "precio": 189990.0,
+   "precio_tarjeta": 169990.0,
+   "mejor_precio": 169990.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 249990.0
+    }
+   ],
+   "precio_anterior": 249990.0,
+   "descuento_total": 32,
+   "baja_mes": 0,
+   "motivo": "32% más barato que en Falabella ($249.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 35,
+   "hora": "17:30",
+   "visto": "2026-11-18T20:30:19+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-18T18:00:26+00:00",
- "ultima_revision": "2026-11-18T19:50:22+00:00"
+ "ultima_comparacion": "2026-11-18T20:30:19+00:00",
+ "ultima_revision": "2026-11-18T20:30:19+00:00"
 }
