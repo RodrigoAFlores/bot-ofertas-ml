@@ -29,7 +29,11 @@ def main():
     a = next((x for x in alertas["alertas"] if x["id"] == pedida.get("id")), None)
     if not a:
         sys.exit("Esa oferta no está entre las alertas de hoy (puede ser de otro día).")
-    if not LINK.match(str(pedida.get("link", ""))):
+    if a.get("comparado"):
+        # Tiendas sin programa de afiliados (Líder): el link es el mismo de la tienda que trajo el comparador.
+        if pedida.get("link") != a["url"]:
+            sys.exit("El link no corresponde a la oferta aprobada.")
+    elif not LINK.match(str(pedida.get("link", ""))):
         sys.exit("El link de afiliado no es de Falabella Creators.")
     if a.get("estado") == "publicada":
         sys.exit("Esa oferta ya se publicó.")

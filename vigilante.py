@@ -27,6 +27,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import comparador
 import falabella as fal
 
 BASE = Path(__file__).resolve().parent
@@ -95,12 +96,18 @@ def evaluar(o, memoria):
 
 def avisar(topico, a):
     """Manda la notificación al teléfono con ntfy (con foto y botones)."""
-    con_cmr = a.get("precio_cmr") and a["precio_cmr"] <= a["precio"]
-    precio = f"{clp(a['mejor_precio'])}{' con CMR' if con_cmr else ''} (antes {clp(a['precio_anterior'])})"
     aprobar = f"{PAGINA}/aprobar.html#{a['id']}"
+    if a.get("comparado"):  # oferta real de otra tienda (comparador.py): se compara con las demás tiendas
+        precio = f"{clp(a['mejor_precio'])} en {a['nombre_tienda']} · " + " · ".join(
+            f"{c['tienda']} {clp(c['precio'])}" for c in a["comparado"][:2])
+        titulo = f"💰 {a['descuento_total']}% más barato en {a['nombre_tienda']}"
+    else:
+        con_cmr = a.get("precio_cmr") and a["precio_cmr"] <= a["precio"]
+        precio = f"{clp(a['mejor_precio'])}{' con CMR' if con_cmr else ''} (antes {clp(a['precio_anterior'])})"
+        titulo = f"🔥 {a['descuento_total']}% OFF en Falabella"
     cuerpo = {
         "topic": topico,
-        "title": f"🔥 {a['descuento_total']}% OFF en Falabella",
+        "title": titulo,
         "message": f"{a['titulo']}\n{precio}\n{a['motivo']}",
         "tags": ["moneybag"],
         "priority": 4,
@@ -108,13 +115,45 @@ def avisar(topico, a):
         "attach": a["foto"],
         "actions": [
             {"action": "view", "label": "✅ Revisar y aprobar", "url": aprobar, "clear": True},
-            {"action": "view", "label": "Ver en Falabella", "url": a["url"]},
+            {"action": "view", "label": f"Ver en {a.get('nombre_tienda', 'Falabella')}", "url": a["url"]},
         ],
     }
     req = urllib.request.Request("https://ntfy.sh/", data=json.dumps(cuerpo).encode(),
                                  headers={"Content-Type": "application/json"}, method="POST")
     with urllib.request.urlopen(req, timeout=30) as r:
         return r.status == 200
+
+
+def ofertas_reales(alertas, historial, ahora, forzar=False):
+    """Ofertas REALES de otras tiendas (hoy: Líder) con el comparador de SoloTodo. Corre cada 2 horas."""
+    ultima = alertas.get("ultima_comparacion")
+    if ultima and not forzar and (ahora - datetime.fromisoformat(ultima)).total_seconds() < CFG.get("minutos_comparador", 120) * 60:
+        return []
+    alertas["ultima_comparacion"] = ahora.isoformat(timespec="seconds")
+    ya_avisadas = {a["id"]: a for a in alertas["alertas"]}
+    elegidas = []
+    for tienda in CFG.get("tiendas_comparador", ["lider"]):
+        del_dia = sum(1 for a in alertas["alertas"] if a.get("tienda") == tienda)
+        cupo = max(0, min(CFG.get("max_por_revision_comparador", 2), CFG.get("max_por_dia_comparador", 10) - del_dia))
+        try:
+            ofertas = comparador.buscar(tienda)
+        except Exception as e:
+            print(f"  El comparador de {tienda} falló: {e}")
+            continue
+        nuevas = []
+        for o in ofertas:
+            previa = ya_avisadas.get(o["id"])
+            if previa and o["mejor_precio"] > previa["mejor_precio"] * 0.95:
+                continue
+            publicada = historial.get(o["id"])
+            if publicada and o["mejor_precio"] >= publicada["precio"]:
+                continue
+            if len(nuevas) >= cupo:
+                break
+            nuevas.append(o)
+        print(f"Comparador {tienda}: {len(ofertas)} ofertas reales, aviso {len(nuevas)}.")
+        elegidas += nuevas
+    return elegidas
 
 
 def topico_ntfy():
@@ -184,6 +223,8 @@ def main():
         familias.add(f)
         tipos.add(a["busqueda"])
         elegidas.append(a)
+
+    elegidas += ofertas_reales(alertas, historial, ahora, forzar=probar or ya)
 
     print(f"Revisados {len(vistos)} productos de Falabella: {len(fuertes)} ofertas fuertes, aviso {len(elegidas)}"
           f"{' (primera revisión: el bot recién empieza a recordar precios)' if not memoria else ''}.")

@@ -15,6 +15,7 @@ h1{font-size:22px;margin:4px 0 12px} .caja{background:#1b2850;border-radius:14px
 <div id="contenido" class="caja">Cargando la oferta…</div>
 <script>
 const BASE = "https://rodrigoaflores.github.io/bot-ofertas-ml/";
+const REPO = "RodrigoAFlores/bot-ofertas-ml", CLAVE = "bot_ofertas_token";   // la misma clave que guarda recibir.html
 const GENERADOR = "https://creators.falabella.com/publisher/campaign/16240/deeplink_generator";
 const clp = (n) => "$" + Math.round(n).toLocaleString("es-CL");
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -29,18 +30,49 @@ fetch(BASE + "alertas.json?" + Date.now(), { cache: "no-store" }).then((r) => r.
   caja.innerHTML = `
     <div class="foto"><img src="${esc(a.foto)}" alt=""></div>
     <h2 style="font-size:18px;margin:12px 0 6px">${esc(a.titulo)}</h2>
-    <div><span class="off">${a.descuento_total}% OFF</span><span class="precio">${clp(a.mejor_precio)}</span><span class="antes">${clp(a.precio_anterior)}</span></div>
+    ${a.comparado
+      ? `<div><span class="off">${a.descuento_total}% más barato</span><span class="precio">${clp(a.mejor_precio)}</span> en ${esc(a.nombre_tienda)}</div>
+         <p>En otras tiendas: ${a.comparado.map((c) => `${esc(c.tienda)} <b>${clp(c.precio)}</b>`).join(" · ")}</p>`
+      : `<div><span class="off">${a.descuento_total}% OFF</span><span class="precio">${clp(a.mejor_precio)}</span><span class="antes">${clp(a.precio_anterior)}</span></div>`}
     ${conCmr ? `<p>💳 Con tarjeta CMR · sin tarjeta: <b>${clp(a.precio)}</b></p>` : ""}
     <p class="motivo">Por qué te aviso: ${esc(a.motivo)}</p>
-    <p class="nota">Vendedor: ${esc(a.vendedor)}${a.nota ? ` · ⭐ ${a.nota}` : ""} · ${a.resenas} reseñas · precio visto hoy a las ${esc(a.hora)}</p>
-    <a class="b gris" href="${esc(a.url)}">Ver el producto en Falabella</a>
-    ${estado || `
+    <p class="nota">${a.comparado ? "Precios de SoloTodo" : `Vendedor: ${esc(a.vendedor)}${a.nota ? ` · ⭐ ${a.nota}` : ""} · ${a.resenas} reseñas`} · visto hoy a las ${esc(a.hora)}</p>
+    <a class="b gris" href="${esc(a.url)}">Ver el producto en ${esc(a.nombre_tienda || "Falabella")}</a>
+    ${estado || (a.comparado ? `
+    <button class="b" id="directo">✅ Aprobar y publicar</button>
+    <p class="nota">${esc(a.nombre_tienda)} no tiene programa de afiliados: la historia lleva el link normal de la tienda (no da comisión). Revisa el precio en la tienda antes de aprobar.</p>
+    <p id="estado" class="estado"></p>` : `
     <a class="b" href="${GENERADOR}#bot-alerta=${encodeURIComponent(a.id)}">✅ Aprobar y publicar</a>
     <ol class="nota">
       <li>Se abre tu panel de Falabella Creators.</li>
       <li>Ahí toca el marcador <b>Recolectar Falabella</b>: crea tu link y lo manda solo.</li>
       <li>En unos 3 minutos sale el post y la historia queda primera en <a href="historias.html">historias de hoy</a> (con su link).</li>
     </ol>
-    <p class="nota">Si no te convence, no hagas nada: sin tu aprobación no se publica.</p>`}`;
+    <p class="nota">Si no te convence, no hagas nada: sin tu aprobación no se publica.</p>`)}`;
+  const boton = document.getElementById("directo");
+  if (boton) boton.addEventListener("click", () => aprobarDirecto(a, boton));
 }).catch(() => { caja.textContent = "No pude cargar la oferta. Revisa tu conexión y vuelve a abrir el aviso."; });
+
+// Aprobación sin marcador (tiendas sin afiliado): sube data/alerta_aprobada.json con la clave de GitHub del teléfono.
+async function aprobarDirecto(a, boton) {
+  const estado = document.getElementById("estado");
+  const token = localStorage.getItem(CLAVE);
+  if (!token) { estado.innerHTML = 'Falta tu clave de GitHub en este teléfono. Ábrela una vez en <a href="recibir.html">recibir.html</a>.'; return; }
+  boton.disabled = true; estado.textContent = "Enviando tu aprobación…";
+  const aB64 = (t) => { const b = new TextEncoder().encode(t); let x = ""; for (let i = 0; i < b.length; i++) x += String.fromCharCode(b[i]); return btoa(x); };
+  const url = "https://api.github.com/repos/" + REPO + "/contents/data/alerta_aprobada.json";
+  const cab = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
+  try {
+    let sha;
+    const actual = await fetch(url + "?ref=main", { headers: cab });
+    if (actual.status === 200) sha = (await actual.json()).sha;
+    const datos = { v: 1, tienda: "alerta", generado: new Date().toISOString(), total_revisados: 1,
+      ofertas: [{ id: a.id, titulo: a.titulo, precio: a.mejor_precio, foto: a.foto, link: a.url }] };
+    const r = await fetch(url, { method: "PUT", headers: cab, body: JSON.stringify({
+      message: "Oferta flash aprobada desde el celular", branch: "main", sha, content: aB64(JSON.stringify(datos, null, 1)) }) });
+    if (!r.ok) throw new Error("GitHub respondió " + r.status);
+    estado.textContent = "✅ Aprobada. En unos 3 minutos sale el post y la historia queda primera en historias de hoy.";
+    boton.hidden = true;
+  } catch (e) { estado.textContent = "No se pudo enviar: " + e.message; boton.disabled = false; }
+}
 </script></body></html>

@@ -23,7 +23,9 @@ const dos = (n) => String(n).padStart(2, "0");
 // Logos de las tiendas, incrustados en el HTML (así no dependen de internet).
 const logo = (archivo) => "data:image/png;base64," + readFileSync(join(BASE, "marcas", archivo)).toString("base64");
 const LOGOS = { mercadolibre: logo("mercadolibre.png"), falabella: logo("falabella.png") };
-const logoTienda = (o) => `<div class="logo ${o.tienda === "falabella" ? "fal" : "ml"}"><img src="${LOGOS[o.tienda === "falabella" ? "falabella" : "mercadolibre"]}" alt=""></div>`;
+const logoTienda = (o) => o.tienda && !["falabella", "mercadolibre"].includes(o.tienda)
+  ? `<div class="logo texto">${esc(o.nombre_tienda || o.tienda)}</div>`   // tiendas sin logo guardado (Líder, Paris...)
+  : `<div class="logo ${o.tienda === "falabella" ? "fal" : "ml"}"><img src="${LOGOS[o.tienda === "falabella" ? "falabella" : "mercadolibre"]}" alt=""></div>`;
 
 const vendidosTexto = (v) => (v >= 1000 ? `${Math.round(v / 1000).toLocaleString("es-CL")} mil` : String(v));
 
@@ -37,6 +39,8 @@ export function tarjeta(o, formato) {
   .arriba { display: flex; justify-content: space-between; align-items: center; }
   .logo { background: #fff; border-radius: 28px; height: 116px; padding: 10px 30px; display: flex; align-items: center; }
   .logo img { height: 96px; } .logo.fal img { height: 58px; }
+  .logo.texto { color: #0071ce; font-size: 64px; font-weight: 900; letter-spacing: -1px; }
+  .comp { margin-top: 14px; font-size: 38px; font-weight: 700; color: #8ef5a4; }
   .tag { font-size: 34px; font-weight: 700; background: rgba(255,255,255,.12); padding: 14px 30px; border-radius: 999px; }
   .foto { flex: 1; min-height: 0; margin: 40px 0; background: #fff; border-radius: 48px; position: relative;
           display: flex; align-items: center; justify-content: center; padding: 50px; }
@@ -61,11 +65,13 @@ export function tarjeta(o, formato) {
     <div class="arriba">${logoTienda(o)}${o._categoria && o._categoria !== "Otros" ? `<div class="tag">${esc(o._categoria)}</div>` : ""}</div>
     <div class="foto">
       ${o.foto ? `<img src="${esc(o.foto)}">` : ""}
-      ${o.descuento_pct ? `<div class="off">${o.descuento_pct}%<small>OFF</small></div>`
+      ${o._comparado ? `<div class="off">${o.descuento_pct}%<small>MÁS BARATO</small></div>`
+        : o.descuento_pct ? `<div class="off">${o.descuento_pct}%<small>OFF</small></div>`
         : o.tipo === "popular" ? `<div class="top">🔥 ${esc(o.destacado || "MÁS VENDIDO").split(" ").join("<br>")}<small>en Mercado Libre</small></div>` : ""}
     </div>
     <h1>${esc(o.titulo)}</h1>
-    <div class="precios"><div class="ahora">${clp(o.precio)}</div>${o.precio_anterior ? `<div class="antes">${clp(o.precio_anterior)}</div>` : ""}</div>
+    <div class="precios"><div class="ahora">${clp(o.precio)}</div>${o.precio_anterior && !o._comparado ? `<div class="antes">${clp(o.precio_anterior)}</div>` : ""}</div>
+    ${o._comparado ? `<div class="comp">En otras tiendas: ${o._comparado.slice(0, 2).map((c) => `${esc(c.tienda)} ${clp(c.precio)}`).join(" · ")}</div>` : ""}
     ${o._con_cmr ? `<div class="ventas">💳 Precio con tarjeta CMR · sin tarjeta ${clp(o._sin_tarjeta)}</div>` : ""}
     ${o.tipo === "popular" && (o.vendidos || o.nota) ? `<div class="ventas">${[o.nota ? `⭐ ${String(o.nota).replace(".", ",")}` : "", o.vendidos ? `+${vendidosTexto(o.vendidos)} vendidos` : ""].filter(Boolean).join("  ·  ")}</div>` : ""}
     <div class="nota">Precio visto el ${esc(o._fecha)}${o._hora ? " a las " + esc(o._hora) : ""}. Puede cambiar.</div>
