@@ -64,3 +64,11 @@
 ### 3. En pausa
 - Líder: no tiene programa en Soicos y su web bloquea a los programas (captcha).
 - Historias programadas en Meta Business Suite (acceso restringido).
+
+## Descuentos REALES y Líder (18-nov, investigado, sin código todavía)
+- Decisión de Rodrigo: Falabella sigue con su propio panel (Falabella Creators), no por Soicos.
+- Rodrigo quiere "descuentos reales": que el precio sea más barato que en otras tiendas, y Líder sí o sí.
+- Lectura directa desde un programa: Falabella OK, Paris OK, Easy y ABC responden (sin revisar a fondo); Ripley 403, Hites captcha, Sodimac bloqueado, Mercado Libre account-verification, Líder captcha + fila (queue-it).
+- SOLUCIÓN encontrada: API pública de SoloTodo (api.solotodo.com, sin clave). 372 tiendas chilenas, incluidas Lider (id 43), Lider Marketplace (8642), Paris (11), Falabella (9), Ripley (18), Mercado Libre (260), Hites (87). Por producto da el precio de cada tienda (normal y oferta) y el historial (/entities/<id>/pricing_history/). Cubre 70 categorías: tecnología, electro, perfumes y algo de abarrotes; NO ropa ni colchones.
+- Prueba del 18-nov: 78 productos de Líder (TV, freidoras, celulares, notebooks) comparados con 2+ tiendas grandes; p. ej. Ninja AF300EU $169.990 en Líder vs $249.990 en Falabella (32% más barato).
+- Líder no tiene programa de afiliados (ni en Soicos): sus ofertas no dan comisión; el link sería el normal de lider.cl.
