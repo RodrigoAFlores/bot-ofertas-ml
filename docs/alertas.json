@@ -589,8 +589,70 @@
    "hora": "15:10",
    "visto": "2026-11-19T18:10:22+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2382834",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Tablets",
+   "url": "https://www.lider.cl/ip/Tablet-Redmi-Pad-2-9-7-4GB-128GB/00693909300809",
+   "titulo": "Xiaomi Redmi Pad 2 9.7 (128 GB / 4 GB / Graphite Gray)",
+   "foto": "https://i5.walmartimages.cl/asr/e43e3a2e-946d-4542-8950-7ccbfead42e8.3c86519c4e4c2c93bdba131c6a89f934.jpeg",
+   "precio": 129990.0,
+   "precio_tarjeta": 119990.0,
+   "mejor_precio": 119990.0,
+   "comparado": [
+    {
+     "tienda": "Hites",
+     "precio": 169990.0
+    }
+   ],
+   "precio_anterior": 169990.0,
+   "descuento_total": 29,
+   "baja_mes": 8,
+   "motivo": "29% más barato que en Hites ($169.990) · bajó 8% en el último mes",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 40,
+   "hora": "17:30",
+   "visto": "2026-11-19T20:30:21+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391705",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Celulares",
+   "url": "https://www.lider.cl/ip/Smartphone-Galaxy-A07-4G-128GB-Negro-Samsung/00880609766140",
+   "titulo": "Samsung Galaxy A07 4G (A075 / 128 GB / 4 GB / Gray) [SM-A075MZKGLTL]",
+   "foto": "https://i5.walmartimages.cl/asr/c00484cd-0324-4b3b-add3-b48ce75c5ea0.5335ea56bfb5e697dfa110bff9da857e.jpeg",
+   "precio": 119990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 119990.0,
+   "comparado": [
+    {
+     "tienda": "Hites",
+     "precio": 169990.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 189990.0
+    }
+   ],
+   "precio_anterior": 169990.0,
+   "descuento_total": 29,
+   "baja_mes": 0,
+   "motivo": "29% más barato que en Hites ($169.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 35,
+   "hora": "17:30",
+   "visto": "2026-11-19T20:30:21+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-19T18:10:22+00:00",
- "ultima_revision": "2026-11-19T19:50:17+00:00"
+ "ultima_comparacion": "2026-11-19T20:30:21+00:00",
+ "ultima_revision": "2026-11-19T20:30:21+00:00"
 }
