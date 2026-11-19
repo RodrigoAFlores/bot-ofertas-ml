@@ -380,8 +380,101 @@
    "hora": "09:40",
    "visto": "2026-11-19T12:40:17+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "FAL16900580",
+   "url": "https://www.falabella.com/falabella-cl/product/16900580/Afeitadora-Inalambrica-GAMA-G-Blade-Wet-Dry-USB",
+   "titulo": "Afeitadora Inalámbrica G-Blade Wet&Dry USB",
+   "marca": "GAMA",
+   "precio": 12990,
+   "precio_anterior": 29990,
+   "precio_cmr": null,
+   "descuento_pct": 57,
+   "vendedor": "Falabella",
+   "nota": 4.6,
+   "resenas": 49,
+   "foto": "https://media.falabella.com/falabellaCL/16900580_1/public",
+   "mas_vendido": false,
+   "puntaje": 234.2,
+   "busqueda": "afeitadora",
+   "mejor_precio": 12990,
+   "descuento_total": 57,
+   "extra_cmr": 0,
+   "baja_real": 43,
+   "motivo": "57% de descuento · bajó 43% desde lo más bajo que vimos ($22.990)",
+   "puntaje_alerta": 470.7,
+   "otras_tiendas": null,
+   "hora": "10:20",
+   "visto": "2026-11-19T13:20:16+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382976",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Cafeteras",
+   "url": "https://www.lider.cl/ip/Cafetera-Piccolo-XS-Black/00844529159144",
+   "titulo": "Nescafé Piccolo XS",
+   "foto": "https://i5.walmartimages.cl/asr/30f4a84f-e010-4811-9cce-7a8be515fe81.242d0c6a85e08449f4573a047687f4ab.jpeg",
+   "precio": 39990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 39990.0,
+   "comparado": [
+    {
+     "tienda": "Paris",
+     "precio": 59990.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 64990.0
+    },
+    {
+     "tienda": "Falabella",
+     "precio": 69990.0
+    }
+   ],
+   "precio_anterior": 59990.0,
+   "descuento_total": 33,
+   "baja_mes": 0,
+   "motivo": "33% más barato que en Paris ($59.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 48,
+   "hora": "10:20",
+   "visto": "2026-11-19T13:20:16+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391830",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Wearables",
+   "url": "https://www.lider.cl/ip/Smartwatch-Garmin-Forerunner-265S-Music-Negro/00075375931374",
+   "titulo": "Garmin Forerunner 265s 42mm - Black [010-02810-13]",
+   "foto": "https://i5.walmartimages.cl/asr/8804667d-694a-4f51-a7ef-a477e8c643db.afc4c36a74300de28062f2a7b552635d.jpeg",
+   "precio": 349990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 349990.0,
+   "comparado": [
+    {
+     "tienda": "Mercado Libre",
+     "precio": 599990.0
+    }
+   ],
+   "precio_anterior": 599990.0,
+   "descuento_total": 42,
+   "baja_mes": 0,
+   "motivo": "42% más barato que en Mercado Libre ($599.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 45,
+   "hora": "10:20",
+   "visto": "2026-11-19T13:20:16+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-19T11:00:21+00:00",
- "ultima_revision": "2026-11-19T12:40:17+00:00"
+ "ultima_comparacion": "2026-11-19T13:20:16+00:00",
+ "ultima_revision": "2026-11-19T13:20:16+00:00"
 }
