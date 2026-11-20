@@ -390,8 +390,92 @@
    "hora": "09:50",
    "visto": "2026-11-20T12:50:15+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "FAL137814266",
+   "url": "https://www.falabella.com/falabella-cl/product/137814266/Secador-de-Pelo-Osoji-Antifrizz-H3",
+   "titulo": "Secador de Pelo Antifrizz H3",
+   "marca": "OSOJI",
+   "precio": 59990,
+   "precio_anterior": 139990,
+   "precio_cmr": null,
+   "descuento_pct": 57,
+   "vendedor": "Osoji",
+   "nota": 4.6,
+   "resenas": 51,
+   "foto": "https://media.falabella.com/falabellaCL/137814267_01/public",
+   "mas_vendido": false,
+   "puntaje": 237.1,
+   "busqueda": "secador de pelo",
+   "mejor_precio": 59990,
+   "descuento_total": 57,
+   "extra_cmr": 0,
+   "baja_real": 8,
+   "motivo": "57% de descuento",
+   "puntaje_alerta": 242.1,
+   "hora": "10:20",
+   "visto": "2026-11-20T13:20:16+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2381842",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-Widemax-d-gital-8-5-litros-Mf-tn85dbk-Negro/00693671833868",
+   "titulo": "Midea MF-TN85DBK",
+   "foto": "https://i5.walmartimages.cl/asr/3a4d00ce-1f5f-4606-8a3f-4c6418d3e7b8.9b92c2457d5b34a23073012eaf2c99c9.jpeg",
+   "precio": 69990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 69990.0,
+   "comparado": [
+    {
+     "tienda": "Paris",
+     "precio": 139990.0
+    }
+   ],
+   "precio_anterior": 139990.0,
+   "descuento_total": 50,
+   "baja_mes": 0,
+   "motivo": "50% más barato que en Paris ($139.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 53,
+   "hora": "10:20",
+   "visto": "2026-11-20T13:20:16+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391830",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Wearables",
+   "url": "https://www.lider.cl/ip/Smartwatch-Garmin-Forerunner-265S-Music-Negro/00075375931374",
+   "titulo": "Garmin Forerunner 265s 42mm - Black [010-02810-13]",
+   "foto": "https://i5.walmartimages.cl/asr/8804667d-694a-4f51-a7ef-a477e8c643db.afc4c36a74300de28062f2a7b552635d.jpeg",
+   "precio": 349990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 349990.0,
+   "comparado": [
+    {
+     "tienda": "Mercado Libre",
+     "precio": 599990.0
+    }
+   ],
+   "precio_anterior": 599990.0,
+   "descuento_total": 42,
+   "baja_mes": 0,
+   "motivo": "42% más barato que en Mercado Libre ($599.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 45,
+   "hora": "10:20",
+   "visto": "2026-11-20T13:20:16+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-20T11:00:26+00:00",
- "ultima_revision": "2026-11-20T12:50:15+00:00"
+ "ultima_comparacion": "2026-11-20T13:20:16+00:00",
+ "ultima_revision": "2026-11-20T13:20:16+00:00"
 }
