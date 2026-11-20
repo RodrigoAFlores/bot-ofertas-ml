@@ -594,8 +594,66 @@
    "hora": "14:50",
    "visto": "2026-11-20T17:50:16+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2382834",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Tablets",
+   "url": "https://www.lider.cl/ip/Tablet-Redmi-Pad-2-9-7-4GB-128GB/00693909300809",
+   "titulo": "Xiaomi Redmi Pad 2 9.7 (128 GB / 4 GB / Graphite Gray)",
+   "foto": "https://i5.walmartimages.cl/asr/e43e3a2e-946d-4542-8950-7ccbfead42e8.3c86519c4e4c2c93bdba131c6a89f934.jpeg",
+   "precio": 129990.0,
+   "precio_tarjeta": 119990.0,
+   "mejor_precio": 119990.0,
+   "comparado": [
+    {
+     "tienda": "Hites",
+     "precio": 169990.0
+    }
+   ],
+   "precio_anterior": 169990.0,
+   "descuento_total": 29,
+   "baja_mes": 8,
+   "motivo": "29% más barato que en Hites ($169.990) · bajó 8% en el último mes",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 40,
+   "hora": "17:10",
+   "visto": "2026-11-20T20:10:16+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391440",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-Essential-6L-Blanco-Xiaomi/00694181278521",
+   "titulo": "Xiaomi Air Fryer Essential 6L (MAF13)",
+   "foto": "https://i5.walmartimages.cl/asr/fddd6d4c-b2f2-4a07-bce9-1901176a4394.a4fcc81365af34ef7a751e03c2c27e64.jpeg",
+   "precio": 46990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 46990.0,
+   "comparado": [
+    {
+     "tienda": "Mercado Libre",
+     "precio": 69990.0
+    }
+   ],
+   "precio_anterior": 69990.0,
+   "descuento_total": 33,
+   "baja_mes": 0,
+   "motivo": "33% más barato que en Mercado Libre ($69.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 36,
+   "hora": "17:10",
+   "visto": "2026-11-20T20:10:16+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-20T17:50:16+00:00",
- "ultima_revision": "2026-11-20T19:40:16+00:00"
+ "ultima_comparacion": "2026-11-20T20:10:16+00:00",
+ "ultima_revision": "2026-11-20T20:10:16+00:00"
 }
