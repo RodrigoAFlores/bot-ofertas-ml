@@ -372,8 +372,92 @@
    "hora": "09:50",
    "visto": "2026-11-21T12:50:15+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "FAL80783704",
+   "url": "https://www.falabella.com/falabella-cl/product/80783704/armaf-mandarin-sky-elixir-limited-edition-eau-de-parfum-100-ml",
+   "titulo": "Mandarin Sky Elixir Limited Edition Eau de Parfum 100 ml",
+   "marca": "ARMAF",
+   "precio": 29990,
+   "precio_anterior": 79990,
+   "precio_cmr": null,
+   "descuento_pct": 63,
+   "vendedor": "Falabella",
+   "nota": 4.6,
+   "resenas": 16,
+   "foto": "https://media.falabella.com/falabellaCL/80783704_1/public",
+   "mas_vendido": false,
+   "puntaje": 191.5,
+   "busqueda": "perfume",
+   "mejor_precio": 29990,
+   "descuento_total": 63,
+   "extra_cmr": 0,
+   "baja_real": 0,
+   "motivo": "63% de descuento",
+   "puntaje_alerta": 165.0,
+   "hora": "10:20",
+   "visto": "2026-11-21T13:20:15+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391830",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Wearables",
+   "url": "https://www.lider.cl/ip/Smartwatch-Garmin-Forerunner-265S-Music-Negro/00075375931374",
+   "titulo": "Garmin Forerunner 265s 42mm - Black [010-02810-13]",
+   "foto": "https://i5.walmartimages.cl/asr/8804667d-694a-4f51-a7ef-a477e8c643db.afc4c36a74300de28062f2a7b552635d.jpeg",
+   "precio": 349990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 349990.0,
+   "comparado": [
+    {
+     "tienda": "Mercado Libre",
+     "precio": 599990.0
+    }
+   ],
+   "precio_anterior": 599990.0,
+   "descuento_total": 42,
+   "baja_mes": 0,
+   "motivo": "42% más barato que en Mercado Libre ($599.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 45,
+   "hora": "10:20",
+   "visto": "2026-11-21T13:20:15+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382605",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Refrigeradores",
+   "url": "https://www.lider.cl/ip/Frigobar-Fr-o-directo-90-Litros-Retro-Line-LFB-90R/00780464698019",
+   "titulo": "Libero LFB-90R",
+   "foto": "https://i5.walmartimages.cl/asr/f7b1c004-02da-42a6-8997-93aeee11990e.f82d552756edb5fed03e66abc1088e1a.jpeg",
+   "precio": 119990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 119990.0,
+   "comparado": [
+    {
+     "tienda": "Hites",
+     "precio": 199990.0
+    }
+   ],
+   "precio_anterior": 199990.0,
+   "descuento_total": 40,
+   "baja_mes": 0,
+   "motivo": "40% más barato que en Hites ($199.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 43,
+   "hora": "10:20",
+   "visto": "2026-11-21T13:20:15+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-21T11:00:21+00:00",
- "ultima_revision": "2026-11-21T12:50:15+00:00"
+ "ultima_comparacion": "2026-11-21T13:20:15+00:00",
+ "ultima_revision": "2026-11-21T13:20:15+00:00"
 }
