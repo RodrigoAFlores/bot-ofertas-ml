@@ -518,8 +518,70 @@
    "hora": "12:40",
    "visto": "2026-11-22T15:40:17+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2382561",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-doble-Ninja-6-en-1-de-7-6-Litros/00062235623956",
+   "titulo": "Ninja AF300EU",
+   "foto": "https://i5.walmartimages.cl/asr/1b6f5b4c-9897-4fab-8414-531b240f5801.41df4a46bd16c8389e5f4b59898101b4.jpeg",
+   "precio": 189990.0,
+   "precio_tarjeta": 169990.0,
+   "mejor_precio": 169990.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 249990.0
+    },
+    {
+     "tienda": "Mercado Libre",
+     "precio": 249990.0
+    }
+   ],
+   "precio_anterior": 249990.0,
+   "descuento_total": 32,
+   "baja_mes": 0,
+   "motivo": "32% más barato que en Falabella ($249.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 38,
+   "hora": "15:00",
+   "visto": "2026-11-22T18:00:21+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391440",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-Essential-6L-Blanco-Xiaomi/00694181278521",
+   "titulo": "Xiaomi Air Fryer Essential 6L (MAF13)",
+   "foto": "https://i5.walmartimages.cl/asr/fddd6d4c-b2f2-4a07-bce9-1901176a4394.a4fcc81365af34ef7a751e03c2c27e64.jpeg",
+   "precio": 46990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 46990.0,
+   "comparado": [
+    {
+     "tienda": "Mercado Libre",
+     "precio": 69990.0
+    }
+   ],
+   "precio_anterior": 69990.0,
+   "descuento_total": 33,
+   "baja_mes": 0,
+   "motivo": "33% más barato que en Mercado Libre ($69.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 36,
+   "hora": "15:00",
+   "visto": "2026-11-22T18:00:21+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-22T15:40:17+00:00",
- "ultima_revision": "2026-11-22T17:20:16+00:00"
+ "ultima_comparacion": "2026-11-22T18:00:21+00:00",
+ "ultima_revision": "2026-11-22T18:00:21+00:00"
 }
