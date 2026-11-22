@@ -580,8 +580,70 @@
    "hora": "15:00",
    "visto": "2026-11-22T18:00:21+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2391705",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Celulares",
+   "url": "https://www.lider.cl/ip/Smartphone-Galaxy-A07-4G-128GB-Negro-Samsung/00880609766140",
+   "titulo": "Samsung Galaxy A07 4G (A075 / 128 GB / 4 GB / Gray) [SM-A075MZKGLTL]",
+   "foto": "https://i5.walmartimages.cl/asr/c00484cd-0324-4b3b-add3-b48ce75c5ea0.5335ea56bfb5e697dfa110bff9da857e.jpeg",
+   "precio": 119990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 119990.0,
+   "comparado": [
+    {
+     "tienda": "Hites",
+     "precio": 169990.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 189990.0
+    }
+   ],
+   "precio_anterior": 169990.0,
+   "descuento_total": 29,
+   "baja_mes": 0,
+   "motivo": "29% más barato que en Hites ($169.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 35,
+   "hora": "17:20",
+   "visto": "2026-11-22T20:20:15+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382324",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Celulares",
+   "url": "https://www.lider.cl/ip/Smartphone-Moto-G-Max-Light-256GB-Azul/00084049361522",
+   "titulo": "Motorola Moto G Max (256 GB / 8 GB / Alaskan Blue) [PBBR0003CL]",
+   "foto": "https://i5.walmartimages.cl/asr/b4732cb3-43ad-46a8-8578-f8e74d38e7fe.a8bee672e2104c97b4d795dae1f599d7.jpeg",
+   "precio": 249990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 249990.0,
+   "comparado": [
+    {
+     "tienda": "Mercado Libre",
+     "precio": 349990.0
+    }
+   ],
+   "precio_anterior": 349990.0,
+   "descuento_total": 29,
+   "baja_mes": 0,
+   "motivo": "29% más barato que en Mercado Libre ($349.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 32,
+   "hora": "17:20",
+   "visto": "2026-11-22T20:20:15+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-22T18:00:21+00:00",
- "ultima_revision": "2026-11-22T19:50:14+00:00"
+ "ultima_comparacion": "2026-11-22T20:20:15+00:00",
+ "ultima_revision": "2026-11-22T20:20:15+00:00"
 }
