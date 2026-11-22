@@ -460,8 +460,66 @@
    "hora": "10:20",
    "visto": "2026-11-22T13:20:20+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2382581",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-TH-AF18M-Negro/00780963970967",
+   "titulo": "Thomas TH-AF18M",
+   "foto": "https://i5.walmartimages.cl/asr/63734e3a-d595-4519-84a7-35abc260c31d.dfac339e810e2bd3d1b4b22891d6fb1c.jpeg",
+   "precio": 28990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 28990.0,
+   "comparado": [
+    {
+     "tienda": "Hites",
+     "precio": 44990.0
+    }
+   ],
+   "precio_anterior": 44990.0,
+   "descuento_total": 36,
+   "baja_mes": 0,
+   "motivo": "36% más barato que en Hites ($44.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 39,
+   "hora": "12:40",
+   "visto": "2026-11-22T15:40:17+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2381964",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Audífonos y Headsets",
+   "url": "https://www.lider.cl/ip/Aud-fonos-Over-Ear-Evo-Bluetooth-Aux-Jack-3-5-Violeta/00073637272556",
+   "titulo": "Sleve Evo - Violet Glow",
+   "foto": "https://i5.walmartimages.cl/asr/15965d08-3645-40ff-8efd-de1ecfa9e091.b98df0d4cad6dd5b8cb09bf6158e883d.jpeg",
+   "precio": 15000.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 15000.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 22990.0
+    }
+   ],
+   "precio_anterior": 22990.0,
+   "descuento_total": 35,
+   "baja_mes": 0,
+   "motivo": "35% más barato que en Falabella ($22.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 38,
+   "hora": "12:40",
+   "visto": "2026-11-22T15:40:17+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-22T13:20:20+00:00",
- "ultima_revision": "2026-11-22T15:10:15+00:00"
+ "ultima_comparacion": "2026-11-22T15:40:17+00:00",
+ "ultima_revision": "2026-11-22T15:40:17+00:00"
 }
