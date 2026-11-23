@@ -594,8 +594,74 @@
    "hora": "14:40",
    "visto": "2026-11-23T17:40:16+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2393897",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Aspiradoras",
+   "url": "https://www.lider.cl/ip/Aspiradora-Vacuum-Cleaner-G20-Max-Negro/00694181279196",
+   "titulo": "Xiaomi Vacuum Cleaner G20 Max",
+   "foto": "https://i5.walmartimages.cl/asr/9193173d-9954-4558-85df-cb40eb60b66c.59038ab2c45b0bbd4b2cc8e6057a535a.jpeg",
+   "precio": 199990.0,
+   "precio_tarjeta": 179990.0,
+   "mejor_precio": 179990.0,
+   "comparado": [
+    {
+     "tienda": "Mercado Libre",
+     "precio": 261493.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 269990.0
+    }
+   ],
+   "precio_anterior": 261493.0,
+   "descuento_total": 31,
+   "baja_mes": 0,
+   "motivo": "31% más barato que en Mercado Libre ($261.493)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 37,
+   "hora": "17:00",
+   "visto": "2026-11-23T20:00:23+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391705",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Celulares",
+   "url": "https://www.lider.cl/ip/Smartphone-Galaxy-A07-4G-128GB-Negro-Samsung/00880609766140",
+   "titulo": "Samsung Galaxy A07 4G (A075 / 128 GB / 4 GB / Gray) [SM-A075MZKGLTL]",
+   "foto": "https://i5.walmartimages.cl/asr/c00484cd-0324-4b3b-add3-b48ce75c5ea0.5335ea56bfb5e697dfa110bff9da857e.jpeg",
+   "precio": 119990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 119990.0,
+   "comparado": [
+    {
+     "tienda": "Hites",
+     "precio": 169990.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 189990.0
+    }
+   ],
+   "precio_anterior": 169990.0,
+   "descuento_total": 29,
+   "baja_mes": 0,
+   "motivo": "29% más barato que en Hites ($169.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 35,
+   "hora": "17:00",
+   "visto": "2026-11-23T20:00:23+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-23T17:40:16+00:00",
- "ultima_revision": "2026-11-23T19:20:24+00:00"
+ "ultima_comparacion": "2026-11-23T20:00:23+00:00",
+ "ultima_revision": "2026-11-23T20:00:23+00:00"
 }
