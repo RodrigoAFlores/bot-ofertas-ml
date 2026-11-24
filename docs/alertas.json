@@ -469,8 +469,66 @@
    "hora": "10:20",
    "visto": "2026-11-24T13:20:17+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2391844",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Celulares",
+   "url": "https://www.lider.cl/ip/Smartphone-Galaxy-S25-5G-256GB-Icyblue/00880609586826",
+   "titulo": "Samsung Galaxy S25 (S931 / 256 GB / 12 GB / Icy Blue) [SM-S931BLBKLTL]",
+   "foto": "https://i5.walmartimages.cl/asr/204b56b3-998f-4582-ad82-ab00a2a8722c.43ecb3ae93169390d8d2d36fcdd0ee80.jpeg",
+   "precio": 599990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 599990.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 1069990.0
+    }
+   ],
+   "precio_anterior": 1069990.0,
+   "descuento_total": 44,
+   "baja_mes": 0,
+   "motivo": "44% más barato que en Falabella ($1.069.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 47,
+   "hora": "12:50",
+   "visto": "2026-11-24T15:50:16+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2383124",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Audífonos y Headsets",
+   "url": "https://www.lider.cl/ip/Aud-fonos-Over-Ear-JBL-Tune-520C-USB-C-Blanco/00120013002322",
+   "titulo": "JBL Tune 520C USB-C - White (JBLT520CWHTAM)",
+   "foto": "https://i5.walmartimages.cl/asr/19608da3-3322-4fb4-bbae-f169824ab96b.f2fe4be712339c0c38b1c76092007de8.jpeg",
+   "precio": 19990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 19990.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 34990.0
+    }
+   ],
+   "precio_anterior": 34990.0,
+   "descuento_total": 43,
+   "baja_mes": 0,
+   "motivo": "43% más barato que en Falabella ($34.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 46,
+   "hora": "12:50",
+   "visto": "2026-11-24T15:50:16+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-24T13:20:17+00:00",
- "ultima_revision": "2026-11-24T15:10:24+00:00"
+ "ultima_comparacion": "2026-11-24T15:50:16+00:00",
+ "ultima_revision": "2026-11-24T15:50:16+00:00"
 }
