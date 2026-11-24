@@ -377,8 +377,100 @@
    "hora": "09:50",
    "visto": "2026-11-24T12:50:15+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "FAL114325367",
+   "url": "https://www.falabella.com/falabella-cl/product/114325367/iphone-11-64-gb-negro-reacondicionado",
+   "titulo": "IPhone 11 64 gb Black - Seminuevo",
+   "marca": "APPLE",
+   "precio": 179990,
+   "precio_anterior": 399990,
+   "precio_cmr": 170990,
+   "descuento_pct": 55,
+   "vendedor": "Renewed",
+   "nota": 4.3,
+   "resenas": 23,
+   "foto": "https://media.falabella.com/falabellaCL/114325368_01/public",
+   "mas_vendido": false,
+   "puntaje": 173.9,
+   "busqueda": "celular",
+   "mejor_precio": 170990,
+   "descuento_total": 57,
+   "extra_cmr": 5,
+   "baja_real": 0,
+   "motivo": "57% de descuento",
+   "puntaje_alerta": 175.5,
+   "hora": "10:20",
+   "visto": "2026-11-24T13:20:17+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382344",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Aspiradoras",
+   "url": "https://www.lider.cl/ip/Aspiradora-Cicl-nica-2000W-18CG-Multicolor/00695607972758",
+   "titulo": "Midea 18CG",
+   "foto": "https://i5.walmartimages.cl/asr/44d93952-b453-4c2f-9bb9-186a6c8e71a4.2392b13dbaf962fd2776a9f92837fb56.jpeg",
+   "precio": 59990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 59990.0,
+   "comparado": [
+    {
+     "tienda": "Paris",
+     "precio": 109990.0
+    }
+   ],
+   "precio_anterior": 109990.0,
+   "descuento_total": 45,
+   "baja_mes": 0,
+   "motivo": "45% más barato que en Paris ($109.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 48,
+   "hora": "10:20",
+   "visto": "2026-11-24T13:20:17+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382976",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Cafeteras",
+   "url": "https://www.lider.cl/ip/Cafetera-Piccolo-XS-Black/00844529159144",
+   "titulo": "Nescafé Piccolo XS",
+   "foto": "https://i5.walmartimages.cl/asr/30f4a84f-e010-4811-9cce-7a8be515fe81.242d0c6a85e08449f4573a047687f4ab.jpeg",
+   "precio": 39990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 39990.0,
+   "comparado": [
+    {
+     "tienda": "Paris",
+     "precio": 59990.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 64990.0
+    },
+    {
+     "tienda": "Falabella",
+     "precio": 69990.0
+    }
+   ],
+   "precio_anterior": 59990.0,
+   "descuento_total": 33,
+   "baja_mes": 0,
+   "motivo": "33% más barato que en Paris ($59.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 48,
+   "hora": "10:20",
+   "visto": "2026-11-24T13:20:17+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-24T11:00:22+00:00",
- "ultima_revision": "2026-11-24T12:50:15+00:00"
+ "ultima_comparacion": "2026-11-24T13:20:17+00:00",
+ "ultima_revision": "2026-11-24T13:20:17+00:00"
 }
