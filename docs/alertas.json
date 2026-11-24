@@ -589,8 +589,74 @@
    "hora": "15:00",
    "visto": "2026-11-24T18:00:23+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2381831",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-CKSTAF401MDF-052-Negro/00005389117596",
+   "titulo": "Oster CKSTAF401MDF-052",
+   "foto": "https://i5.walmartimages.cl/asr/62ba41bb-b16b-417d-9a30-83c71aa4bb58.fb4ab60a85bf48d20726b76d52e4c21f.jpeg",
+   "precio": 41990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 41990.0,
+   "comparado": [
+    {
+     "tienda": "Paris",
+     "precio": 59990.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 59990.0
+    },
+    {
+     "tienda": "Hites",
+     "precio": 67990.0
+    }
+   ],
+   "precio_anterior": 59990.0,
+   "descuento_total": 30,
+   "baja_mes": 0,
+   "motivo": "30% más barato que en Paris ($59.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 42,
+   "hora": "17:30",
+   "visto": "2026-11-24T20:30:19+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382581",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-TH-AF18M-Negro/00780963970967",
+   "titulo": "Thomas TH-AF18M",
+   "foto": "https://i5.walmartimages.cl/asr/63734e3a-d595-4519-84a7-35abc260c31d.dfac339e810e2bd3d1b4b22891d6fb1c.jpeg",
+   "precio": 28990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 28990.0,
+   "comparado": [
+    {
+     "tienda": "Hites",
+     "precio": 44990.0
+    }
+   ],
+   "precio_anterior": 44990.0,
+   "descuento_total": 36,
+   "baja_mes": 0,
+   "motivo": "36% más barato que en Hites ($44.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 39,
+   "hora": "17:30",
+   "visto": "2026-11-24T20:30:19+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-24T18:00:23+00:00",
- "ultima_revision": "2026-11-24T19:50:25+00:00"
+ "ultima_comparacion": "2026-11-24T20:30:19+00:00",
+ "ultima_revision": "2026-11-24T20:30:19+00:00"
 }
