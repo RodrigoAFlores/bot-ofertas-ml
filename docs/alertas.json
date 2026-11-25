@@ -396,8 +396,104 @@
    "hora": "09:40",
    "visto": "2026-11-25T12:40:15+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "FAL114325367",
+   "url": "https://www.falabella.com/falabella-cl/product/114325367/iphone-11-64-gb-negro-reacondicionado",
+   "titulo": "IPhone 11 64 gb Black - Seminuevo",
+   "marca": "APPLE",
+   "precio": 179990,
+   "precio_anterior": 399990,
+   "precio_cmr": 170990,
+   "descuento_pct": 55,
+   "vendedor": "Renewed",
+   "nota": 4.3,
+   "resenas": 23,
+   "foto": "https://media.falabella.com/falabellaCL/114325368_01/public",
+   "mas_vendido": false,
+   "puntaje": 173.9,
+   "busqueda": "celular",
+   "mejor_precio": 170990,
+   "descuento_total": 57,
+   "extra_cmr": 5,
+   "baja_real": 0,
+   "motivo": "57% de descuento",
+   "puntaje_alerta": 175.5,
+   "hora": "10:10",
+   "visto": "2026-11-25T13:10:19+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391830",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Wearables",
+   "url": "https://www.lider.cl/ip/Smartwatch-Garmin-Forerunner-265S-Music-Negro/00075375931374",
+   "titulo": "Garmin Forerunner 265s 42mm - Black [010-02810-13]",
+   "foto": "https://i5.walmartimages.cl/asr/8804667d-694a-4f51-a7ef-a477e8c643db.afc4c36a74300de28062f2a7b552635d.jpeg",
+   "precio": 349990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 349990.0,
+   "comparado": [
+    {
+     "tienda": "Mercado Libre",
+     "precio": 569990.0
+    },
+    {
+     "tienda": "Paris",
+     "precio": 579990.0
+    }
+   ],
+   "precio_anterior": 569990.0,
+   "descuento_total": 39,
+   "baja_mes": 0,
+   "motivo": "39% más barato que en Mercado Libre ($569.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 45,
+   "hora": "10:10",
+   "visto": "2026-11-25T13:10:19+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2381831",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-CKSTAF401MDF-052-Negro/00005389117596",
+   "titulo": "Oster CKSTAF401MDF-052",
+   "foto": "https://i5.walmartimages.cl/asr/62ba41bb-b16b-417d-9a30-83c71aa4bb58.fb4ab60a85bf48d20726b76d52e4c21f.jpeg",
+   "precio": 41990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 41990.0,
+   "comparado": [
+    {
+     "tienda": "Paris",
+     "precio": 59990.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 59990.0
+    },
+    {
+     "tienda": "Hites",
+     "precio": 67990.0
+    }
+   ],
+   "precio_anterior": 59990.0,
+   "descuento_total": 30,
+   "baja_mes": 0,
+   "motivo": "30% más barato que en Paris ($59.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 42,
+   "hora": "10:10",
+   "visto": "2026-11-25T13:10:19+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-25T11:00:22+00:00",
- "ultima_revision": "2026-11-25T12:40:15+00:00"
+ "ultima_comparacion": "2026-11-25T13:10:19+00:00",
+ "ultima_revision": "2026-11-25T13:10:19+00:00"
 }
