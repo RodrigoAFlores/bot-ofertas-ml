@@ -516,8 +516,6 @@ function render(T) {
   // transición: entra con tramado desde negro (0.3 s) y sale a negro (0.15 s)
   if (k > 0) sombra(1 - t / 0.3);
   if (k < 4) sombra((t - (DUR[k] - 0.15)) / 0.15);
-  // marca de IA
-  texto("VOZ GENERADA CON IA", W - 62, H - 10, 1, P.gris, null);
 }
 function eventos() {
   return [
