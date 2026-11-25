@@ -616,8 +616,66 @@
    "hora": "14:40",
    "visto": "2026-11-25T17:40:16+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2393897",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Aspiradoras",
+   "url": "https://www.lider.cl/ip/Aspiradora-Vacuum-Cleaner-G20-Max-Negro/00694181279196",
+   "titulo": "Xiaomi Vacuum Cleaner G20 Max",
+   "foto": "https://i5.walmartimages.cl/asr/9193173d-9954-4558-85df-cb40eb60b66c.59038ab2c45b0bbd4b2cc8e6057a535a.jpeg",
+   "precio": 199990.0,
+   "precio_tarjeta": 179990.0,
+   "mejor_precio": 179990.0,
+   "comparado": [
+    {
+     "tienda": "Ripley",
+     "precio": 269990.0
+    }
+   ],
+   "precio_anterior": 269990.0,
+   "descuento_total": 33,
+   "baja_mes": 0,
+   "motivo": "33% más barato que en Ripley ($269.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 36,
+   "hora": "16:50",
+   "visto": "2026-11-25T19:50:16+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382561",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-doble-Ninja-6-en-1-de-7-6-Litros/00062235623956",
+   "titulo": "Ninja AF300EU",
+   "foto": "https://i5.walmartimages.cl/asr/1b6f5b4c-9897-4fab-8414-531b240f5801.41df4a46bd16c8389e5f4b59898101b4.jpeg",
+   "precio": 189990.0,
+   "precio_tarjeta": 169990.0,
+   "mejor_precio": 169990.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 249990.0
+    }
+   ],
+   "precio_anterior": 249990.0,
+   "descuento_total": 32,
+   "baja_mes": 0,
+   "motivo": "32% más barato que en Falabella ($249.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 35,
+   "hora": "16:50",
+   "visto": "2026-11-25T19:50:16+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-25T17:40:16+00:00",
- "ultima_revision": "2026-11-25T19:20:16+00:00"
+ "ultima_comparacion": "2026-11-25T19:50:16+00:00",
+ "ultima_revision": "2026-11-25T19:50:16+00:00"
 }
