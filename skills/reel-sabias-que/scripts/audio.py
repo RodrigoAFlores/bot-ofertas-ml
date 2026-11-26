@@ -5,7 +5,7 @@ generados con numpy y sincronizados con <reel>/eventos.json (lo crea render.mjs 
 Uso: python3 audio.py <carpeta_del_reel>  → <reel>/musica.wav y <reel>/efectos.wav
 
 Tipos de efecto disponibles para eventos(): pop, check, whoosh, rafaga, ding, flash, error, crack, golpe,
-rodar, corte, swish, coro, brillo, toc, tic, corazones, timelapse, iris, huida, enojo, boing, boton.
+rodar, corte, swish, coro, brillo, toc, tic, corazones, timelapse, iris, huida, enojo, boing, boton, zumbido.
 """
 import json, sys, wave
 from pathlib import Path
@@ -147,6 +147,10 @@ def sfx(tipo):
         return y
     if tipo == "iris":
         t = k(0.5); return np.sin(2 * np.pi * (900 - 1400 * t) * t) * np.exp(-t * 3) * 0.08
+    if tipo == "zumbido":  # abeja: diente de sierra con vibrato que pasa (sube y baja)
+        t = k(0.9); f = 230 + 25 * np.sin(2 * np.pi * 7 * t)
+        y = 2 * ((np.cumsum(f) / SR) % 1) - 1
+        return pb(y, 0.2) * np.sin(np.pi * t / 0.9) ** 2 * (0.8 + 0.2 * np.sin(2 * np.pi * 31 * t)) * 0.16
     if tipo == "sigilo":
         return np.zeros(1)
     if tipo == "huida":  # pasitos rápidos + silbido

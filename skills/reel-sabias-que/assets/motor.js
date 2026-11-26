@@ -124,7 +124,7 @@ function destello(c, a, col = "255,255,255") { if (a > 0) { c.fillStyle = `rgba(
 function iris(c, p, x, y) {
   if (p >= 1) return;
   const r = Math.max(0, p) * 1300;
-  c.save(); c.fillStyle = "#0e1424"; c.beginPath(); c.rect(0, 0, W, H); c.arc(x, y, r, 0, 7, true); c.fill("evenodd"); c.restore();
+  c.save(); c.fillStyle = "#0e1424"; c.beginPath(); c.rect(0, 0, W, H); c.moveTo(x + r, y); c.arc(x, y, r, 0, Math.PI * 2, true); c.fill("evenodd"); c.restore();
 }
 
 
