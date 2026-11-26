@@ -1123,5 +1123,15 @@
     "media_id": "18121367968799216",
     "enlace": "https://www.instagram.com/p/DgLm53YGs_I/",
     "fecha": "2026-11-25T22:31:02+00:00"
+  },
+  {
+    "tipo": "carrusel",
+    "n": 0,
+    "titulo": "Carrusel Tecnología 2026-11-26",
+    "imagen": "img/2026-11-26-carrusel-tecnologia-portada.jpg",
+    "fotos": 10,
+    "media_id": "18135553208500100",
+    "enlace": "https://www.instagram.com/p/DgNDtDcjU_s/",
+    "fecha": "2026-11-26T12:01:58+00:00"
   }
 ]
