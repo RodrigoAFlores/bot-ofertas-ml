@@ -341,7 +341,7 @@ function escena4(c, t) {
   if (v < S4.sagitario) {
     // cronómetro 0 → 72 en cámara rápida con onda pulsando
     const seg = 72 * salida(v / 2.2);
-    cronometro(c, 540, 1050, 260 * resorte(v + 0.1, 8, 14), seg);
+    cronometro(c, 540, 1050, Math.max(40, 260 * resorte(v + 0.1, 8, 14)), seg);
     c.strokeStyle = C.senal; c.lineWidth = 8; c.beginPath();
     for (let x = 0; x <= W; x += 8) c.lineTo(x, 1500 + Math.sin(x * 0.03 - t * 12) * 40 * (0.5 + 0.5 * Math.sin(t * 3)));
     c.stroke();

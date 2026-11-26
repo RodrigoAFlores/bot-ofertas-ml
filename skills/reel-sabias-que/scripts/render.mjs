@@ -23,7 +23,7 @@ if (modo === "todo") {
   const n = info.frames, partes = 3, paso = Math.ceil(n / partes);
   await Promise.all(Array.from({ length: partes }, (_, i) => new Promise((ok, mal) => {
     const p = spawn("node", [fileURLToPath(import.meta.url), reel, String(i * paso), String(Math.min(n, (i + 1) * paso))], { stdio: "inherit" });
-    p.on("exit", (c) => (c ? mal(new Error("falló el render " + i)) : ok()));
+    p.on("exit", (c, sig) => (c === 0 ? ok() : mal(new Error(`falló el render ${i} (código ${c}, señal ${sig}); vuelve a correr ese tramo`))));
   })));
   console.log(`${n} cuadros listos en ${join(reel, "cuadros")}`);
   process.exit(0);
