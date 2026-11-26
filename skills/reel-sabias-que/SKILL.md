@@ -50,7 +50,8 @@ python3 <skill>/scripts/tiempos.py shorts/<tema>
 ```
 Crea `config.json` (duraciones de voz, `vo` = cuándo arranca la voz en su escena, `cola` = aire al final,
 `sigilo` = escenas con música de puntillas, `nombre` = nombre del mp4, `musica` = `"marimba"`
-(alegre, por defecto) o `"misterio"` (sintetizador espacial oscuro, para misterios: proponlo en el guion)) e imprime los tramos de cada frase.
+(alegre, por defecto), `"misterio"` (sintetizador espacial oscuro, para misterios) o `"synthwave"`
+(neón ochentero con batería, para videojuegos y temas urbanos); propón la música en el guion) e imprime los tramos de cada frase.
 Usa esos números para que cada efecto caiga en su palabra (ej.: el congelado justo en "piedra").
 
 ## Paso 5 — Animación

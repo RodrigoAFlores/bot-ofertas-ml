@@ -6,8 +6,8 @@ Uso: python3 audio.py <carpeta_del_reel>  → <reel>/musica.wav y <reel>/efectos
 
 Tipos de efecto disponibles para eventos(): pop, check, whoosh, rafaga, ding, flash, error, crack, golpe,
 rodar, corte, swish, coro, brillo, toc, tic, corazones, timelapse, iris, huida, enojo, boing, boton, zumbido,
-estatica, ping, impresora, clic, lapiz, dial.
-Música: config.json -> "musica": "marimba" (por defecto) o "misterio".
+estatica, ping, impresora, clic, lapiz, dial, ovni, rugido.
+Música: config.json -> "musica": "marimba" (por defecto), "misterio" o "synthwave".
 """
 import json, sys, wave
 from pathlib import Path
@@ -109,6 +109,28 @@ if MODO == "misterio":
         # campanita lejana
         poner(musica, np.sin(2 * np.pi * nota(raiz + 24 + ac[1]) * k(2.5)) * np.exp(-k(2.5) * 1.6) * 0.06, t0 + 1.5)
         t0 += dur_acorde; i += 1
+if MODO == "synthwave":
+    # synthwave de neón: batería electrónica, bajo en corcheas y acordes de sintetizador (Am F C G)
+    musica[:] = 0
+    prog_s = [(45, [0, 3, 7]), (41, [0, 4, 7]), (48, [0, 4, 7]), (43, [0, 4, 7])]
+    t0, i = 0.3, 0
+    while t0 < TOTAL:
+        raiz, ac = prog_s[i % 4]
+        for b in range(4):  # bombo en cada tiempo, caja en 2 y 4, platillo en corcheas
+            tb = t0 + b * negra
+            kk = k(0.35); poner(musica, np.sin(2 * np.pi * (50 + 90 * np.exp(-kk * 30)) * kk) * np.exp(-kk * 9) * 0.5, tb)
+            if b % 2: kk = k(0.25); poner(musica, (ruido(0.25) * 0.6 + np.sin(2 * np.pi * 190 * kk) * 0.4) * np.exp(-kk * 14) * 0.22, tb)
+            for h in range(2): kk = k(0.05); x = ruido(0.05); poner(musica, (x - pb(x, 0.6)) * np.exp(-kk * 80) * 0.08, tb + h * corchea)
+        for e8 in range(8):  # bajo en corcheas (octava alternada)
+            kk = k(corchea * 0.95); f = nota(raiz + (12 if e8 % 2 else 0))
+            y = 2 * ((f * kk) % 1) - 1; poner(musica, pb(y, 0.08) * np.exp(-kk * 4) * 0.3, t0 + e8 * corchea)
+        n = int(4 * negra * SR); kk = np.arange(n) / SR; y = np.zeros(n)  # acorde de colchón
+        for st in ac:
+            for det in (-0.1, 0.1):
+                f = nota(raiz + 24 + st) * 2 ** (det / 12); y += 2 * ((f * kk) % 1) - 1
+        env = np.minimum(1, kk / 0.3) * np.minimum(1, (4 * negra - kk) / 0.4)
+        poner(musica, pb(y, 0.05) * env * 0.04, t0)
+        t0 += 4 * negra; i += 1
 # entrada suave y fundido final
 musica[: int(0.6 * SR)] *= np.linspace(0, 1, int(0.6 * SR))
 f0, f1 = int((TOTAL - 1.2) * SR), int(TOTAL * SR)
@@ -193,6 +215,12 @@ def sfx(tipo):
         t = k(1.6); f = 300 + 700 * t / 1.6 + 60 * np.sin(2 * np.pi * 3 * t)
         y = np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.08 + (ruido(1.6) - pb(ruido(1.6), 0.4)) * 0.08
         return y * np.sin(np.pi * t / 1.6)
+    if tipo == "ovni":  # zumbido oscilante tipo platillo volador
+        t = k(2.2); f = 420 + 160 * np.sin(2 * np.pi * 5 * t) + 200 * t
+        return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.sin(np.pi * t / 2.2) * 0.16
+    if tipo == "rugido":  # gruñido grave de criatura
+        t = k(1.0); x = ruido(1.0); y = pb(x, 0.03) * (0.6 + 0.4 * np.sin(2 * np.pi * 23 * t)) + np.sin(2 * np.pi * (70 + 20 * np.sin(2 * np.pi * 3 * t)) * t) * 0.3
+        return y * np.sin(np.pi * t / 1.0) * 0.45
     if tipo == "zumbido":  # abeja: diente de sierra con vibrato que pasa (sube y baja)
         t = k(0.9); f = 230 + 25 * np.sin(2 * np.pi * 7 * t)
         y = 2 * ((np.cumsum(f) / SR) % 1) - 1
