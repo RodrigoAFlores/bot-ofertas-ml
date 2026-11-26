@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000}canvas{display:block}</style>
+</head><body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+// Mapa animado original (esquemático) — ruta del barco fantasma, GTA 6.
+// Ubicaciones referenciales según guías de jugadores; no es el mapa oficial.
+const W = 1080, H = 1920, DUR = 26;
+const c = document.getElementById('c'), x = c.getContext('2d');
+const F = 'Inter, "Inter Display", sans-serif';
+
+const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+const outBack = t => { const k = 1.7; return 1 + (k+1)*Math.pow(t-1,3) + k*Math.pow(t-1,2); };
+const seg = (t, a, b) => cl((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+
+// ---------- paleta ----------
+const SEA1 = '#06142b', SEA2 = '#0b2447', LAND = '#1d3a2f', LAND2 = '#2b5240',
+      PINK = '#ff3ea5', CYAN = '#3ee8ff', GREEN = '#58ff8a', GOLD = '#ffd23e', WHITE = '#f4f7ff';
+
+// pseudo-ruido determinista
+function rnd(i) { const s = Math.sin(i * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); }
+
+function blob(cx, cy, rx, ry, seed, n = 48, amp = .12) {
+  x.beginPath();
+  for (let i = 0; i <= n; i++) {
+    const a = i / n * Math.PI * 2;
+    const r = 1 + amp * (Math.sin(a * 3 + seed) * .5 + Math.sin(a * 7 + seed * 2) * .3 + Math.sin(a * 13 + seed) * .2);
+    const px = cx + Math.cos(a) * rx * r, py = cy + Math.sin(a) * ry * r;
+    i ? x.lineTo(px, py) : x.moveTo(px, py);
+  }
+  x.closePath();
+}
+
+function sea(t) {
+  const g = x.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, SEA1); g.addColorStop(1, SEA2);
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  // olas suaves
+  x.strokeStyle = 'rgba(62,232,255,0.06)'; x.lineWidth = 2;
+  for (let r = 0; r < 34; r++) {
+    const yy = 60 + r * 56;
+    x.beginPath();
+    for (let xx = 0; xx <= W; xx += 20) {
+      const y2 = yy + Math.sin(xx * .012 + t * 1.3 + r) * 6;
+      xx ? x.lineTo(xx, y2) : x.moveTo(xx, y2);
+    }
+    x.stroke();
+  }
+}
+
+function glowText(s, px, py, size, color, align = 'center', weight = 900, glow = 24, alpha = 1) {
+  x.save(); x.globalAlpha *= alpha; const A = x.globalAlpha;
+  x.font = `${weight} ${size}px ${F}`; x.textAlign = align; x.textBaseline = 'middle';
+  x.shadowColor = color; x.shadowBlur = glow; x.fillStyle = color; x.fillText(s, px, py);
+  x.shadowBlur = 0; x.fillStyle = color; x.globalAlpha = A;
+  x.fillText(s, px, py); x.restore();
+}
+function text(s, px, py, size, color = WHITE, align = 'center', weight = 700, alpha = 1) {
+  x.save(); x.globalAlpha *= alpha; x.font = `${weight} ${size}px ${F}`;
+  x.textAlign = align; x.textBaseline = 'middle';
+  x.lineWidth = size * .18; x.strokeStyle = 'rgba(0,0,0,.65)'; x.lineJoin = 'round';
+  x.strokeText(s, px, py); x.fillStyle = color; x.fillText(s, px, py); x.restore();
+}
+
+function pin(px, py, color, k, label) {
+  if (k <= 0) return;
+  const s = outBack(cl(k));
+  x.save(); x.translate(px, py); x.scale(s, s);
+  // pulso
+  const pr = 30 + (performance_t * 40 % 40);
+  x.strokeStyle = color; x.globalAlpha = .5 * (1 - (performance_t * 40 % 40) / 40); x.lineWidth = 4;
+  x.beginPath(); x.arc(0, 0, pr, 0, 7); x.stroke(); x.globalAlpha = 1;
+  x.shadowColor = color; x.shadowBlur = 30; x.fillStyle = color;
+  x.beginPath(); x.arc(0, -44, 26, Math.PI * .85, Math.PI * .15); x.lineTo(0, 0); x.closePath(); x.fill();
+  x.shadowBlur = 0; x.fillStyle = '#0a0f1e'; x.beginPath(); x.arc(0, -46, 10, 0, 7); x.fill();
+  x.restore();
+  if (label) text(label, px, py + 34, 34, WHITE, 'center', 800, cl(k * 2 - 1));
+}
+let performance_t = 0;
+
+// ---------- Escena 2: Leonida (esquema) ----------
+function leonida(t, k, zoom) {
+  x.save();
+  const zx = 760, zy = 560;           // zona NE (Leonard County aprox.)
+  const sc = lerp(1, 3.2, ease(zoom));
+  const e = ease(zoom);
+  x.translate(W/2, H/2); x.scale(sc, sc); x.translate(-lerp(W/2, zx, e), -lerp(H/2, zy, e));
+  x.globalAlpha = k;
+  // península estilizada
+  x.beginPath();
+  const P = [[90,430],[980,430],[930,520],[860,640],[800,780],[790,940],[810,1100],[840,1250],[830,1380],[790,1470],[720,1500],[660,1440],[620,1320],[560,1180],[480,1060],[420,980],[380,880],[340,760],[300,650],[220,590],[90,560]];
+  P.forEach((p, i) => i ? x.lineTo(...p) : x.moveTo(...p)); x.closePath();
+  x.fillStyle = LAND; x.fill(); x.lineWidth = 4; x.strokeStyle = 'rgba(62,232,255,.5)'; x.stroke();
+  // cayos
+  for (let i = 0; i < 9; i++) { blob(700 - i * 52, 1540 + i * 14, 20, 10, i); x.fill(); x.stroke(); }
+  // isla pequeña NE
+  blob(905, 560, 22, 15, 3); x.fillStyle = LAND2; x.fill(); x.stroke();
+  // etiquetas
+  text('LEONIDA', 560, 980, 64, 'rgba(255,255,255,.35)', 'center', 900, k * (1 - cl(zoom * 3)));
+  text('VICE CITY', 770, 1360, 30, PINK, 'center', 800, k * (1 - cl(zoom * 3)));
+  x.restore();
+}
+
+// ---------- Escena 3+: mapa local ----------
+const ISL = { x: 600, y: 930 };
+const LH = { x: 735, y: 900 };          // faro (punta este)
+const HOUSE = { x: 515, y: 915 };       // casa al oeste
+const DOCK_I = { x: 610, y: 1035 };     // muelle de la isla
+const DOCK_M = { x: 210, y: 1180 };     // muelle Millport
+const WRECK = { x: 935, y: 1010 };
+const GHOST = { x: 930, y: 560 };
+
+function localMap(t, k) {
+  x.save(); x.globalAlpha = k;
+  // tierra firme (Millport) al oeste
+  x.beginPath(); x.moveTo(0, 380);
+  for (let yy = 380; yy <= 1560; yy += 30) x.lineTo(250 + Math.sin(yy * .02) * 40 + Math.sin(yy * .051) * 25 - (yy > 1100 ? (yy - 1100) * .2 : 0), yy);
+  x.lineTo(0, 1560); x.closePath();
+  x.fillStyle = LAND; x.fill(); x.strokeStyle = 'rgba(62,232,255,.45)'; x.lineWidth = 4; x.stroke();
+  // cuadrícula de calles
+  x.strokeStyle = 'rgba(255,255,255,.08)'; x.lineWidth = 3;
+  for (let yy = 1000; yy < 1500; yy += 55) { x.beginPath(); x.moveTo(20, yy); x.lineTo(190, yy); x.stroke(); }
+  for (let xx = 30; xx < 200; xx += 55) { x.beginPath(); x.moveTo(xx, 990); x.lineTo(xx, 1500); x.stroke(); }
+  text('MILLPORT', 115, 960, 34, GOLD, 'center', 900);
+  // isla Little Hardin
+  blob(ISL.x, ISL.y, 190, 115, 1.7, 64, .1);
+  x.fillStyle = LAND2; x.fill(); x.strokeStyle = 'rgba(62,232,255,.7)'; x.stroke();
+  // árboles
+  for (let i = 0; i < 18; i++) {
+    const a = rnd(i) * 6.28, r = rnd(i + 9) * .75;
+    x.fillStyle = 'rgba(14,40,28,.9)';
+    x.beginPath(); x.arc(ISL.x - 40 + Math.cos(a) * 130 * r, ISL.y + Math.sin(a) * 70 * r, 14 + rnd(i+3) * 10, 0, 7); x.fill();
+  }
+  text('LITTLE HARDIN', ISL.x - 80, ISL.y - 150, 32, WHITE, 'center', 900);
+  // muelles
+  x.fillStyle = '#8a6a44';
+  x.fillRect(DOCK_I.x - 8, DOCK_I.y - 30, 16, 60);
+  x.fillRect(DOCK_M.x, DOCK_M.y - 8, 70, 16);
+  x.restore();
+}
+
+function lighthouse(px, py, s, beam, t) {
+  x.save(); x.translate(px, py); x.scale(s, s);
+  if (beam > 0) {
+    const a = t * 1.6;
+    x.save(); x.globalAlpha *= .35 * beam; x.translate(0, -77); x.rotate(a);
+    const g = x.createRadialGradient(0, 0, 0, 0, 0, 520);
+    g.addColorStop(0, 'rgba(255,240,170,.9)'); g.addColorStop(1, 'rgba(255,240,170,0)');
+    x.fillStyle = g; x.beginPath(); x.moveTo(0, 0); x.arc(0, 0, 520, -.18, .18); x.closePath(); x.fill();
+    x.restore();
+  }
+  x.fillStyle = WHITE; x.beginPath(); x.moveTo(-18, 0); x.lineTo(-11, -60); x.lineTo(11, -60); x.lineTo(18, 0); x.closePath(); x.fill();
+  x.fillStyle = PINK; x.fillRect(-15, -22, 30, 9); x.fillRect(-13, -44, 26, 9);
+  x.fillStyle = '#222'; x.fillRect(-14, -70, 28, 10);
+  x.shadowColor = GOLD; x.shadowBlur = 25; x.fillStyle = GOLD; x.fillRect(-9, -84, 18, 14); x.shadowBlur = 0;
+  x.fillStyle = PINK; x.beginPath(); x.moveTo(-13, -84); x.lineTo(0, -98); x.lineTo(13, -84); x.fill();
+  x.restore();
+}
+function house(px, py, s) {
+  x.save(); x.translate(px, py); x.scale(s, s);
+  x.fillStyle = '#6b5a4a'; x.fillRect(-24, -26, 48, 30);
+  x.fillStyle = '#3a2f27'; x.beginPath(); x.moveTo(-30, -24); x.lineTo(0, -48); x.lineTo(30, -24); x.fill();
+  x.fillStyle = GOLD; x.fillRect(-6, -16, 12, 12);
+  x.restore();
+}
+function boat(px, py, ang, s, color = WHITE) {
+  x.save(); x.translate(px, py); x.rotate(ang); x.scale(s, s);
+  x.fillStyle = color; x.beginPath(); x.moveTo(26, 0); x.lineTo(8, -12); x.lineTo(-22, -12); x.lineTo(-22, 12); x.lineTo(8, 12); x.closePath(); x.fill();
+  x.fillStyle = '#0a0f1e'; x.fillRect(-12, -6, 14, 12);
+  x.restore();
+}
+function ghostShip(px, py, s, a, t) {
+  x.save(); x.translate(px, py + Math.sin(t * 2) * 6); x.scale(s, s); x.globalAlpha *= a;
+  x.shadowColor = GREEN; x.shadowBlur = 40;
+  x.fillStyle = 'rgba(88,255,138,.55)';
+  x.beginPath(); x.moveTo(-90, 0); x.lineTo(90, 0); x.lineTo(70, 30); x.lineTo(-70, 30); x.closePath(); x.fill();
+  x.fillRect(-4, -110, 8, 110); x.fillRect(-50, -80, 4, 80);
+  x.beginPath(); x.moveTo(6, -105); x.quadraticCurveTo(60, -70, 6, -20); x.closePath(); x.fill();
+  x.beginPath(); x.moveTo(-46, -78); x.quadraticCurveTo(-10, -55, -46, -20); x.closePath(); x.fill();
+  x.restore();
+}
+function knife(px, py, s, a, t) {
+  x.save(); x.translate(px, py); x.rotate(-.6 + Math.sin(t * 3) * .1); x.scale(s, s); x.globalAlpha *= a;
+  x.shadowColor = GREEN; x.shadowBlur = 40 + Math.sin(t * 6) * 15;
+  x.fillStyle = GREEN; x.beginPath(); x.moveTo(0, -70); x.quadraticCurveTo(16, -20, 10, 10); x.lineTo(-10, 10); x.quadraticCurveTo(-8, -30, 0, -70); x.fill();
+  x.fillStyle = '#1c2b22'; x.fillRect(-20, 10, 40, 8); x.fillRect(-7, 18, 14, 40);
+  x.restore();
+}
+function wreck(px, py, s, a) {
+  x.save(); x.translate(px, py); x.scale(s, s); x.globalAlpha = a; x.rotate(.35);
+  x.fillStyle = '#4a3a2c'; x.beginPath(); x.moveTo(-60, -10); x.lineTo(50, -10); x.lineTo(30, 20); x.lineTo(-50, 20); x.closePath(); x.fill();
+  x.fillRect(-4, -60, 7, 50); x.restore();
+}
+function fog(t, k) {
+  if (k <= 0) return;
+  x.save();
+  for (let i = 0; i < 16; i++) {
+    const fx = 760 + rnd(i) * 340 + Math.sin(t * .4 + i) * 30, fy = 820 + rnd(i + 5) * 380;
+    const g = x.createRadialGradient(fx, fy, 0, fx, fy, 140 + rnd(i+2) * 80);
+    g.addColorStop(0, `rgba(200,215,235,${.22 * k})`); g.addColorStop(1, 'rgba(200,215,235,0)');
+    x.fillStyle = g; x.fillRect(fx - 240, fy - 240, 480, 480);
+  }
+  x.restore();
+}
+function dashedPath(pts, k, color, w = 8) {
+  if (k <= 0) return;
+  // longitud total
+  let L = 0; const d = [];
+  for (let i = 1; i < pts.length; i++) { const l = Math.hypot(pts[i][0]-pts[i-1][0], pts[i][1]-pts[i-1][1]); d.push(l); L += l; }
+  let rem = L * cl(k);
+  x.save(); x.strokeStyle = color; x.lineWidth = w; x.lineCap = 'round'; x.setLineDash([2, 22]);
+  x.shadowColor = color; x.shadowBlur = 18;
+  x.beginPath(); x.moveTo(...pts[0]);
+  let end = pts[0], ang = 0;
+  for (let i = 1; i < pts.length && rem > 0; i++) {
+    const f = Math.min(1, rem / d[i-1]);
+    end = [lerp(pts[i-1][0], pts[i][0], f), lerp(pts[i-1][1], pts[i][1], f)];
+    ang = Math.atan2(pts[i][1]-pts[i-1][1], pts[i][0]-pts[i-1][0]);
+    x.lineTo(...end); rem -= d[i-1];
+  }
+  x.stroke(); x.restore();
+  return { end, ang };
+}
+function compass(k) {
+  x.save(); x.globalAlpha = k; x.translate(960, 420);
+  x.strokeStyle = 'rgba(255,255,255,.6)'; x.lineWidth = 3; x.beginPath(); x.arc(0, 0, 46, 0, 7); x.stroke();
+  x.fillStyle = PINK; x.beginPath(); x.moveTo(0, -40); x.lineTo(12, 0); x.lineTo(-12, 0); x.fill();
+  x.fillStyle = WHITE; x.beginPath(); x.moveTo(0, 40); x.lineTo(12, 0); x.lineTo(-12, 0); x.fill();
+  text('N', 0, -70, 30, WHITE, 'center', 900); x.restore();
+}
+function clock(str, k) {
+  if (k <= 0) return;
+  x.save(); x.globalAlpha = k;
+  x.fillStyle = 'rgba(10,15,30,.85)'; x.strokeStyle = CYAN; x.lineWidth = 3;
+  rr(70, 375, 250, 90, 22); x.fill(); x.stroke();
+  text('🌙 ' + str, 195, 421, 46, CYAN, 'center', 900);
+  x.restore();
+}
+function rr(a, b, w, h, r) { x.beginPath(); x.roundRect(a, b, w, h, r); }
+
+// tarjeta de paso (parte inferior)
+function stepCard(n, title, sub, k) {
+  if (k <= 0) return;
+  const y = lerp(H + 50, 1560, ease(cl(k * 3)));
+  const a = cl(k * 3) * cl((1 - k) * 8);
+  x.save(); x.globalAlpha = a;
+  x.fillStyle = 'rgba(8,12,26,.92)'; x.strokeStyle = PINK; x.lineWidth = 4;
+  rr(60, y, 960, 250, 34); x.fill(); x.stroke();
+  x.shadowColor = PINK; x.shadowBlur = 25; x.fillStyle = PINK;
+  x.beginPath(); x.arc(150, y + 125, 58, 0, 7); x.fill(); x.shadowBlur = 0;
+  text(String(n), 150, y + 128, 64, '#0a0f1e', 'center', 900);
+  text(title, 240, y + 92, 50, WHITE, 'left', 900);
+  text(sub, 240, y + 165, 34, 'rgba(230,235,255,.85)', 'left', 600);
+  x.restore();
+}
+function header(k) {
+  x.save(); x.globalAlpha = k;
+  const g = x.createLinearGradient(0, 0, 0, 340); g.addColorStop(0, 'rgba(0,0,0,.85)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  x.fillStyle = g; x.fillRect(0, 0, W, 340);
+  glowText('BARCO FANTASMA', W/2, 150, 84, PINK);
+  text('GTA 6 · RUTA PASO A PASO', W/2, 240, 38, CYAN, 'center', 800);
+  x.restore();
+}
+
+// ---------- línea de tiempo ----------
+// 0-3 intro | 3-7 Leonida+zoom | 7-10 cruce lancha | 10-13 faro | 13-16 casa | 16-19 muelle/buceo
+// 19-22 niebla+cuchillo | 22-25 barco fantasma | 25-26 cierre
+function draw(t) {
+  performance_t = t;
+  x.setTransform(1, 0, 0, 1, 0, 0);
+  sea(t);
+
+  // --- intro ---
+  if (t < 3.6) {
+    const k = seg(t, 0, .6), out = 1 - seg(t, 3, 3.6);
+    x.save(); x.globalAlpha = out;
+    ghostShip(W/2 + 120, 1130, 2.6, .5 * k, t);
+    lighthouse(W/2 - 280, 1260, 3.2, k, t);
+    glowText('¿DÓNDE ESTÁ EL', W/2, 560, 70, WHITE, 'center', 900, 10, k);
+    glowText('BARCO FANTASMA?', W/2, 650, 92, PINK, 'center', 900, 34, k);
+    text('+ CUCHILLO MALDITO', W/2, 1420, 56, GREEN, 'center', 900, seg(t, .8, 1.4));
+    text('GTA 6 · paso a paso', W/2, 1510, 40, CYAN, 'center', 700, seg(t, 1.2, 1.8));
+    x.restore();
+  }
+
+  // --- Leonida ---
+  if (t >= 3 && t < 7.6) {
+    const k = seg(t, 3, 3.6) * (1 - seg(t, 7, 7.6));
+    const z = seg(t, 5.2, 7.2);
+    leonida(t, k, z);
+    x.save(); x.globalAlpha = k * (1 - z);
+    pin(760, 560, PINK, seg(t, 3.8, 4.4) * (1 - z), '');
+    text('NORESTE DE LEONIDA', W/2, 1620, 54, WHITE, 'center', 900, seg(t, 4, 4.5));
+    text('Isla Little Hardin · frente a Millport', W/2, 1700, 38, GOLD, 'center', 700, seg(t, 4.2, 4.7));
+    text('mapa referencial', W/2, 1780, 28, 'rgba(255,255,255,.5)', 'center', 600, seg(t, 4.4, 4.9));
+    x.restore();
+  }
+
+  // --- mapa local ---
+  if (t >= 7) {
+    const k = seg(t, 7, 7.8);
+    localMap(t, k);
+    compass(k);
+    const beam = seg(t, 10, 11);
+    lighthouse(LH.x, LH.y, 1.15 * outBack(seg(t, 7.4, 8.2)), beam, t);
+    house(HOUSE.x, HOUSE.y, outBack(seg(t, 13, 13.6)));
+    header(k);
+
+    // 1. cruce en lancha
+    const r1 = [[DOCK_M.x + 70, DOCK_M.y], [360, 1160], [470, 1090], [DOCK_I.x, DOCK_I.y + 30]];
+    const p1 = dashedPath(r1, seg(t, 7.8, 9.8), CYAN);
+    if (p1 && t < 10.5) boat(p1.end[0], p1.end[1], p1.ang, 1.2);
+    pin(DOCK_M.x + 30, DOCK_M.y - 10, GOLD, seg(t, 7.6, 8.1) * (1 - seg(t, 9.6, 10)), 'INICIO');
+
+    // 2. subir al faro + fantasmas
+    if (t > 10 && t < 13.2) {
+      const a = seg(t, 10.6, 11.2) * (1 - seg(t, 12.6, 13.2));
+      x.save(); x.globalAlpha = a; x.fillStyle = 'rgba(200,255,220,.7)'; x.shadowColor = GREEN; x.shadowBlur = 20;
+      const push = seg(t, 11.6, 12.4);
+      x.beginPath(); x.arc(LH.x - 30, LH.y - 120, 14, 0, 7); x.fill();
+      x.beginPath(); x.arc(LH.x + 30 + push * 30, LH.y - 120 + push * push * 90, 14, 0, 7); x.fill();
+      x.restore();
+    }
+    // 3. casa al oeste
+    dashedPath([[LH.x - 20, LH.y + 5], [640, 930], [HOUSE.x + 30, HOUSE.y]], seg(t, 13.2, 14.4), GOLD, 7);
+    if (t > 13.6 && t < 16.3) text('📖 diario junto a la chimenea', HOUSE.x - 20, HOUSE.y - 90, 30, GOLD, 'center', 800, seg(t, 13.8, 14.2) * (1 - seg(t, 15.8, 16.3)));
+    // 4. muelle: equipo de buceo
+    dashedPath([[HOUSE.x + 10, HOUSE.y + 20], [560, 990], [DOCK_I.x, DOCK_I.y - 20]], seg(t, 16, 16.9), GOLD, 7);
+    if (t > 16.6 && t < 19.3) text('🤿 equipo de buceo en el bote', DOCK_I.x + 10, DOCK_I.y + 70, 30, CYAN, 'center', 800, seg(t, 16.8, 17.2) * (1 - seg(t, 18.8, 19.3)));
+    // 5. al este, a la niebla
+    clock(t < 22.2 ? '01:00' : '01:30', seg(t, 16.4, 17) );
+    const r5 = [[DOCK_I.x + 20, DOCK_I.y + 30], [760, 1080], [WRECK.x - 20, WRECK.y - 30]];
+    const p5 = dashedPath(r5, seg(t, 17.4, 19.2), CYAN);
+    fog(t, seg(t, 18, 19.5) * (1 - .5 * seg(t, 22, 23)));
+    if (p5 && t > 17.4 && t < 22) boat(p5.end[0], p5.end[1], p5.ang, 1.2);
+    // buceo
+    if (t > 19.2) {
+      const a = seg(t, 19.2, 19.8) * (1 - seg(t, 21.8, 22.3));
+      const dy = ease(seg(t, 19.4, 20.4)) * 90;
+      wreck(WRECK.x, WRECK.y + 60 + dy * .2, 1.2, a);
+      x.save(); x.globalAlpha = a; x.strokeStyle = CYAN; x.lineWidth = 4; x.setLineDash([6, 10]);
+      x.beginPath(); x.moveTo(WRECK.x - 20, WRECK.y - 30); x.lineTo(WRECK.x - 20, WRECK.y - 30 + dy); x.stroke(); x.restore();
+      knife(W/2, 1250, 2.2 * outBack(seg(t, 20.2, 20.9)), a, t);
+      text('CUCHILLO MALDITO', W/2, 1400, 54, GREEN, 'center', 900, seg(t, 20.5, 21) * (1 - seg(t, 21.8, 22.3)));
+    }
+    // 6. mirar al noreste
+    if (t > 22) {
+      const a = seg(t, 22.2, 22.8);
+      x.save(); x.globalAlpha = a * .5; x.fillStyle = 'rgba(88,255,138,.25)';
+      x.beginPath(); x.moveTo(LH.x, LH.y - 90);
+      x.lineTo(GHOST.x - 170, GHOST.y - 120); x.lineTo(GHOST.x + 170, GHOST.y + 60); x.closePath(); x.fill(); x.restore();
+      ghostShip(GHOST.x - 30, GHOST.y, .9, seg(t, 23, 24) * .95, t);
+      text('↗ NORESTE', LH.x + 40, LH.y - 160, 34, GREEN, 'center', 900, a);
+    }
+
+    stepCard(1, 'Cruza a Little Hardin', 'Lancha o moto de agua desde Millport', seg(t, 7.8, 10.2));
+    stepCard(2, 'Sube al faro de noche', 'Mira a los 2 fantasmas discutir', seg(t, 10.2, 13.2));
+    stepCard(3, 'Casa al oeste del faro', 'Lee el diario', seg(t, 13.2, 16.2));
+    stepCard(4, 'Muelle de la isla', 'Toma el equipo de buceo', seg(t, 16.2, 17.5));
+    stepCard(5, 'Al este hasta la niebla', 'El motor se apaga → bucea', seg(t, 17.5, 22.2));
+    stepCard(6, 'Vuelve arriba del faro', 'Mira al noreste ~01:30', seg(t, 22.2, 25.2));
+
+    // cierre
+    if (t > 25) {
+      const a = seg(t, 25, 25.5);
+      x.save(); x.globalAlpha = a * .8; x.fillStyle = '#000'; x.fillRect(0, 0, W, H); x.restore();
+      glowText('SÍGUEME', W/2, 860, 110, PINK, 'center', 900, 34, a);
+      text('para más easter eggs de GTA 6', W/2, 990, 44, WHITE, 'center', 800, a);
+    }
+  }
+}
+window.draw = draw; window.DUR = DUR;
+draw(0);
+</script>
+</body></html>
