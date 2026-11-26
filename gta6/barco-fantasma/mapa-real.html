@@ -5,10 +5,11 @@
 @font-face{font-family:GTAsub;font-weight:700;src:url(fonts/oswald-latin-700-normal.woff2)}</style>
 </head><body>
 <canvas id="c" width="1080" height="1920"></canvas>
+<script src="tiempos.js"></script>
 <img id="map" src="mapa-leonida-3x.jpg" style="display:none">
 <script>
 // Ruta del barco fantasma sobre el mapa de Leonida (coordenadas en píxeles del mapa original 1366x1870).
-const W = 1080, H = 1920, DUR = 28, MW = 1366, MH = 1870;
+const W = 1080, H = 1920, DUR_ANIM = 28, MW = 1366, MH = 1870;
 const c = document.getElementById('c'), x = c.getContext('2d');
 const MAP = document.getElementById('map');
 const F = 'GTAsub, Inter, sans-serif', FT = 'GTA, Impact, sans-serif';
@@ -231,7 +232,7 @@ function stepCard(n, title, sub, k) {
 }
 
 // ---------- línea de tiempo ----------
-function draw(t) {
+function drawAnim(t) {
   performance_t = t;
   camera(t);
   drawMap();
@@ -327,6 +328,13 @@ function draw(t) {
     }
   }
 }
-window.draw = draw; window.DUR = DUR;
+// tiempo del video final → tiempo de la animación (sincronizado con la voz, ver tiempos.py)
+function warp(T) {
+  const P = window.WARP || [[0, 0], [DUR_ANIM, DUR_ANIM]];
+  if (T <= P[0][0]) return P[0][1];
+  for (let i = 1; i < P.length; i++) if (T <= P[i][0]) return lerp(P[i-1][1], P[i][1], (T - P[i-1][0]) / (P[i][0] - P[i-1][0]));
+  return P[P.length - 1][1];
+}
+window.draw = T => drawAnim(warp(T)); window.DUR = window.DUR || DUR_ANIM;
 </script>
 </body></html>
