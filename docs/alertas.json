@@ -292,32 +292,6 @@
    "estado": "avisada"
   },
   {
-   "id": "FAL128455720",
-   "url": "https://www.falabella.com/falabella-cl/product/128455720/colchon-emma-thermosync-king-180x200-cm",
-   "titulo": "Colchón ThermoSync King",
-   "marca": "EMMA",
-   "precio": 365990,
-   "precio_anterior": 1069937,
-   "precio_cmr": null,
-   "descuento_pct": 66,
-   "vendedor": "Emma Sleep Spa",
-   "nota": 4.7,
-   "resenas": 41,
-   "foto": "https://media.falabella.com/falabellaCL/128455721_01/public",
-   "mas_vendido": false,
-   "puntaje": 262.6,
-   "busqueda": "colchon",
-   "mejor_precio": 365990,
-   "descuento_total": 66,
-   "extra_cmr": 0,
-   "baja_real": 0,
-   "motivo": "66% de descuento",
-   "puntaje_alerta": 210.0,
-   "hora": "09:20",
-   "visto": "2026-11-26T12:20:14+00:00",
-   "estado": "avisada"
-  },
-  {
    "id": "FAL883494571",
    "url": "https://www.falabella.com/falabella-cl/product/883494571/BICICLETA-MONTA-ASPECT960.",
    "titulo": "Bicicleta Mountain Bike ASPECT 960 Aro 29 Naranja",
@@ -394,8 +368,96 @@
    "hora": "09:50",
    "visto": "2026-11-26T12:50:15+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "FAL128455720",
+   "url": "https://www.falabella.com/falabella-cl/product/128455720/colchon-emma-thermosync-king-180x200-cm",
+   "titulo": "Colchón ThermoSync King",
+   "marca": "EMMA",
+   "precio": 344990,
+   "precio_anterior": 1069937,
+   "precio_cmr": null,
+   "descuento_pct": 68,
+   "vendedor": "Emma Sleep Spa",
+   "nota": 4.7,
+   "resenas": 41,
+   "foto": "https://media.falabella.com/falabellaCL/128455721_01/public",
+   "mas_vendido": false,
+   "puntaje": 270.6,
+   "busqueda": "colchon",
+   "mejor_precio": 344990,
+   "descuento_total": 68,
+   "extra_cmr": 0,
+   "baja_real": 6,
+   "motivo": "68% de descuento",
+   "puntaje_alerta": 254.5,
+   "hora": "10:20",
+   "visto": "2026-11-26T13:20:15+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391844",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Celulares",
+   "url": "https://www.lider.cl/ip/Smartphone-Galaxy-S25-5G-256GB-Icyblue/00880609586826",
+   "titulo": "Samsung Galaxy S25 (S931 / 256 GB / 12 GB / Icy Blue) [SM-S931BLBKLTL]",
+   "foto": "https://i5.walmartimages.cl/asr/204b56b3-998f-4582-ad82-ab00a2a8722c.43ecb3ae93169390d8d2d36fcdd0ee80.jpeg",
+   "precio": 599990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 599990.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 1069990.0
+    }
+   ],
+   "precio_anterior": 1069990.0,
+   "descuento_total": 44,
+   "baja_mes": 0,
+   "motivo": "44% más barato que en Falabella ($1.069.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 47,
+   "hora": "10:20",
+   "visto": "2026-11-26T13:20:15+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2391830",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Wearables",
+   "url": "https://www.lider.cl/ip/Smartwatch-Garmin-Forerunner-265S-Music-Negro/00075375931374",
+   "titulo": "Garmin Forerunner 265s 42mm - Black [010-02810-13]",
+   "foto": "https://i5.walmartimages.cl/asr/8804667d-694a-4f51-a7ef-a477e8c643db.afc4c36a74300de28062f2a7b552635d.jpeg",
+   "precio": 349990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 349990.0,
+   "comparado": [
+    {
+     "tienda": "Mercado Libre",
+     "precio": 569990.0
+    },
+    {
+     "tienda": "Paris",
+     "precio": 579990.0
+    }
+   ],
+   "precio_anterior": 569990.0,
+   "descuento_total": 39,
+   "baja_mes": 0,
+   "motivo": "39% más barato que en Mercado Libre ($569.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 45,
+   "hora": "10:20",
+   "visto": "2026-11-26T13:20:15+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-26T11:00:27+00:00",
- "ultima_revision": "2026-11-26T12:50:15+00:00"
+ "ultima_comparacion": "2026-11-26T13:20:15+00:00",
+ "ultima_revision": "2026-11-26T13:20:15+00:00"
 }
