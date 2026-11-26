@@ -5,7 +5,9 @@ generados con numpy y sincronizados con <reel>/eventos.json (lo crea render.mjs 
 Uso: python3 audio.py <carpeta_del_reel>  → <reel>/musica.wav y <reel>/efectos.wav
 
 Tipos de efecto disponibles para eventos(): pop, check, whoosh, rafaga, ding, flash, error, crack, golpe,
-rodar, corte, swish, coro, brillo, toc, tic, corazones, timelapse, iris, huida, enojo, boing, boton, zumbido.
+rodar, corte, swish, coro, brillo, toc, tic, corazones, timelapse, iris, huida, enojo, boing, boton, zumbido,
+estatica, ping, impresora, clic, lapiz, dial.
+Música: config.json -> "musica": "marimba" (por defecto) o "misterio".
 """
 import json, sys, wave
 from pathlib import Path
@@ -62,6 +64,8 @@ def ruido(d):
 
 
 # ---------------- música ----------------
+# config.json -> "musica": "marimba" (alegre, por defecto) o "misterio" (sintetizador espacial oscuro)
+MODO = CFG.get("musica", "marimba")
 musica = np.zeros(N)
 bpm = 108; negra = 60 / bpm; corchea = negra / 2
 prog = [(60, [0, 4, 7]), (55, [0, 4, 7]), (57, [0, 3, 7]), (53, [0, 4, 7])]  # C G Am F
@@ -83,6 +87,28 @@ while t < TOTAL:
         poner(musica, marimba(nota(raiz - 12), 0.9, 0.35), t)
         poner(musica, marimba(nota(raiz - 12 + 7), 0.9, 0.25), t + 2 * negra)
     t += 4 * negra; comp += 1
+if MODO == "misterio":
+    musica[:] = 0
+    tt = np.arange(N) / SR
+    # dron grave que respira
+    musica += (np.sin(2 * np.pi * 55 * tt) * 0.16 + np.sin(2 * np.pi * 82.41 * tt + 1) * 0.08) * (0.7 + 0.3 * np.sin(2 * np.pi * 0.07 * tt))
+    # acordes oscuros de colchón (Am, F, Dm, Mi) con dientes de sierra desafinados y filtrados
+    ciclo = [(57, [0, 3, 7]), (53, [0, 4, 7]), (50, [0, 3, 7]), (52, [0, 4, 7])]
+    dur_acorde = 8 * negra
+    t0, i = 0.0, 0
+    while t0 < TOTAL:
+        raiz, ac = ciclo[i % 4]
+        n = int(dur_acorde * SR); k_ = np.arange(n) / SR
+        env = np.minimum(1, k_ / 1.2) * np.minimum(1, (dur_acorde - k_) / 1.2)
+        y = np.zeros(n)
+        for st in ac:
+            for det in (-0.12, 0.12):
+                f = nota(raiz + st) * 2 ** (det / 12)
+                y += 2 * ((f * k_) % 1) - 1
+        poner(musica, pb(y, 0.02) * env * 0.05, t0)
+        # campanita lejana
+        poner(musica, np.sin(2 * np.pi * nota(raiz + 24 + ac[1]) * k(2.5)) * np.exp(-k(2.5) * 1.6) * 0.06, t0 + 1.5)
+        t0 += dur_acorde; i += 1
 # entrada suave y fundido final
 musica[: int(0.6 * SR)] *= np.linspace(0, 1, int(0.6 * SR))
 f0, f1 = int((TOTAL - 1.2) * SR), int(TOTAL * SR)
@@ -147,6 +173,26 @@ def sfx(tipo):
         return y
     if tipo == "iris":
         t = k(0.5); return np.sin(2 * np.pi * (900 - 1400 * t) * t) * np.exp(-t * 3) * 0.08
+    if tipo == "estatica":  # estática de radio/TV
+        t = k(0.6); x = ruido(0.6); return (x - pb(x, 0.35)) * np.sin(np.pi * t / 0.6) * 0.35
+    if tipo == "ping":  # sonar / radar
+        t = k(1.6); y = np.sin(2 * np.pi * 1250 * t) * np.exp(-t * 3.5)
+        eco = np.zeros_like(y); d = int(0.28 * SR); eco[d:] = y[:-d] * 0.35
+        return (y + eco) * 0.16
+    if tipo == "impresora":  # impresora de matriz de puntos, 3 s
+        y = np.zeros(int(3.0 * SR))
+        for i in range(int(3.0 * 14)):
+            t = k(0.035); m = (ruido(0.035) - pb(ruido(0.035), 0.3)) * np.exp(-t * 90) * 0.3
+            s0 = int(i / 14 * SR); y[s0 : s0 + len(m)] += m[: len(y) - s0]
+        return y * np.minimum(1, np.linspace(3, 0, len(y)))
+    if tipo == "clic":  # tecla de máquina de escribir
+        t = k(0.12); return (ruido(0.12) * np.exp(-t * 120) * 0.5 + np.sin(2 * np.pi * 140 * t) * np.exp(-t * 40) * 0.4) * 0.6
+    if tipo == "lapiz":  # lápiz que escribe rápido
+        t = k(0.9); x = ruido(0.9); return (x - pb(x, 0.5)) * (0.5 + 0.5 * np.sin(2 * np.pi * 9 * t)) ** 2 * np.sin(np.pi * t / 0.9) * 0.22
+    if tipo == "dial":  # sintonizar una radio
+        t = k(1.6); f = 300 + 700 * t / 1.6 + 60 * np.sin(2 * np.pi * 3 * t)
+        y = np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.08 + (ruido(1.6) - pb(ruido(1.6), 0.4)) * 0.08
+        return y * np.sin(np.pi * t / 1.6)
     if tipo == "zumbido":  # abeja: diente de sierra con vibrato que pasa (sube y baja)
         t = k(0.9); f = 230 + 25 * np.sin(2 * np.pi * 7 * t)
         y = 2 * ((np.cumsum(f) / SR) % 1) - 1
