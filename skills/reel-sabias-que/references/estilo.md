@@ -75,4 +75,5 @@ Sonidos: `eventos()` devuelve `[{t: segundosGlobales, tipo}]`; para un momento d
 `INI[k] + VO[k] + segundosDeLaFrase`. Pon un `pop` por letra de cada título (cada 0.035 s), `check` en
 etiquetas, `whoosh` en transiciones, `ding`/`flash` en congelados, `golpe` en paradas en seco, `error` en ❌,
 `swish` al lanzar, `coro` + `brillo` en revelaciones, `corazones`, `timelapse`, `iris`, `huida`, `enojo`,
-`boing` al ladear la cabeza y `boton` al aparecer SÍGUEME. Escenas de travesura: `config.json → "sigilo": [k]`.
+`boing` al ladear la cabeza y `boton` al aparecer SÍGUEME. Para misterios: `estatica`, `ping` (radar),
+`impresora`, `clic` (tecla), `lapiz`, `dial` (sintonizar radio); para insectos: `zumbido`. Escenas de travesura: `config.json → "sigilo": [k]`.

@@ -24,7 +24,9 @@ Escribe el guion con la plantilla de `references/guion.md`: **solo la historia, 
 lo pidió así), 5–6 escenas, 45–55 s en total, cada escena con **Narración**, **Pantalla** (texto con emoji) y
 **Escena** detallando cámara, efectos y transiciones (catálogo en `references/estilo.md`). Debe pasar algo nuevo
 cada 2–3 segundos. Cierre: pregunta al espectador + "Etiquétalo en los comentarios" + "Sígueme para el próximo
-¿Sabías que…?" (es Facebook: "Sígueme", nunca "Suscríbete").
+¿Sabías que…?" (es Facebook: "Sígueme", nunca "Suscríbete"). Si el tema es un **misterio real sin respuesta**
+(para que comenten su teoría sin elegir opciones), cierra con "¿Tú qué crees que fue? Te leo en los
+comentarios" y usa música "misterio". Ejemplo hecho: `shorts/senal-wow/` (la señal Wow!).
 
 Muéstralo y pregunta si lo aprueba. La voz cuesta ~750–900 créditos de ElevenLabs; la animación es gratis.
 Si pide cambios, ajusta y vuelve a mostrar. Explica, si pregunta, que la voz va **antes** que la animación
@@ -47,7 +49,8 @@ porque la animación se sincroniza con las palabras.
 python3 <skill>/scripts/tiempos.py shorts/<tema>
 ```
 Crea `config.json` (duraciones de voz, `vo` = cuándo arranca la voz en su escena, `cola` = aire al final,
-`sigilo` = escenas con música de puntillas, `nombre` = nombre del mp4) e imprime los tramos de cada frase.
+`sigilo` = escenas con música de puntillas, `nombre` = nombre del mp4, `musica` = `"marimba"`
+(alegre, por defecto) o `"misterio"` (sintetizador espacial oscuro, para misterios: proponlo en el guion)) e imprime los tramos de cada frase.
 Usa esos números para que cada efecto caiga en su palabra (ej.: el congelado justo en "piedra").
 
 ## Paso 5 — Animación
