@@ -8,7 +8,7 @@ const fs = require('fs'), path = require('path');
   const b = await chromium.launch({ args: ['--allow-file-access-from-files', '--disable-web-security'] });
   const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
   await p.goto('file://' + path.resolve(html));
-  await p.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode())); });
+  await p.evaluate(async () => { await document.fonts.load('40px GTA'); await document.fonts.load('700 40px GTAsub'); await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode())); });
   const DUR = await p.evaluate(() => window.DUR);
   const frame = async t => Buffer.from((await p.evaluate(t => { draw(t); return document.getElementById('c').toDataURL('image/jpeg', 0.95); }, t)).split(',')[1], 'base64');
   if (mode === 'preview') {

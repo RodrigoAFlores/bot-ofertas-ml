@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html><head><meta charset="utf-8">
-<style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<style>html,body{margin:0;background:#000}canvas{display:block}
+@font-face{font-family:GTA;src:url(fonts/anton-latin-400-normal.woff2)}
+@font-face{font-family:GTAsub;font-weight:700;src:url(fonts/oswald-latin-700-normal.woff2)}</style>
 </head><body>
 <canvas id="c" width="1080" height="1920"></canvas>
 <img id="map" src="mapa-leonida-3x.jpg" style="display:none">
@@ -9,7 +11,7 @@
 const W = 1080, H = 1920, DUR = 28, MW = 1366, MH = 1870;
 const c = document.getElementById('c'), x = c.getContext('2d');
 const MAP = document.getElementById('map');
-const F = 'Inter, "Inter Display", sans-serif';
+const F = 'GTAsub, Inter, sans-serif', FT = 'GTA, Impact, sans-serif';
 const PINK = '#ff2e93', CYAN = '#00e0ff', GREEN = '#3dff7a', GOLD = '#ffd23e', WHITE = '#ffffff', NAVY = '#06233a';
 
 const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -64,19 +66,33 @@ function drawMap() {
   x.drawImage(MAP, 0, 0, MW, MH);
   x.restore();
 }
-function text(s, px, py, size, color = WHITE, align = 'center', weight = 800, alpha = 1, stroke = 'rgba(0,25,45,.85)') {
+// texto estilo GTA: mayúsculas, borde negro grueso y sombra dura
+function text(s, px, py, size, color = WHITE, align = 'center', weight = 700, alpha = 1) {
   if (alpha <= 0) return;
+  s = s.toUpperCase();
   x.save(); x.globalAlpha *= alpha; x.font = `${weight} ${size}px ${F}`;
-  x.textAlign = align; x.textBaseline = 'middle';
-  x.lineWidth = size * .22; x.strokeStyle = stroke; x.lineJoin = 'round';
-  x.strokeText(s, px, py); x.fillStyle = color; x.fillText(s, px, py); x.restore();
+  x.textAlign = align; x.textBaseline = 'middle'; x.lineJoin = 'round';
+  x.fillStyle = '#000'; x.fillText(s, px + size * .07, py + size * .07);
+  x.lineWidth = size * .2; x.strokeStyle = '#000'; x.strokeText(s, px, py);
+  x.fillStyle = color; x.fillText(s, px, py); x.restore();
 }
-function glow(s, px, py, size, color, alpha = 1) {
+// título estilo GTA VI: degradado atardecer, borde negro y sombra
+const SUNSET = ['#ffe17a', '#ff9a4d', '#ff3d8e', '#b43cff'];
+function glow(s, px, py, size, color, alpha = 1, grad = null) {
   if (alpha <= 0) return;
-  x.save(); x.globalAlpha *= alpha; x.font = `900 ${size}px ${F}`; x.textAlign = 'center'; x.textBaseline = 'middle';
-  x.lineWidth = size * .2; x.strokeStyle = NAVY; x.lineJoin = 'round'; x.strokeText(s, px, py);
-  x.shadowColor = color; x.shadowBlur = 30; x.fillStyle = color; x.fillText(s, px, py);
-  x.shadowBlur = 0; x.fillText(s, px, py); x.restore();
+  s = s.toUpperCase();
+  x.save(); x.globalAlpha *= alpha; x.font = `${size}px ${FT}`; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.lineJoin = 'round';
+  x.fillStyle = '#000'; x.fillText(s, px + size * .08, py + size * .09);
+  x.lineWidth = size * .18; x.strokeStyle = '#000'; x.strokeText(s, px, py);
+  let fill = color;
+  if (grad || color === PINK) {
+    const g = x.createLinearGradient(0, py - size * .5, 0, py + size * .5);
+    (grad || SUNSET).forEach((col, i, arr) => g.addColorStop(i / (arr.length - 1), col));
+    fill = g;
+  }
+  x.fillStyle = fill; x.fillText(s, px, py);
+  x.restore();
 }
 function rr(a, b, w, h, r) { x.beginPath(); x.roundRect(a, b, w, h, r); }
 
@@ -92,7 +108,7 @@ function pin(p, color, k, label, t) {
   x.fillStyle = color; x.beginPath(); x.arc(0, -46, 26, Math.PI * .82, Math.PI * .18); x.lineTo(0, 0); x.closePath(); x.fill();
   x.shadowColor = 'transparent'; x.fillStyle = WHITE; x.beginPath(); x.arc(0, -48, 10, 0, 7); x.fill();
   x.restore();
-  if (label) text(label, px, py - 100, 34, WHITE, 'center', 900, cl(k * 2 - 1));
+  if (label) text(label, px, py - 100, 34, WHITE, 'center', 700, cl(k * 2 - 1));
 }
 function routePts(pts) { return pts.map(S); }
 function route(pts, k, color, w = 9) {
@@ -189,15 +205,15 @@ function header(k) {
   x.save(); x.globalAlpha *= k;
   const g = x.createLinearGradient(0, 0, 0, 330); g.addColorStop(0, 'rgba(4,25,45,.92)'); g.addColorStop(1, 'rgba(4,25,45,0)');
   x.fillStyle = g; x.fillRect(0, 0, W, 330);
-  glow('BARCO FANTASMA', W/2, 140, 84, PINK);
-  text('GTA 6 · RUTA PASO A PASO', W/2, 228, 38, CYAN, 'center', 900);
+  glow('BARCO FANTASMA', W/2, 135, 110, PINK);
+  text('GTA 6 · RUTA PASO A PASO', W/2, 228, 38, CYAN, 'center', 700);
   x.restore();
 }
 function clock(str, k) {
   if (k <= 0) return;
   x.save(); x.globalAlpha *= k;
   x.fillStyle = 'rgba(4,25,45,.9)'; x.strokeStyle = CYAN; x.lineWidth = 4; rr(60, 290, 260, 90, 24); x.fill(); x.stroke();
-  text('🌙 ' + str, 190, 336, 46, CYAN, 'center', 900); x.restore();
+  text('🌙 ' + str, 190, 336, 46, CYAN, 'center', 700); x.restore();
 }
 function stepCard(n, title, sub, k) {
   if (k <= 0 || k >= 1) return;
@@ -208,9 +224,9 @@ function stepCard(n, title, sub, k) {
   x.fillStyle = 'rgba(4,25,45,.94)'; rr(50, y, 980, 250, 36); x.fill();
   x.shadowBlur = 0; x.strokeStyle = PINK; x.lineWidth = 5; x.stroke();
   x.fillStyle = PINK; x.beginPath(); x.arc(145, y + 125, 60, 0, 7); x.fill();
-  text(String(n), 145, y + 128, 68, WHITE, 'center', 900, 1, 'rgba(0,0,0,0)');
-  text(title, 238, y + 90, 50, WHITE, 'left', 900);
-  text(sub, 238, y + 165, 35, '#bfefff', 'left', 700);
+  glow(String(n), 145, y + 128, 84, WHITE);
+  text(title, 238, y + 88, 54, WHITE, 'left');
+  text(sub, 238, y + 165, 36, GOLD, 'left');
   x.restore();
 }
 
@@ -228,9 +244,9 @@ function draw(t) {
     x.save(); x.globalAlpha *= a;
     const g = x.createLinearGradient(0, 0, 0, 520); g.addColorStop(0, 'rgba(4,25,45,.95)'); g.addColorStop(1, 'rgba(4,25,45,0)');
     x.fillStyle = g; x.fillRect(0, 0, W, 520);
-    glow('¿DÓNDE ESTÁ EL', W/2, 120, 66, WHITE, seg(t, 0, .5));
-    glow('BARCO FANTASMA?', W/2, 210, 92, PINK, seg(t, .2, .7));
-    text('+ CUCHILLO MALDITO · GTA 6', W/2, 300, 44, GREEN, 'center', 900, seg(t, .7, 1.2));
+    glow('¿DÓNDE ESTÁ EL', W/2, 115, 80, WHITE, seg(t, 0, .5));
+    glow('BARCO FANTASMA?', W/2, 215, 120, PINK, seg(t, .2, .7));
+    text('+ CUCHILLO MALDITO · GTA 6', W/2, 315, 44, GREEN, 'center', 700, seg(t, .7, 1.2));
     x.restore();
     pin([1058, 470], PINK, seg(t, 1.2, 1.7), '', t);
   }
@@ -239,8 +255,8 @@ function draw(t) {
     const a = seg(t, 2.8, 3.3) * (1 - seg(t, 6.6, 7.2));
     const g = x.createLinearGradient(0, H - 420, 0, H); g.addColorStop(0, 'rgba(4,25,45,0)'); g.addColorStop(1, `rgba(4,25,45,${.9 * a})`);
     x.fillStyle = g; x.fillRect(0, H - 420, W, 420);
-    text('NORESTE DE LEONIDA', W/2, 1710, 60, WHITE, 'center', 900, a);
-    text('Millport → Little Hardin Island', W/2, 1795, 42, GOLD, 'center', 800, a);
+    text('NORESTE DE LEONIDA', W/2, 1710, 60, WHITE, 'center', 700, a);
+    text('Millport → Little Hardin Island', W/2, 1795, 42, GOLD, 'center', 700, a);
     pin([1058, 470], PINK, seg(t, 3, 3.5) * (1 - seg(t, 5.8, 6.3)), '', t);
   }
 
@@ -263,14 +279,14 @@ function draw(t) {
       x.beginPath(); x.arc(lx - 34, ly - 125, 15, 0, 7); x.fill();
       x.beginPath(); x.arc(lx + 34 + push * 34, ly - 125 + push * push * 110, 15, 0, 7); x.fill();
       x.restore();
-      text('👻 los 2 fantasmas', lx, ly - 185, 34, GREEN, 'center', 900, a);
+      text('👻 los 2 fantasmas', lx, ly - 185, 34, GREEN, 'center', 700, a);
     }
     // 3. casa
     route([LH, HOUSE], seg(t, 13.2, 14), GOLD, 8);
-    if (t > 13.6 && t < 16.3) { const [hx, hy] = S(HOUSE); text('📖 diario junto a la chimenea', hx - 30, hy - 80, 32, GOLD, 'center', 900, seg(t, 13.8, 14.2) * (1 - seg(t, 15.8, 16.3))); }
+    if (t > 13.6 && t < 16.3) { const [hx, hy] = S(HOUSE); text('📖 diario junto a la chimenea', hx - 30, hy - 80, 32, GOLD, 'center', 700, seg(t, 13.8, 14.2) * (1 - seg(t, 15.8, 16.3))); }
     // 4. muelle
     route([HOUSE, [1048, 466], DOCK], seg(t, 16, 16.9), GOLD, 8);
-    if (t > 16.5 && t < 18) { const [dx, dy] = S(DOCK); text('🤿 equipo de buceo', dx - 40, dy + 60, 32, CYAN, 'center', 900, seg(t, 16.6, 17) * (1 - seg(t, 17.5, 18))); }
+    if (t > 16.5 && t < 18) { const [dx, dy] = S(DOCK); text('🤿 equipo de buceo', dx - 40, dy + 60, 32, CYAN, 'center', 700, seg(t, 16.6, 17) * (1 - seg(t, 17.5, 18))); }
     clock(t < 22.4 ? '01:00' : '01:30', seg(t, 16.4, 17) * (1 - seg(t, 25.4, 26)));
     // 5. este → niebla
     const p5 = route([DOCK, [1068, 488], [1095, 476], FOG], seg(t, 17.6, 19.4), CYAN);
@@ -279,11 +295,11 @@ function draw(t) {
     if (t > 19.4 && t < 22.6) {
       const a = seg(t, 19.4, 19.9) * (1 - seg(t, 22, 22.6));
       const [fx, fy] = S(FOG);
-      text('motor apagado → ¡bucea!', fx - 60, fy - 90, 34, WHITE, 'center', 900, a);
+      text('motor apagado → ¡bucea!', fx - 60, fy - 90, 34, WHITE, 'center', 700, a);
       x.save(); x.globalAlpha *= a; x.fillStyle = 'rgba(2,18,40,.55)'; x.fillRect(0, 0, W, H); x.restore();
       knife(W/2, 1160, 2.3 * outBack(seg(t, 20, 20.7)), a, t);
-      glow('CUCHILLO MALDITO', W/2, 1330, 66, GREEN, seg(t, 20.3, 20.8) * a);
-      text('usa el detector de metales submarino', W/2, 1410, 34, WHITE, 'center', 800, seg(t, 20.6, 21.1) * a);
+      glow('CUCHILLO MALDITO', W/2, 1330, 100, GREEN, seg(t, 20.3, 20.8) * a, ['#d4ffb0', '#3dff7a', '#0f9e4a']);
+      text('usa el detector de metales submarino', W/2, 1410, 34, WHITE, 'center', 700, seg(t, 20.6, 21.1) * a);
     }
     // 6. faro → noreste
     if (t > 22.4) {
@@ -293,7 +309,7 @@ function draw(t) {
       const ang = Math.atan2(gy - (ly - 90), gx - lx), R = Math.hypot(gx - lx, gy - ly + 90) * 1.25;
       x.beginPath(); x.moveTo(lx, ly - 90); x.arc(lx, ly - 90, R, ang - .3, ang + .3); x.closePath(); x.fill(); x.restore();
       ghostShip(gx, gy, 1, seg(t, 23.4, 24.6) * (1 - seg(t, 26, 26.6)), t);
-      text('↗ MIRA AL NORESTE', lx - 40, ly - 150, 38, GREEN, 'center', 900, a);
+      text('↗ MIRA AL NORESTE', lx - 40, ly - 150, 38, GREEN, 'center', 700, a);
     }
 
     stepCard(1, 'Cruza a Little Hardin', 'En lancha desde la costa de Millport', seg(t, 7.4, 10.3));
@@ -306,8 +322,8 @@ function draw(t) {
     if (t > 26) {
       const a = seg(t, 26, 26.6);
       x.save(); x.globalAlpha *= a * .75; x.fillStyle = '#04192d'; x.fillRect(0, 0, W, H); x.restore();
-      glow('SÍGUEME', W/2, 880, 120, PINK, a);
-      text('para más easter eggs de GTA 6', W/2, 1010, 46, WHITE, 'center', 800, a);
+      glow('SÍGUEME', W/2, 870, 170, PINK, a);
+      text('para más easter eggs de GTA 6', W/2, 1010, 46, WHITE, 'center', 700, a);
     }
   }
 }
