@@ -87,7 +87,7 @@ cada escena y cuántos créditos se gastaron. No agregues marcas de agua ni el t
 (el usuario pidió quitarlo).
 
 Guarda el trabajo en el repo: `shorts/<tema>/` con `escenas.js`, `config.json`, `voz/` y el mp4, y un
-`.gitignore` con `cuadros/`, `prueba/`, `*.wav`. Haz commit en la rama de trabajo y push si hay acceso.
+`.gitignore` con `cuadros/`, `prueba/`, `*.wav`. Ojo: si el repo ignora `config.json` (pasa en bot-ofertas-ml), agrégalo con `git add -f`. Haz commit en la rama de trabajo y push si hay acceso.
 
 ## Archivos de la skill
 
