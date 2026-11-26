@@ -1,0 +1,42 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1280
+PlayResY: 720
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Letra,Fredoka Light,62,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,1,0,1,5,3,2,60,60,70,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.10,0:00:00.34,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}EL{\c&HFFFFFF&\fscx100\fscy100} MAPA DE LEONIDA
+Dialogue: 0,0:00:00.34,0:00:00.54,Letra,,0,0,0,,EL {\c&H00D7FF&\fscx112\fscy112}MAPA{\c&HFFFFFF&\fscx100\fscy100} DE LEONIDA
+Dialogue: 0,0:00:00.54,0:00:00.74,Letra,,0,0,0,,EL MAPA {\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100} LEONIDA
+Dialogue: 0,0:00:00.74,0:00:01.22,Letra,,0,0,0,,EL MAPA DE {\c&H00D7FF&\fscx112\fscy112}LEONIDA{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:01.22,0:00:01.46,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}ESTÁ{\c&HFFFFFF&\fscx100\fscy100} INSPIRADO EN FLORIDA:
+Dialogue: 0,0:00:01.46,0:00:01.90,Letra,,0,0,0,,ESTÁ {\c&H00D7FF&\fscx112\fscy112}INSPIRADO{\c&HFFFFFF&\fscx100\fscy100} EN FLORIDA:
+Dialogue: 0,0:00:01.90,0:00:02.02,Letra,,0,0,0,,ESTÁ INSPIRADO {\c&H00D7FF&\fscx112\fscy112}EN{\c&HFFFFFF&\fscx100\fscy100} FLORIDA:
+Dialogue: 0,0:00:02.02,0:00:02.90,Letra,,0,0,0,,ESTÁ INSPIRADO EN {\c&H00D7FF&\fscx112\fscy112}FLORIDA:{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:02.90,0:00:03.14,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}DESDE{\c&HFFFFFF&\fscx100\fscy100} VICE CITY Y
+Dialogue: 0,0:00:03.14,0:00:03.54,Letra,,0,0,0,,DESDE {\c&H00D7FF&\fscx112\fscy112}VICE{\c&HFFFFFF&\fscx100\fscy100} CITY Y
+Dialogue: 0,0:00:03.54,0:00:03.73,Letra,,0,0,0,,DESDE VICE {\c&H00D7FF&\fscx112\fscy112}CITY{\c&HFFFFFF&\fscx100\fscy100} Y
+Dialogue: 0,0:00:03.73,0:00:03.78,Letra,,0,0,0,,DESDE VICE CITY {\c&H00D7FF&\fscx112\fscy112}Y{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:03.78,0:00:03.98,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}LOS{\c&HFFFFFF&\fscx100\fscy100} CAYOS,
+Dialogue: 0,0:00:03.98,0:00:04.71,Letra,,0,0,0,,LOS {\c&H00D7FF&\fscx112\fscy112}CAYOS,{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:04.71,0:00:04.90,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}HASTA{\c&HFFFFFF&\fscx100\fscy100} LOS PANTANOS DE
+Dialogue: 0,0:00:04.90,0:00:05.06,Letra,,0,0,0,,HASTA {\c&H00D7FF&\fscx112\fscy112}LOS{\c&HFFFFFF&\fscx100\fscy100} PANTANOS DE
+Dialogue: 0,0:00:05.06,0:00:05.50,Letra,,0,0,0,,HASTA LOS {\c&H00D7FF&\fscx112\fscy112}PANTANOS{\c&HFFFFFF&\fscx100\fscy100} DE
+Dialogue: 0,0:00:05.50,0:00:05.62,Letra,,0,0,0,,HASTA LOS PANTANOS {\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:05.62,0:00:06.37,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}GRASSRIVERS{\c&HFFFFFF&\fscx100\fscy100} Y LAS MONTAÑAS
+Dialogue: 0,0:00:06.37,0:00:06.42,Letra,,0,0,0,,GRASSRIVERS {\c&H00D7FF&\fscx112\fscy112}Y{\c&HFFFFFF&\fscx100\fscy100} LAS MONTAÑAS
+Dialogue: 0,0:00:06.42,0:00:06.66,Letra,,0,0,0,,GRASSRIVERS Y {\c&H00D7FF&\fscx112\fscy112}LAS{\c&HFFFFFF&\fscx100\fscy100} MONTAÑAS
+Dialogue: 0,0:00:06.66,0:00:07.22,Letra,,0,0,0,,GRASSRIVERS Y LAS {\c&H00D7FF&\fscx112\fscy112}MONTAÑAS{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:07.22,0:00:07.38,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}DEL{\c&HFFFFFF&\fscx100\fscy100} NORTE.
+Dialogue: 0,0:00:07.38,0:00:08.14,Letra,,0,0,0,,DEL {\c&H00D7FF&\fscx112\fscy112}NORTE.{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:08.14,0:00:08.26,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}Y{\c&HFFFFFF&\fscx100\fscy100} EN CADA RINCÓN…
+Dialogue: 0,0:00:08.26,0:00:08.50,Letra,,0,0,0,,Y {\c&H00D7FF&\fscx112\fscy112}EN{\c&HFFFFFF&\fscx100\fscy100} CADA RINCÓN…
+Dialogue: 0,0:00:08.50,0:00:08.70,Letra,,0,0,0,,Y EN {\c&H00D7FF&\fscx112\fscy112}CADA{\c&HFFFFFF&\fscx100\fscy100} RINCÓN…
+Dialogue: 0,0:00:08.70,0:00:09.74,Letra,,0,0,0,,Y EN CADA {\c&H00D7FF&\fscx112\fscy112}RINCÓN…{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:09.74,0:00:09.94,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}HAY{\c&HFFFFFF&\fscx100\fscy100} ALGO ESCONDIDO.
+Dialogue: 0,0:00:09.94,0:00:10.18,Letra,,0,0,0,,HAY {\c&H00D7FF&\fscx112\fscy112}ALGO{\c&HFFFFFF&\fscx100\fscy100} ESCONDIDO.
+Dialogue: 0,0:00:10.18,0:00:11.40,Letra,,0,0,0,,HAY ALGO {\c&H00D7FF&\fscx112\fscy112}ESCONDIDO.{\c&HFFFFFF&\fscx100\fscy100}

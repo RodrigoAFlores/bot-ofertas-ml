@@ -1,0 +1,39 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1280
+PlayResY: 720
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Letra,Fredoka Light,62,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,1,0,1,5,3,2,60,60,70,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.10,0:00:00.26,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}Y{\c&HFFFFFF&\fscx100\fscy100} APENAS LLEVA UNA
+Dialogue: 0,0:00:00.26,0:00:00.54,Letra,,0,0,0,,Y {\c&H00D7FF&\fscx112\fscy112}APENAS{\c&HFFFFFF&\fscx100\fscy100} LLEVA UNA
+Dialogue: 0,0:00:00.54,0:00:00.82,Letra,,0,0,0,,Y APENAS {\c&H00D7FF&\fscx112\fscy112}LLEVA{\c&HFFFFFF&\fscx100\fscy100} UNA
+Dialogue: 0,0:00:00.82,0:00:00.98,Letra,,0,0,0,,Y APENAS LLEVA {\c&H00D7FF&\fscx112\fscy112}UNA{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:00.98,0:00:01.34,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}SEMANA{\c&HFFFFFF&\fscx100\fscy100} A LA VENTA…
+Dialogue: 0,0:00:01.34,0:00:01.42,Letra,,0,0,0,,SEMANA {\c&H00D7FF&\fscx112\fscy112}A{\c&HFFFFFF&\fscx100\fscy100} LA VENTA…
+Dialogue: 0,0:00:01.42,0:00:01.54,Letra,,0,0,0,,SEMANA A {\c&H00D7FF&\fscx112\fscy112}LA{\c&HFFFFFF&\fscx100\fscy100} VENTA…
+Dialogue: 0,0:00:01.54,0:00:02.30,Letra,,0,0,0,,SEMANA A LA {\c&H00D7FF&\fscx112\fscy112}VENTA…{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:02.30,0:00:02.70,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}SEGURO{\c&HFFFFFF&\fscx100\fscy100} QUEDAN MUCHOS MÁS.
+Dialogue: 0,0:00:02.70,0:00:03.06,Letra,,0,0,0,,SEGURO {\c&H00D7FF&\fscx112\fscy112}QUEDAN{\c&HFFFFFF&\fscx100\fscy100} MUCHOS MÁS.
+Dialogue: 0,0:00:03.06,0:00:03.54,Letra,,0,0,0,,SEGURO QUEDAN {\c&H00D7FF&\fscx112\fscy112}MUCHOS{\c&HFFFFFF&\fscx100\fscy100} MÁS.
+Dialogue: 0,0:00:03.54,0:00:04.18,Letra,,0,0,0,,SEGURO QUEDAN MUCHOS {\c&H00D7FF&\fscx112\fscy112}MÁS.{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:04.18,0:00:04.38,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}¿CUÁL{\c&HFFFFFF&\fscx100\fscy100} ENCONTRASTE TÚ?
+Dialogue: 0,0:00:04.38,0:00:04.90,Letra,,0,0,0,,¿CUÁL {\c&H00D7FF&\fscx112\fscy112}ENCONTRASTE{\c&HFFFFFF&\fscx100\fscy100} TÚ?
+Dialogue: 0,0:00:04.90,0:00:05.38,Letra,,0,0,0,,¿CUÁL ENCONTRASTE {\c&H00D7FF&\fscx112\fscy112}TÚ?{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:05.38,0:00:05.86,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}¿CONOCES{\c&HFFFFFF&\fscx100\fscy100} OTRO?
+Dialogue: 0,0:00:05.86,0:00:06.42,Letra,,0,0,0,,¿CONOCES {\c&H00D7FF&\fscx112\fscy112}OTRO?{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:06.42,0:00:06.58,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}TE{\c&HFFFFFF&\fscx100\fscy100} LEO EN LOS
+Dialogue: 0,0:00:06.58,0:00:06.70,Letra,,0,0,0,,TE {\c&H00D7FF&\fscx112\fscy112}LEO{\c&HFFFFFF&\fscx100\fscy100} EN LOS
+Dialogue: 0,0:00:06.70,0:00:06.78,Letra,,0,0,0,,TE LEO {\c&H00D7FF&\fscx112\fscy112}EN{\c&HFFFFFF&\fscx100\fscy100} LOS
+Dialogue: 0,0:00:06.78,0:00:06.90,Letra,,0,0,0,,TE LEO EN {\c&H00D7FF&\fscx112\fscy112}LOS{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:06.90,0:00:07.86,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}COMENTARIOS.{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:07.86,0:00:08.34,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}SÍGUEME{\c&HFFFFFF&\fscx100\fscy100} PARA EL PRÓXIMO
+Dialogue: 0,0:00:08.34,0:00:08.46,Letra,,0,0,0,,SÍGUEME {\c&H00D7FF&\fscx112\fscy112}PARA{\c&HFFFFFF&\fscx100\fscy100} EL PRÓXIMO
+Dialogue: 0,0:00:08.46,0:00:08.58,Letra,,0,0,0,,SÍGUEME PARA {\c&H00D7FF&\fscx112\fscy112}EL{\c&HFFFFFF&\fscx100\fscy100} PRÓXIMO
+Dialogue: 0,0:00:08.58,0:00:09.30,Letra,,0,0,0,,SÍGUEME PARA EL {\c&H00D7FF&\fscx112\fscy112}PRÓXIMO{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:09.30,0:00:09.94,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}«¿SABÍAS{\c&HFFFFFF&\fscx100\fscy100} QUE…?»
+Dialogue: 0,0:00:09.94,0:00:10.95,Letra,,0,0,0,,«¿SABÍAS {\c&H00D7FF&\fscx112\fscy112}QUE…?»{\c&HFFFFFF&\fscx100\fscy100}

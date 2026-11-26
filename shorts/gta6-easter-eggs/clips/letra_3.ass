@@ -1,0 +1,50 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1280
+PlayResY: 720
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Letra,Fredoka Light,62,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,1,0,1,5,3,2,60,60,70,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.10,0:00:00.30,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}EN{\c&HFFFFFF&\fscx100\fscy100} LO ALTO DE
+Dialogue: 0,0:00:00.30,0:00:00.42,Letra,,0,0,0,,EN {\c&H00D7FF&\fscx112\fscy112}LO{\c&HFFFFFF&\fscx100\fscy100} ALTO DE
+Dialogue: 0,0:00:00.42,0:00:00.70,Letra,,0,0,0,,EN LO {\c&H00D7FF&\fscx112\fscy112}ALTO{\c&HFFFFFF&\fscx100\fscy100} DE
+Dialogue: 0,0:00:00.70,0:00:00.82,Letra,,0,0,0,,EN LO ALTO {\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:00.82,0:00:01.06,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}UNA{\c&HFFFFFF&\fscx100\fscy100} TORRE DE RADIO
+Dialogue: 0,0:00:01.06,0:00:01.38,Letra,,0,0,0,,UNA {\c&H00D7FF&\fscx112\fscy112}TORRE{\c&HFFFFFF&\fscx100\fscy100} DE RADIO
+Dialogue: 0,0:00:01.38,0:00:01.54,Letra,,0,0,0,,UNA TORRE {\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100} RADIO
+Dialogue: 0,0:00:01.54,0:00:01.94,Letra,,0,0,0,,UNA TORRE DE {\c&H00D7FF&\fscx112\fscy112}RADIO{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:01.94,0:00:02.14,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}DEL{\c&HFFFFFF&\fscx100\fscy100} CONDADO DE VICE-DALE,
+Dialogue: 0,0:00:02.14,0:00:02.50,Letra,,0,0,0,,DEL {\c&H00D7FF&\fscx112\fscy112}CONDADO{\c&HFFFFFF&\fscx100\fscy100} DE VICE-DALE,
+Dialogue: 0,0:00:02.50,0:00:02.62,Letra,,0,0,0,,DEL CONDADO {\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100} VICE-DALE,
+Dialogue: 0,0:00:02.62,0:00:03.54,Letra,,0,0,0,,DEL CONDADO DE {\c&H00D7FF&\fscx112\fscy112}VICE-DALE,{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:03.54,0:00:03.70,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}HAY{\c&HFFFFFF&\fscx100\fscy100} UN NIDO DE
+Dialogue: 0,0:00:03.70,0:00:03.86,Letra,,0,0,0,,HAY {\c&H00D7FF&\fscx112\fscy112}UN{\c&HFFFFFF&\fscx100\fscy100} NIDO DE
+Dialogue: 0,0:00:03.86,0:00:04.14,Letra,,0,0,0,,HAY UN {\c&H00D7FF&\fscx112\fscy112}NIDO{\c&HFFFFFF&\fscx100\fscy100} DE
+Dialogue: 0,0:00:04.14,0:00:04.26,Letra,,0,0,0,,HAY UN NIDO {\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:04.26,0:00:04.58,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}HUEVOS{\c&HFFFFFF&\fscx100\fscy100} DE PASCUA…
+Dialogue: 0,0:00:04.58,0:00:04.74,Letra,,0,0,0,,HUEVOS {\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100} PASCUA…
+Dialogue: 0,0:00:04.74,0:00:05.82,Letra,,0,0,0,,HUEVOS DE {\c&H00D7FF&\fscx112\fscy112}PASCUA…{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:05.82,0:00:06.93,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}LITERALES.{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:06.93,0:00:06.98,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}Y{\c&HFFFFFF&\fscx100\fscy100} EN WASHINGTON ISLAND,
+Dialogue: 0,0:00:06.98,0:00:07.14,Letra,,0,0,0,,Y {\c&H00D7FF&\fscx112\fscy112}EN{\c&HFFFFFF&\fscx100\fscy100} WASHINGTON ISLAND,
+Dialogue: 0,0:00:07.14,0:00:07.70,Letra,,0,0,0,,Y EN {\c&H00D7FF&\fscx112\fscy112}WASHINGTON{\c&HFFFFFF&\fscx100\fscy100} ISLAND,
+Dialogue: 0,0:00:07.70,0:00:08.14,Letra,,0,0,0,,Y EN WASHINGTON {\c&H00D7FF&\fscx112\fscy112}ISLAND,{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:08.14,0:00:08.26,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}EN{\c&HFFFFFF&\fscx100\fscy100} VICE CITY,
+Dialogue: 0,0:00:08.26,0:00:08.62,Letra,,0,0,0,,EN {\c&H00D7FF&\fscx112\fscy112}VICE{\c&HFFFFFF&\fscx100\fscy100} CITY,
+Dialogue: 0,0:00:08.62,0:00:09.10,Letra,,0,0,0,,EN VICE {\c&H00D7FF&\fscx112\fscy112}CITY,{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:09.10,0:00:09.38,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}PUEDES{\c&HFFFFFF&\fscx100\fscy100} VISITAR EL DEPARTAMENTO
+Dialogue: 0,0:00:09.38,0:00:09.74,Letra,,0,0,0,,PUEDES {\c&H00D7FF&\fscx112\fscy112}VISITAR{\c&HFFFFFF&\fscx100\fscy100} EL DEPARTAMENTO
+Dialogue: 0,0:00:09.74,0:00:09.94,Letra,,0,0,0,,PUEDES VISITAR {\c&H00D7FF&\fscx112\fscy112}EL{\c&HFFFFFF&\fscx100\fscy100} DEPARTAMENTO
+Dialogue: 0,0:00:09.94,0:00:10.50,Letra,,0,0,0,,PUEDES VISITAR EL {\c&H00D7FF&\fscx112\fscy112}DEPARTAMENTO{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:10.50,0:00:10.66,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100} DEXTER,
+Dialogue: 0,0:00:10.66,0:00:11.30,Letra,,0,0,0,,DE {\c&H00D7FF&\fscx112\fscy112}DEXTER,{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:11.30,0:00:11.42,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}EL{\c&HFFFFFF&\fscx100\fscy100} FAMOSO PERSONAJE DE
+Dialogue: 0,0:00:11.42,0:00:12.02,Letra,,0,0,0,,EL {\c&H00D7FF&\fscx112\fscy112}FAMOSO{\c&HFFFFFF&\fscx100\fscy100} PERSONAJE DE
+Dialogue: 0,0:00:12.02,0:00:12.46,Letra,,0,0,0,,EL FAMOSO {\c&H00D7FF&\fscx112\fscy112}PERSONAJE{\c&HFFFFFF&\fscx100\fscy100} DE
+Dialogue: 0,0:00:12.46,0:00:12.54,Letra,,0,0,0,,EL FAMOSO PERSONAJE {\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:12.54,0:00:12.66,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}LA{\c&HFFFFFF&\fscx100\fscy100} SERIE.
+Dialogue: 0,0:00:12.66,0:00:13.65,Letra,,0,0,0,,LA {\c&H00D7FF&\fscx112\fscy112}SERIE.{\c&HFFFFFF&\fscx100\fscy100}

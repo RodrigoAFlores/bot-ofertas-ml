@@ -1,0 +1,35 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1280
+PlayResY: 720
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Letra,Fredoka Light,62,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,1,0,1,5,3,2,60,60,70,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.23,0:00:00.71,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}¿SABÍAS{\c&HFFFFFF&\fscx100\fscy100} QUE GTA 6
+Dialogue: 0,0:00:00.71,0:00:00.87,Letra,,0,0,0,,¿SABÍAS {\c&H00D7FF&\fscx112\fscy112}QUE{\c&HFFFFFF&\fscx100\fscy100} GTA 6
+Dialogue: 0,0:00:00.87,0:00:01.35,Letra,,0,0,0,,¿SABÍAS QUE {\c&H00D7FF&\fscx112\fscy112}GTA{\c&HFFFFFF&\fscx100\fscy100} 6
+Dialogue: 0,0:00:01.35,0:00:01.59,Letra,,0,0,0,,¿SABÍAS QUE GTA {\c&H00D7FF&\fscx112\fscy112}6{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:01.59,0:00:02.19,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}ESCONDE{\c&HFFFFFF&\fscx100\fscy100} SECRETOS POR TODO
+Dialogue: 0,0:00:02.19,0:00:02.71,Letra,,0,0,0,,ESCONDE {\c&H00D7FF&\fscx112\fscy112}SECRETOS{\c&HFFFFFF&\fscx100\fscy100} POR TODO
+Dialogue: 0,0:00:02.71,0:00:03.03,Letra,,0,0,0,,ESCONDE SECRETOS {\c&H00D7FF&\fscx112\fscy112}POR{\c&HFFFFFF&\fscx100\fscy100} TODO
+Dialogue: 0,0:00:03.03,0:00:03.27,Letra,,0,0,0,,ESCONDE SECRETOS POR {\c&H00D7FF&\fscx112\fscy112}TODO{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:03.27,0:00:03.43,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}SU{\c&HFFFFFF&\fscx100\fscy100} MAPA…
+Dialogue: 0,0:00:03.43,0:00:04.12,Letra,,0,0,0,,SU {\c&H00D7FF&\fscx112\fscy112}MAPA…{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:04.12,0:00:04.23,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}Y{\c&HFFFFFF&\fscx100\fscy100} QUE LOS JUGADORES
+Dialogue: 0,0:00:04.23,0:00:04.31,Letra,,0,0,0,,Y {\c&H00D7FF&\fscx112\fscy112}QUE{\c&HFFFFFF&\fscx100\fscy100} LOS JUGADORES
+Dialogue: 0,0:00:04.31,0:00:04.47,Letra,,0,0,0,,Y QUE {\c&H00D7FF&\fscx112\fscy112}LOS{\c&HFFFFFF&\fscx100\fscy100} JUGADORES
+Dialogue: 0,0:00:04.47,0:00:04.91,Letra,,0,0,0,,Y QUE LOS {\c&H00D7FF&\fscx112\fscy112}JUGADORES{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:04.91,0:00:05.03,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}YA{\c&HFFFFFF&\fscx100\fscy100} ENCONTRARON MÁS DE
+Dialogue: 0,0:00:05.03,0:00:05.63,Letra,,0,0,0,,YA {\c&H00D7FF&\fscx112\fscy112}ENCONTRARON{\c&HFFFFFF&\fscx100\fscy100} MÁS DE
+Dialogue: 0,0:00:05.63,0:00:05.79,Letra,,0,0,0,,YA ENCONTRARON {\c&H00D7FF&\fscx112\fscy112}MÁS{\c&HFFFFFF&\fscx100\fscy100} DE
+Dialogue: 0,0:00:05.79,0:00:05.95,Letra,,0,0,0,,YA ENCONTRARON MÁS {\c&H00D7FF&\fscx112\fscy112}DE{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:05.95,0:00:06.19,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}UNA{\c&HFFFFFF&\fscx100\fscy100} DOCENA EN SOLO
+Dialogue: 0,0:00:06.19,0:00:06.59,Letra,,0,0,0,,UNA {\c&H00D7FF&\fscx112\fscy112}DOCENA{\c&HFFFFFF&\fscx100\fscy100} EN SOLO
+Dialogue: 0,0:00:06.59,0:00:06.75,Letra,,0,0,0,,UNA DOCENA {\c&H00D7FF&\fscx112\fscy112}EN{\c&HFFFFFF&\fscx100\fscy100} SOLO
+Dialogue: 0,0:00:06.75,0:00:07.03,Letra,,0,0,0,,UNA DOCENA EN {\c&H00D7FF&\fscx112\fscy112}SOLO{\c&HFFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:07.03,0:00:07.27,Letra,,0,0,0,,{\c&H00D7FF&\fscx112\fscy112}UNA{\c&HFFFFFF&\fscx100\fscy100} SEMANA?
+Dialogue: 0,0:00:07.27,0:00:08.35,Letra,,0,0,0,,UNA {\c&H00D7FF&\fscx112\fscy112}SEMANA?{\c&HFFFFFF&\fscx100\fscy100}
