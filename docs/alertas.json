@@ -463,8 +463,70 @@
    "hora": "10:20",
    "visto": "2026-11-27T13:20:16+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2382161",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Aspiradoras",
+   "url": "https://www.lider.cl/ip/Aspiradora-de-Arrastre-1000W-12K-Midea/00695607973178",
+   "titulo": "Midea 12K",
+   "foto": "https://i5.walmartimages.cl/asr/cec3c4e6-9edd-4bfc-ad18-ce1b69a15b2c.a7343155077eb5bf3dac4a2b1c3311c4.jpeg",
+   "precio": 39990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 39990.0,
+   "comparado": [
+    {
+     "tienda": "Ripley",
+     "precio": 57990.0
+    }
+   ],
+   "precio_anterior": 57990.0,
+   "descuento_total": 31,
+   "baja_mes": 0,
+   "motivo": "31% más barato que en Ripley ($57.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 34,
+   "hora": "12:50",
+   "visto": "2026-11-27T15:50:15+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382834",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Tablets",
+   "url": "https://www.lider.cl/ip/Tablet-Xiaomi-Redmi-Pad-2-9-7-9-7-FHD-Qualcomm-Snapdragon-4GB-128GB-WiFi-Gris/00693909300809",
+   "titulo": "Xiaomi Redmi Pad 2 9.7 (128 GB / 4 GB / Graphite Gray)",
+   "foto": "https://i5.walmartimages.cl/asr/e43e3a2e-946d-4542-8950-7ccbfead42e8.3c86519c4e4c2c93bdba131c6a89f934.jpeg",
+   "precio": 129990.0,
+   "precio_tarjeta": 119990.0,
+   "mejor_precio": 119990.0,
+   "comparado": [
+    {
+     "tienda": "Ripley",
+     "precio": 159990.0
+    },
+    {
+     "tienda": "Hites",
+     "precio": 169990.0
+    }
+   ],
+   "precio_anterior": 159990.0,
+   "descuento_total": 25,
+   "baja_mes": 0,
+   "motivo": "25% más barato que en Ripley ($159.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 31,
+   "hora": "12:50",
+   "visto": "2026-11-27T15:50:15+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-27T13:20:16+00:00",
- "ultima_revision": "2026-11-27T15:20:15+00:00"
+ "ultima_comparacion": "2026-11-27T15:50:15+00:00",
+ "ultima_revision": "2026-11-27T15:50:15+00:00"
 }
