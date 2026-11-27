@@ -591,8 +591,74 @@
    "hora": "15:10",
    "visto": "2026-11-27T18:10:18+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2382926",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Air fryers",
+   "url": "https://www.lider.cl/ip/Freidora-de-Aire-CKSTAF40WDDF-052-Negro/00005389117587",
+   "titulo": "Oster CKSTAF40WDDF-052",
+   "foto": "https://i5.walmartimages.cl/asr/9155c5ca-6159-44a9-abcf-8a0fb6c237e4.71122e3fbfa7c05998b4ce15b16aa9b5.jpeg",
+   "precio": 49990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 49990.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 72990.0
+    },
+    {
+     "tienda": "Paris",
+     "precio": 74990.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 74990.0
+    }
+   ],
+   "precio_anterior": 72990.0,
+   "descuento_total": 32,
+   "baja_mes": 29,
+   "motivo": "32% más barato que en Falabella ($72.990) · bajó 29% en el último mes",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 73,
+   "hora": "17:30",
+   "visto": "2026-11-27T20:30:25+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382162",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Celulares",
+   "url": "https://www.lider.cl/ip/Smartphone-Galaxy-A27-5G-256-GB-Awesome-Blue/00880609936121",
+   "titulo": "Samsung Galaxy A27 (A276 / 256 GB / 8 GB / Blue) [SM-A276BZBQLTL]",
+   "foto": "https://i5.walmartimages.cl/asr/783132a5-0270-446a-819d-34285c270c0f.1f7a789489179747f4383d23065ef342.jpeg",
+   "precio": 329990.0,
+   "precio_tarjeta": 296991.0,
+   "mejor_precio": 296991.0,
+   "comparado": [
+    {
+     "tienda": "Ripley",
+     "precio": 379990.0
+    }
+   ],
+   "precio_anterior": 379990.0,
+   "descuento_total": 22,
+   "baja_mes": 20,
+   "motivo": "22% más barato que en Ripley ($379.990) · bajó 20% en el último mes",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 45,
+   "hora": "17:30",
+   "visto": "2026-11-27T20:30:25+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-27T18:10:18+00:00",
- "ultima_revision": "2026-11-27T19:50:17+00:00"
+ "ultima_comparacion": "2026-11-27T20:30:25+00:00",
+ "ultima_revision": "2026-11-27T20:30:25+00:00"
 }
