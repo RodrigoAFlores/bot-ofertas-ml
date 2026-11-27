@@ -99,19 +99,24 @@ function drawAnim(t) {
 }
 
 function drawCover() {
-  performance_t = 1; cam = { cx: 1124, cy: 815, s: 4.6 }; drawMap();
-  const v = x.createRadialGradient(W/2, H/2, 300, W/2, H/2, 1150); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.8)');
-  x.fillStyle = v; x.fillRect(0, 0, W, H);
-  route([VC, PEN, WI], 1, CYAN); edificio(APT, 1.4, 1);
-  x.save(); x.fillStyle = 'rgba(120,0,0,.25)'; x.fillRect(0, 0, W, H); x.restore();
-  kitDexter(560, 1180, 3.4, 1);
-  const g = x.createLinearGradient(0, 0, 0, 560); g.addColorStop(0, 'rgba(0,0,0,.92)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, W, 560);
-  x.save(); x.translate(W/2, 120); x.rotate(-.04); x.fillStyle = '#000'; x.fillRect(-150, -52, 300, 104); x.fillStyle = '#ff3d8e'; x.fillRect(-142, -44, 284, 88); x.restore();
-  glow('GTA 6', W/2, 116, 84, WHITE);
-  glow('DEXTER', W/2, 300, 240, PINK, 1, ['#ffffff', '#ff6b6b', '#c4001a']);
-  glow('ESTÁ AQUÍ', W/2, 480, 150, PINK);
-  const g2 = x.createLinearGradient(0, H - 620, 0, H); g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(.35, 'rgba(0,0,0,.85)'); g2.addColorStop(1, 'rgba(0,0,0,.95)'); x.fillStyle = g2; x.fillRect(0, H - 620, W, 620);
-  glow('🔪 SU DEPARTAMENTO', W/2, 1530, 96, GOLD, 1, ['#fff3b0', '#ffd23e', '#ff8a1e']);
-  text('Ruta exacta en el mapa', W/2, 1660, 62, WHITE);
-  text('Paso a paso 📍', W/2, 1750, 62, GOLD);
+  performance_t = 1; cam = { cx: 1128, cy: 812, s: 6.2 }; drawMap();
+  night(1.6); viñeta('rgba(0,0,0,.85)', 'rgba(150,0,10,.28)');
+  // edificio grande con la ventana marcada
+  x.save(); x.translate(W/2, 1080);
+  x.shadowColor = 'rgba(0,0,0,.6)'; x.shadowBlur = 40;
+  x.fillStyle = '#efe2c8'; x.fillRect(-300, -380, 600, 380);
+  x.shadowBlur = 0; x.fillStyle = '#ff7a59'; x.fillRect(-320, -400, 640, 26);
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 5; c++) {
+    const hi = r === 1 && c === 0;
+    x.fillStyle = hi ? '#ffd23e' : '#1d4f68'; if (hi) { x.shadowColor = '#ffd23e'; x.shadowBlur = 50; }
+    x.fillRect(-262 + c * 108, -345 + r * 112, 66, 80); x.shadowBlur = 0;
+  }
+  x.strokeStyle = '#ff1a1a'; x.lineWidth = 12; x.shadowColor = '#ff1a1a'; x.shadowBlur = 30;
+  x.beginPath(); x.arc(-229, -193, 82, 0, 7); x.stroke();
+  x.restore();
+  sello(760, 760, 64, .08, '#ffd23e', 'SU PUERTA');
+  cuchilloRojo(830, 1180, 2.6, .5);
+  kitDexter(250, 1230, 2.0, 1);
+  portadaArriba('DEXTER', 'ESTÁ AQUÍ', ['#ffffff', '#ff6b6b', '#c4001a'], 240, 150);
+  portadaAbajo('TRINITY APARTMENTS', 'Ruta exacta en el mapa', 'Paso a paso 📍');
 }

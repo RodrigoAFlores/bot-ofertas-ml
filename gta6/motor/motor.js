@@ -331,3 +331,43 @@ function etiqueta(p, s, dx, dy, color, a) {   // texto pegado a un punto del map
 }
 
 window.draw = T => drawAnim(warp(T));
+
+// ---------- portadas ----------
+function viñeta(color = 'rgba(0,0,0,.8)', tinte = null) {
+  const v = x.createRadialGradient(W/2, H/2, 260, W/2, H/2, 1150); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, color);
+  x.fillStyle = v; x.fillRect(0, 0, W, H);
+  if (tinte) { x.fillStyle = tinte; x.fillRect(0, 0, W, H); }
+}
+function portadaArriba(l1, l2, grad = null, s1 = 210, s2 = 190) {
+  const g = x.createLinearGradient(0, 0, 0, 600); g.addColorStop(0, 'rgba(0,0,0,.94)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  x.fillStyle = g; x.fillRect(0, 0, W, 600);
+  x.save(); x.translate(W/2, 120); x.rotate(-.04); x.fillStyle = '#000'; x.fillRect(-150, -52, 300, 104); x.fillStyle = '#ff3d8e'; x.fillRect(-142, -44, 284, 88); x.restore();
+  glow('GTA 6', W/2, 116, 84, WHITE);
+  glow(l1, W/2, 295, s1, PINK, 1, grad);
+  if (l2) glow(l2, W/2, 470, s2, PINK, 1, grad);
+}
+function portadaAbajo(grande, l1, l2, grad = ['#fff3b0', '#ffd23e', '#ff8a1e']) {
+  const g = x.createLinearGradient(0, H - 640, 0, H); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(.35, 'rgba(0,0,0,.86)'); g.addColorStop(1, 'rgba(0,0,0,.96)');
+  x.fillStyle = g; x.fillRect(0, H - 640, W, 640);
+  glow(grande, W/2, 1530, grande.length > 16 ? 88 : 100, GOLD, 1, grad);
+  text(l1, W/2, 1660, 62, WHITE);
+  text(l2, W/2, 1750, 62, GOLD);
+}
+function sello(px, py, s, rot, color, txt) {   // etiqueta tipo sticker
+  x.save(); x.translate(px, py); x.rotate(rot);
+  x.font = `${s}px ${FT}`; const w = x.measureText(txt).width + s * .8;
+  x.fillStyle = '#000'; x.fillRect(-w/2 - 8, -s * .62 - 8, w + 16, s * 1.24 + 16);
+  x.fillStyle = color; x.fillRect(-w/2, -s * .62, w, s * 1.24);
+  x.fillStyle = '#000'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(txt, 0, s * .05);
+  x.restore();
+}
+function cuchilloRojo(px, py, s, rot) {
+  x.save(); x.translate(px, py); x.rotate(rot); x.scale(s, s);
+  x.shadowColor = '#ff1a1a'; x.shadowBlur = 40;
+  x.fillStyle = '#e9edf2'; x.beginPath(); x.moveTo(0, -80); x.quadraticCurveTo(18, -20, 11, 10); x.lineTo(-11, 10); x.quadraticCurveTo(-8, -30, 0, -80); x.fill();
+  x.shadowBlur = 0; x.fillStyle = '#c4001a';
+  x.beginPath(); x.moveTo(-6, -40); x.quadraticCurveTo(0, -20, 6, -5); x.lineTo(-4, -5); x.closePath(); x.fill();
+  x.beginPath(); x.ellipse(2, 30, 4, 9, 0, 0, 7); x.fill();
+  x.fillStyle = '#222'; x.fillRect(-22, 10, 44, 9); x.fillRect(-8, 19, 16, 44);
+  x.restore();
+}

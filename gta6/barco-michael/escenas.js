@@ -74,19 +74,18 @@ function drawAnim(t) {
 }
 
 function drawCover() {
-  performance_t = 1; cam = { cx: 790, cy: 1520, s: 4.0 }; drawMap();
-  const v = x.createRadialGradient(W/2, H/2, 300, W/2, H/2, 1150); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.8)');
-  x.fillStyle = v; x.fillRect(0, 0, W, H);
-  route(RUTA, 1, CYAN); house(CASA, 1.4);
-  velero(400, 1130, 2.6, 1);
-  pantallaLS(800, 860, 1.25, 1);
-  const g = x.createLinearGradient(0, 0, 0, 560); g.addColorStop(0, 'rgba(0,0,0,.92)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, W, 560);
-  x.save(); x.translate(W/2, 120); x.rotate(-.04); x.fillStyle = '#000'; x.fillRect(-150, -52, 300, 104); x.fillStyle = '#ff3d8e'; x.fillRect(-142, -44, 284, 88); x.restore();
-  glow('GTA 6', W/2, 116, 84, WHITE);
-  glow('EL BARCO', W/2, 290, 190, PINK);
-  glow('DE MICHAEL', W/2, 460, 170, PINK);
-  const g2 = x.createLinearGradient(0, H - 620, 0, H); g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(.35, 'rgba(0,0,0,.85)'); g2.addColorStop(1, 'rgba(0,0,0,.95)'); x.fillStyle = g2; x.fillRect(0, H - 620, W, 620);
-  glow('¿DE GTA 5 A GTA 6?', W/2, 1530, 96, GOLD, 1, ['#fff3b0', '#ffd23e', '#ff8a1e']);
-  text('Su GPS muestra Los Santos', W/2, 1660, 62, WHITE);
-  text('Mira dónde está 📍', W/2, 1750, 62, GOLD);
+  performance_t = 1; cam = { cx: 780, cy: 1535, s: 3.6 }; drawMap();
+  viñeta('rgba(0,0,0,.8)');
+  // velero grande a la izquierda
+  velero(330, 1240, 3.2, 1);
+  // GPS grande a la derecha con Los Santos
+  x.save(); x.shadowColor = '#3dff7a'; x.shadowBlur = 50; pantallaLS(720, 900, 1.9, 1); x.restore();
+  // flecha de GTA 5 a GTA 6
+  sello(300, 720, 70, -.08, '#3dff7a', 'GTA 5');
+  x.save(); x.strokeStyle = '#fff'; x.lineWidth = 12; x.lineCap = 'round';
+  x.beginPath(); x.moveTo(300, 790); x.quadraticCurveTo(260, 900, 320, 980); x.stroke();
+  x.fillStyle = '#fff'; x.beginPath(); x.moveTo(320, 1010); x.lineTo(285, 960); x.lineTo(350, 965); x.closePath(); x.fill(); x.restore();
+  sello(780, 1240, 60, .07, '#ffd23e', '¿ES SUYO?');
+  portadaArriba('EL BARCO', 'DE MICHAEL', null, 200, 170);
+  portadaAbajo('¡EL GPS MUESTRA LOS SANTOS!', 'Frente a la casa de Jason', 'Mira dónde está 📍');
 }

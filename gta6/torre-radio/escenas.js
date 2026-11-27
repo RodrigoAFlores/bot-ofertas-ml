@@ -99,21 +99,30 @@ function drawAnim(t) {
 }
 
 function drawCover() {
-  performance_t = 1; cam = { cx: 766, cy: 1190, s: 4.2 }; drawMap();
-  const v = x.createRadialGradient(W/2, H/2, 300, W/2, H/2, 1150); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.8)');
-  x.fillStyle = v; x.fillRect(0, 0, W, H);
-  route([HAM, MID, [784, 1225], [TORRE[0] + 8, TORRE[1] + 6]], 1, CYAN);
-  const [tx, ty] = S(TORRE);
-  torre(TORRE, 2.4, 1);
-  nido(tx, ty - 640, 1.6, 1);
-  huevo(tx + 230, ty - 380, 2.6, '#ff5fa2', '#ffe17a', .5);
-  const g = x.createLinearGradient(0, 0, 0, 560); g.addColorStop(0, 'rgba(0,0,0,.92)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, W, 560);
-  x.save(); x.translate(W/2, 120); x.rotate(-.04); x.fillStyle = '#000'; x.fillRect(-150, -52, 300, 104); x.fillStyle = '#ff3d8e'; x.fillRect(-142, -44, 284, 88); x.restore();
-  glow('GTA 6', W/2, 116, 84, WHITE);
-  glow('HUEVO DE', W/2, 290, 190, PINK);
-  glow('PASCUA', W/2, 460, 190, PINK);
-  const g2 = x.createLinearGradient(0, H - 620, 0, H); g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(.35, 'rgba(0,0,0,.85)'); g2.addColorStop(1, 'rgba(0,0,0,.95)'); x.fillStyle = g2; x.fillRect(0, H - 620, W, 620);
-  glow('EN LA TORRE MÁS ALTA', W/2, 1530, 92, GOLD, 1, ['#fff3b0', '#ffd23e', '#ff8a1e']);
-  text('Cinemática secreta', W/2, 1660, 62, WHITE);
-  text('Paso a paso 📍', W/2, 1750, 62, GOLD);
+  performance_t = 0.6; cam = { cx: 790, cy: 1150, s: 3.2 }; drawMap();
+  viñeta('rgba(0,0,0,.75)');
+  // cielo de atardecer sobre el mapa
+  const sky = x.createLinearGradient(0, 0, 0, H); sky.addColorStop(0, 'rgba(180,60,255,.35)'); sky.addColorStop(.5, 'rgba(255,61,142,.18)'); sky.addColorStop(1, 'rgba(255,154,77,0)');
+  x.fillStyle = sky; x.fillRect(0, 0, W, H);
+  // torre grande completa
+  x.save(); x.translate(380, 1420); x.scale(3.0, 3.0);
+  const h = 260;
+  x.shadowColor = 'rgba(0,0,0,.5)'; x.shadowBlur = 20;
+  for (let i = 0; i < 8; i++) {
+    const y0 = -i * h / 8, y1 = -(i + 1) * h / 8, w0 = 26 - i * 2.6, w1 = 26 - (i + 1) * 2.6;
+    x.fillStyle = i % 2 ? '#ffffff' : '#e8304a';
+    x.beginPath(); x.moveTo(-w0, y0); x.lineTo(w0, y0); x.lineTo(w1, y1); x.lineTo(-w1, y1); x.closePath(); x.fill();
+  }
+  x.shadowBlur = 0; x.restore();
+  // nido arriba con brillo
+  x.save(); x.shadowColor = '#ffe17a'; x.shadowBlur = 60; nido(380, 640, 1.5, 1); x.restore();
+  // huevo cayendo con estela
+  x.save(); x.strokeStyle = 'rgba(255,255,255,.8)'; x.lineWidth = 8; x.setLineDash([6, 18]);
+  x.beginPath(); x.moveTo(430, 640); x.quadraticCurveTo(720, 560, 790, 1020); x.stroke(); x.restore();
+  huevo(800, 1080, 4.2, '#ff5fa2', '#ffe17a', .5);
+  // reloj 7:00
+  x.save(); x.fillStyle = 'rgba(4,25,45,.92)'; rr(640, 1200, 330, 140, 30); x.fill(); x.strokeStyle = CYAN; x.lineWidth = 6; x.stroke(); x.restore();
+  glow('⏱ 7:00', 805, 1272, 84, WHITE);
+  portadaArriba('HUEVO DE', 'PASCUA', null, 210, 210);
+  portadaAbajo('EN LA TORRE MÁS ALTA', 'Cinemática secreta 🎬', 'Paso a paso 📍');
 }
