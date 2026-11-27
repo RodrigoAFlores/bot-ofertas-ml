@@ -1,6 +1,6 @@
-// Carrusel "paso a paso" del barco fantasma (1080x1350, formato 4:5 para Instagram/Facebook) + PDF.
+// Carrusel "paso a paso" del barco fantasma (1080x1350, formato 4:5 para Facebook/Instagram).
 // Reutiliza el mapa, los dibujos y las letras de mapa-real.html.
-// Uso: node carrusel.cjs   → carrusel/01.jpg … 09.jpg y carrusel/barco-fantasma-paso-a-paso.pdf
+// Uso: node carrusel.cjs   → carrusel/01.jpg … 09.jpg
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');
 
@@ -174,11 +174,6 @@ window.NSLIDES = SLIDE.length;
     const f = path.join(out, String(i + 1).padStart(2, '0') + '.jpg');
     fs.writeFileSync(f, Buffer.from(png.split(',')[1], 'base64')); files.push(f);
   }
-  // PDF: una página por imagen
-  const html = '<html><head><style>@page{size:1080px 1350px;margin:0}body{margin:0}img{display:block;width:1080px;height:1350px;page-break-after:always}</style></head><body>' +
-    files.map(f => `<img src="data:image/jpeg;base64,${fs.readFileSync(f).toString('base64')}">`).join('') + '</body></html>';
-  const pp = await b.newPage(); await pp.setContent(html); await pp.waitForLoadState('load');
-  await pp.pdf({ path: path.join(out, 'barco-fantasma-paso-a-paso.pdf'), width: '1080px', height: '1350px', printBackground: true });
   await b.close();
   console.log('listo', n, 'imágenes');
 })();
