@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Música nocturna estilo synthwave + efectos, generados con numpy, mezclados con la voz.
-Uso: python3 motor/audio.py <carpeta>   (necesita tiempos.json de tiempos.py y config.json) → mezcla.wav
+Uso: python3 motor/audio.py <carpeta>   (necesita tiempos.json de tiempos.py y ajustes.json) → mezcla.wav
 """
 import json, subprocess, sys
 from pathlib import Path
 import numpy as np
 
 AQUI = Path(sys.argv[1]).resolve()
-CFG = json.loads((AQUI / "config.json").read_text())
+CFG = json.loads((AQUI / "ajustes.json").read_text())
 SR = 44100
 T = json.loads((AQUI / "tiempos.json").read_text())
 DUR, VOZ, ESC = T["dur"], T["voz"], T["escenas"]

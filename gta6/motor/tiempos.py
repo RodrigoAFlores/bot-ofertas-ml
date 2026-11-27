@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Sincroniza la animación con la voz.  Uso: python3 motor/tiempos.py <carpeta>
 
-Lee config.json y la duración de cada frase en voz/v1..vN.mp3, calcula cuándo empieza cada escena en el video final
+Lee ajustes.json y la duración de cada frase en voz/v1..vN.mp3, calcula cuándo empieza cada escena en el video final
 y escribe tiempos.js con:
   - WARP: pares [tiempo_final, tiempo_animación] (la animación se estira/encoge por tramos)
   - DUR:  duración total
@@ -12,7 +12,7 @@ from pathlib import Path
 
 import sys
 AQUI = Path(sys.argv[1]).resolve()
-CFG = json.loads((AQUI / "config.json").read_text())
+CFG = json.loads((AQUI / "ajustes.json").read_text())
 ANTES, DESPUES, COLA = 0.25, 0.35, 1.3   # aire antes/después de cada frase, y al final
 
 ESCENAS = CFG["escenas"]                 # límites de cada escena en la animación (n_voces + 1 valores)
