@@ -525,8 +525,74 @@
    "hora": "12:50",
    "visto": "2026-11-27T15:50:15+00:00",
    "estado": "avisada"
+  },
+  {
+   "id": "ST2382327",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Lavadoras y Secadoras",
+   "url": "https://www.lider.cl/ip/Lavadora-Carga-Superior-9-KG-Mls-090Be04N/00694587835043",
+   "titulo": "Midea MLS-090BE04N",
+   "foto": "https://i5.walmartimages.cl/asr/eb8ff78b-3a8d-49ed-8431-1d5769ef19ff.b57ec32fe1f9886f588d494f22c83d5f.jpeg",
+   "precio": 155990.0,
+   "precio_tarjeta": 134990.0,
+   "mejor_precio": 134990.0,
+   "comparado": [
+    {
+     "tienda": "Falabella",
+     "precio": 169990.0
+    },
+    {
+     "tienda": "Hites",
+     "precio": 169990.0
+    },
+    {
+     "tienda": "Ripley",
+     "precio": 169990.0
+    }
+   ],
+   "precio_anterior": 169990.0,
+   "descuento_total": 21,
+   "baja_mes": 0,
+   "motivo": "21% más barato que en Falabella ($169.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 30,
+   "hora": "15:10",
+   "visto": "2026-11-27T18:10:18+00:00",
+   "estado": "avisada"
+  },
+  {
+   "id": "ST2382169",
+   "tienda": "lider",
+   "nombre_tienda": "Líder",
+   "categoria_st": "Wearables",
+   "url": "https://www.lider.cl/ip/Smartwatch-GT5-PRO-41MM-Blanco-Cer-mico/00694210313133",
+   "titulo": "Huawei Watch GT 5 Pro 41mm - Gold White",
+   "foto": "https://i5.walmartimages.cl/asr/27d30ab9-748e-4ef4-bf3d-fe0cf8673b85.61348b716bce2b88f5fa16bc2adc3ec1.jpeg",
+   "precio": 289990.0,
+   "precio_tarjeta": null,
+   "mejor_precio": 289990.0,
+   "comparado": [
+    {
+     "tienda": "Ripley",
+     "precio": 389990.0
+    }
+   ],
+   "precio_anterior": 389990.0,
+   "descuento_total": 26,
+   "baja_mes": 0,
+   "motivo": "26% más barato que en Ripley ($389.990)",
+   "vendedor": "Líder",
+   "resenas": 0,
+   "nota": null,
+   "puntaje_alerta": 29,
+   "hora": "15:10",
+   "visto": "2026-11-27T18:10:18+00:00",
+   "estado": "avisada"
   }
  ],
- "ultima_comparacion": "2026-11-27T15:50:15+00:00",
- "ultima_revision": "2026-11-27T17:30:25+00:00"
+ "ultima_comparacion": "2026-11-27T18:10:18+00:00",
+ "ultima_revision": "2026-11-27T18:10:18+00:00"
 }
